@@ -25,11 +25,7 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-    @media (max-width: 768px) {
-  body {
-    background: url("pozadinskaslika.jpg") center/cover no-repeat fixed !important;
-  }
-}
+    
     /* Floating money symbols */
     .quiz-background::before {
       content: '📊 📈 🧮 📐 🔬 🧪 🧬 📚 ✏️ 🎓 💰 💎 ⭐ π ∑ ∫ √ ∞ ≠ ≈ ± × ÷ ² ³ ∛ ∆ Ω φ θ α 📊 📈 📉 🧮 📐 📏 📌 📍 ✏️ 🖊️ 🖋️ 📓 📒 📚 π ∑ ∫ √ ∞ ≠ ≈ ± × ÷ ² ³ ∛ ∆ Ω φ θ α 🧠 🧑‍🏫 🎓 🏫 🧪 ⚗️ 🔬 🔭 💡 🧾 📄 📑 🗂️ 📎 π ∑ ∫ √ ∞ ≠ ≈ ± × ÷ ² ³ ∛ ∆ Ω φ θ α 🧷 🧠 💻 🖥️ ⌨️ 🖱️ 🔢 💯 💰 💵 💎 💸 ⭐ 🏆 π ∑ ∫ √ ∞ ≠ ≈ ± × ÷ ² ³ ∛ ∆ Ω φ θ α 📊 📈 🧮 📐 🔬 🧪 🧬 📚 ✏️ 🎓 💰 💎 ⭐';
@@ -387,7 +383,11 @@ body.light-mode .answer-btn.wrong {
   padding: 3px 3px;
 
 } 
-
+@media (max-width: 768px) {
+  body {
+    background: url("pozadinskaslika.jpg") center/cover no-repeat fixed !important;
+  }
+}
 @media (max-width: 768px) {
   .flex.justify-around.items-center.gap-1 {
     display: none !important;
@@ -562,22 +562,47 @@ font-size: clamp(22px, 3.5vw, 38px);
 
 .question-box {
   position: relative;
-  background: rgba(15, 18, 35, 0.55);
+
+  background: linear-gradient(
+    135deg,
+    rgba(20, 35, 80, 0.55),
+    rgba(10, 18, 40, 0.45)
+  );
+
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 
-  border: 1px solid rgba(255, 215, 0, 0.25);
-  border-radius: 20px;
+  border: 1px solid rgba(120, 170, 255, 0.25);
+  border-radius: 22px;
 
-  margin: 24px 0;
-  padding: 28px;
+  padding: 26px;
+  margin: 18px 0;
 
   box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.45),
-    inset 0 0 25px rgba(255, 255, 255, 0.03);
+    0 25px 70px rgba(0, 0, 0, 0.35),
+    inset 0 0 30px rgba(120, 170, 255, 0.08);
 
-  animation: popIn 0.35s ease;
+  color: #ffffff;
+
+  transition: all 0.3s ease;
 }
+
+.question-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 22px;
+
+  background: radial-gradient(
+    circle at top,
+    rgba(120, 180, 255, 0.18),
+    transparent 60%
+  );
+
+  pointer-events: none;
+}
+
+
 
 @keyframes popIn {
   from {
@@ -589,7 +614,11 @@ font-size: clamp(22px, 3.5vw, 38px);
     transform: scale(1) translateY(0);
   }
 }
-
+#questionText {
+  color: #f5f7ff;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
     .prize-active {
   background: linear-gradient(135deg, #fbbf24, #f59e0b);
   color: #111;
