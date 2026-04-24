@@ -594,9 +594,10 @@ font-size: clamp(22px, 3.5vw, 38px);
   border-radius: 22px;
 
   background: radial-gradient(
-    circle at top,
-    rgba(120, 180, 255, 0.18),
-    transparent 60%
+    circle at center,
+    rgba(120, 180, 255, 0.2) 0%,
+    rgba(120, 180, 255, 0.1) 50%,
+    transparent 100%
   );
 
   pointer-events: none;
@@ -2356,7 +2357,14 @@ ge: {
 history: {
 easy: [
   { question: "Koliko je godina imao Neil Armstrong kad je hodao po Mjesecu?", answers: { A: "67", B: "21", C: "36", D: "38" }, correct: "D" },
+  { question: "Koji je hemijski element Marie Curie nazvala po svojoj domovini kako bi skrenula pažnju na to da ona u to vrijeme nije bila nezavisna država?", answers: { A: "Germanij", B: "Francij", C: "Polonij", D: "Europij" }, correct: "C" },
   { question: "Koje su boje dva slova G u Googleovom logu?", answers: { A: "Plave", B: "Crvene", C: "Žute", D: "Zelene" }, correct: "A" },
+  { question: "Koji grad u BiH je poznat kao ‘grad soli’?", answers: { A: "Zenica", B: "Tuzla", C: "Bihać", D: "Prijedor" }, correct: "B" },
+  { question: "Koja država je prva priznala nezavisnost Bosne i Hercegovine 15. januara 1992. godine?", answers: { A: "Njemačka", B: "SAD", C: "Turska", D: "Bugarska" }, correct: "D" },
+  { question: "Koja planina je najviša u Bosni i Hercegovini?", answers: { A: "Prenj", B: "Maglić", C: "Vranica", D: "Treskavica" }, correct: "B" },
+  { question: "Koji element ima najveći atomski broj koji se prirodno pojavljuje u Zemljinoj kori u značajnijim količinama?", answers: { A: "Uranij", B: "Plutonij", C: "Radon", D: "Radij" }, correct: "A" },
+  { question: "Koja je jedina država na svijetu koja nema službenu prijestolnicu?", answers: { A: "Nauru", B: "Palau", C: "Island", D: "Monako" }, correct: "A" },
+  { question: "Koja država ima najviše granica s drugim državama u svijetu (čak 14)?", answers: { A: "Njemačka", B: "Švicarska", C: "Brazil", D: "Kina" }, correct: "D" },
   { question: "Koji je reper glavni lik u polu-autobiografskom filmu „8 milja“?", answers: { A: "Drake", B: "50 Cent", C: "Snoop Dogg", D: "Eminem" }, correct: "D" },
   { question: "Koja se mjerna jedinica SI sistema može nazvati i kilogram-metar u sekundi na kvadrat?", answers: { A: "Džul", B: "Njutn", C: "Paskal", D: "Vat" }, correct: "B" },
   { question: "Otac kojeg je dramskog junaka ubijen za popodnevnog drijemeža otrovom ulivenim u uho?", answers: { A: "Fortinbrasa", B: "Laerta", C: "Hamleta", D: "Othella" }, correct: "C" },
@@ -2404,13 +2412,18 @@ easy: [
   { question: "Koji vitamin je ključan za zgrušavanje krvi?", answers: { A: "Vitamin A", B: "Vitamin B12", C: "Vitamin C", D: "Vitamin K" }, correct: "D" },
   { question: "Koji organ u ljudskom tijelu proizvodi inzulin?", answers: { A: "Gušterača", B: "Jetra", C: "Bubrezi", D: "Slezena" }, correct: "A" },
   { question: "Trgovac delicijama Richard Hellman postigao je bogatstvo prodajom kojeg dodatka jelima?", answers: { A: "Kečap", B: "Ajvar", C: "Senf", D: "Majoneza" }, correct: "D" },
-  { question: "U kojem su Lovrakovu romanu glavni likovi 3 đaka iz Jabukovca koji pohađaju 4. razred?", answers: { A: "Družba Pere Kvržice", B: "Nevidljiva Iva", C: "Max i Maestral", D: "Vlak u snijegu" }, correct: "D" }
+  { question: "U kojem su Lovrakovu romanu glavni likovi 3 đaka iz Jabukovca koji pohađaju 4. razred?", answers: { A: "Družba Pere Kvržice", B: "Nevidljiva Iva", C: "Max i Maestral", D: "Vlak u snijegu" }, correct: "D" },
+{ question: "Koja je površinom najveća država na svijetu u kojoj je ćirilica službeno pismo?", answers: { A: "Ukrajina", B: "Kazahstan", C: "Rusija", D: "Bjelorusija" }, correct: "C" },
+{ question: "Koji naziv dijeli poglavar derviškog reda sa šahovskim pojmom za kraj partije?", answers: { A: "šah", B: "mat", C: "rokada", D: "pat" }, correct: "B" },
+{ question: "Koji troslovni grad u istočnoj Srbiji je poznat po velikim nalazištima bakra?", answers: { A: "Bor", B: "Niš", C: "Zaj", D: "Kru" }, correct: "A" },
+{ question: "U delti koje rijeke se nalazi ruski grad Astrahan?", answers: { A: "Don", B: "Dnjepar", C: "Ural", D: "Volga" }, correct: "D" }
 ],
 hard: [ 
   { question: "Pravilan trodimenzionalni raspored građevnih čestica kristala nazivamo kristalna-što?", answers: { A: "Mreža", B: "Rešetka", C: "Struktura", D: "Forma" }, correct: "B" },
   { question: "Na koju se konvenciju poziva kada se govori o pravilnom postupanju s ratnim zarobljenicima?", answers: { A: "Helsinšku", B: "Rimsku", C: "Ženevsku", D: "Parišku" }, correct: "C" },
   { question: "Kako se zove popis književnih djela koja su učenici, prema nastavnom planu obavezni pročitati?", answers: { A: "Syllabus", B: "Lektira", C: "Kanon", D: "Plan čitanja" }, correct: "B" },
   { question: "Ono što je u Sloveniji korenje, a u Srbiji šargarepa, u Hrvatskoj je-što?", answers: { A: "Mrkva", B: "Peršun", C: "Celer", D: "Repa" }, correct: "A" },
+  { question: "Koja država je 1999. zajedno s Poljskom i Češkom ušla u NATO savez?", answers: { A: "Rumunija", B: "Slovačka", C: "Slovenija", D: "Mađarska" }, correct: "D" },
   { question: "Koju je igraću konzolu i konkurent Sonyjevu PlayStationu tvrtka Microsoft predstavila 2001?", answers: { A: "Sega Dreamcast", B: "Nintendo 64", C: "Xbox", D: "Atari" }, correct: "C" },
   { question: "Koji je grad, po popisu iz 1982 bio treći najveći grad u Jugoslaviji s gotovo pola milijuna stanovnika?", answers: { A: "Beograd", B: "Sarajevo", C: "Zagreb", D: "Skoplje" }, correct: "D" },
   { question: "Naziv kojih se orijentalnih širokih hlača krije u anagramu riječi „mediji“?", answers: { A: "Dimije", B: "Šalvare", C: "Sarong", D: "Kaftan" }, correct: "A" },
@@ -2431,7 +2444,31 @@ hard: [
   { question: "U koju skupinu organskih spojeva ubrajamo enzime i protutijela?", answers: { A: "Bjelančevine", B: "Ugljikohidrate", C: "Lipide", D: "Vitamine" }, correct: "A" },
   { question: "Koji je softver za videokomunikaciju putem interneta 2011. Microsoft kupio za 8,5 milijardi dolara?", answers: { A: "Skype", B: "Zoom", C: "Teams", D: "Discord" }, correct: "A" },
   { question: "Po kojem je izumitelju nazvana tvrtka za proizvodnju električnih automobila iz kalifornijskog Palo Alta?", answers: { A: "Volti", B: "Edisonu", C: "Faradayu", D: "Tesli" }, correct: "D" },
-  { question: "Kako se, u fizici, naziva prazan prostor u kojem nema nikakvih materijalnih čestica?", answers: { A: "Crna rupa", B: "Plazma", C: "Eter", D: "Vakuum" }, correct: "D" }
+  { question: "Kako se, u fizici, naziva prazan prostor u kojem nema nikakvih materijalnih čestica?", answers: { A: "Crna rupa", B: "Plazma", C: "Eter", D: "Vakuum" }, correct: "D" },
+  { question: "Koja država ima najviše susjednih država u Africi?", answers: { A: "Sudan", B: "DR Kongo", C: "Tanzanija", D: "Niger" }, correct: "B" },
+  { question: "Koji je najviši glavni grad na svijetu?", answers: { A: "Quito", B: "La Paz", C: "Bogota", D: "Lhasa" }, correct: "B" },
+  { question: "Koja se dužina u km tradicionalno pripisuje rijeci Nil, koja se dugo smatrala najdužom na svijetu?", answers: { A: "4.200", B: "6.650", C: "5.100", D: "7.800" }, correct: "B" },
+  { question: "U kojem animiranom filmu nazvanom po provansalskom jelu štakor Remy spašava francuski restoran?", answers: { A: "Ratatouille", B: "Shrek", C: "Madagascar", D: "Cars" }, correct: "A" },
+{ question: "U kojoj se državi nalaze poznata turistička odredišta Hurghada i Sharm-el-Sheikh?", answers: { A: "Tunis", B: "Maroko", C: "Egipat", D: "Turska" }, correct: "C" },
+{ question: "Koji glumac u filmu 'Notting Hill' iz 1999. glumi prodavača knjiga koji šarmira Juliu Roberts?", answers: { A: "Colin Firth", B: "Hugh Grant", C: "Jude Law", D: "Richard Gere" }, correct: "B" },
+{ question: "Koji metal na zraku stvara zaštitni sloj oksida koji ga čuva od daljeg propadanja (pasivizacija)?", answers: { A: "Željezo", B: "Bakar", C: "Zlato", D: "Aluminij" }, correct: "D" },
+{ question: "Šta označava granicu između prahistorijskog i historijskog doba?", answers: { A: "Pojava pisma", B: "Otkriće vatre", C: "Topljenje metala", D: "Prvi gradovi" }, correct: "A" },
+{ question: "Koja je aviokompanija (danas ugašena) bila slovenski nacionalni prijevoznik?", answers: { A: "Slovenia Airlines", B: "Adria Airways", C: "Jat Airways", D: "Air Love" }, correct: "B" },
+{ question: "Koja je luka na obali Žutog mora najveće kinesko industrijsko i trgovačko središte?", answers: { A: "Hong Kong", B: "Peking", C: "Šangaj", D: "Guangzhou" }, correct: "C" },
+{ question: "U kojem se olimpijskom ekipnom sportu igrači koriste ljepilom za bolju kontrolu lopte?", answers: { A: "Košarka", B: "Odbojka", C: "Vaterpolo", D: "Rukomet" }, correct: "D" },
+{ question: "U kojem se gradu nalazi džamija al-Haram, najveća i najsvetija džamija na svijetu?", answers: { A: "Medina", B: "Meka", C: "Jeruzalem", D: "Istanbul" }, correct: "B" },
+{ question: "S kojeg su planeta došli izvanzemaljci u Wellsovom romanu 'Rat svjetova'?", answers: { A: "Venera", B: "Jupiter", C: "Mars", D: "Saturn" }, correct: "C" },
+{ question: "Kojom se jedinicom od 1000 tona označava oslobođena energija pri eksploziji nuklearne bombe?", answers: { A: "Megatona", B: "Gigatona", C: "Kilotona", D: "Teratona" }, correct: "C" },
+{ question: "Kojem je oklopnom vozilu u Prvom svjetskom ratu časnik Ernest Swinton dao ime?", answers: { A: "Tenk", B: "BVP", C: "Amfibija", D: "Džip" }, correct: "A" },
+{ question: "Koliko bodova u američkom nogometu (NFL) donosi touchdown (polaganje)?", answers: { A: "3", B: "7", C: "6", D: "5" }, correct: "C" },
+{ question: "U kojoj se afričkoj državi govore jezici naroda Yoruba, Hausa i Igbo?", answers: { A: "Etiopija", B: "Kenija", C: "Gana", D: "Nigerija" }, correct: "D" },
+{ question: "Koji je španski nogometni selektor osvojio i Svjetsko (2010) i Europsko prvenstvo (2012)?", answers: { A: "Luis Aragones", B: "Vicente del Bosque", C: "Pep Guardiola", D: "Luis Enrique" }, correct: "B" },
+{ question: "Kroz koji se drevni mikenski grad može ući kroz čuvena 'Lavlja vrata'?", answers: { A: "Troja", B: "Mikena", C: "Knosos", D: "Sparta" }, correct: "B" },
+{ question: "Jezero Nyasa (Malawi) čini više od petine površine koje afričke države?", answers: { A: "Zambija", B: "Malavi", C: "Tanzanija", D: "Mozambik" }, correct: "B" },
+{ question: "Kako se u hemiji nazivaju soli ugljične kiseline?", answers: { A: "Sulfati", B: "Nitratu", C: "Karbonati", D: "Fosfati" }, correct: "C" },
+{ question: "Koja je jedina monarhija među pet stalnih članica Vijeća sigurnosti UN-a?", answers: { A: "Francuska", B: "Kina", C: "Ujedinjeno Kraljevstvo", D: "SAD" }, correct: "C" }
+
+
 ],
 hardest: [
   { question: "Koji se filozof krije u anagramu imena „Kratos“, personifikaciji sile u grčkoj mitologiji?", answers: { A: "Sokrat", B: "Platon", C: "Aristotel", D: "Diogen" }, correct: "A" },
@@ -2448,12 +2485,18 @@ hardest: [
   { question: "Do kojeg poena se igra PETI set u odbojci?", answers: { A: "10", B: "15", C: "20", D: "25" }, correct: "B" },
   { question: "Dinamometar služi za mjerenje?", answers: { A: "Sile", B: "brzine", C: "napona", D: "gustine" }, correct: "A" },
   { question: "Sva organska jedinjenja sadrže?", answers: { A: "azot", B: "kisik", C: "vodik", D: "ugljik" }, correct: "D" },
+  { question: "Koji se engleski izraz koristi za napuštenu zgradu koju ljudi bespravno nastanjuju?", answers: { A: "squat", B: "loft", C: "block", D: "slum" }, correct: "A" },
+  { question: "Koji engleski moreplovac je 1581. proglašen vitezom nakon oplovljavanja svijeta?", answers: { A: "James Cook", B: "Francis Drake", C: "Walter Raleigh", D: "Henry Hudson" }, correct: "B" },
   { question: "Topologija je grana?", answers: { A: "geografije", B: "matematike", C: "biologije", D: "lingvistike" }, correct: "B" },
   { question: "Koje je boje instrument koji snima podatke o letu aviona?", answers: { A: "žute", B: "naranđaste", C: "crvene", D: "crne" }, correct: "B" },
   { question: "Četiri bajta se sastoje od?", answers: { A: "4 bita", B: "12 bitova", C: "16 bitova", D: "128 bitova" }, correct: "C" },
   { question: "U kojoj zemlji se nalazi najveći vodopad u Evropi?", answers: { A: "Island", B: "Finska", C: "Švedska", D: "Norveška" }, correct: "D" },
   { question: "Kako se zove staroslavenska boginja proljeća?", answers: { A: "Lada", B: "Lela", C: "Živna", D: "Vesna" }, correct: "D" },
-  { question: "Gdje su se prvo počele koristiti papirne novčanice?", answers: { A: "Kina", B: "Egipat", C: "Grčka", D: "Engleska" }, correct: "A" }
+  { question: "Koji se talijanizam koristi za ispravljanje ili poništavanje pogrešno uknjižene stavke u knjigovodstvu?", answers: { A: "Saldo", B: "Storno", C: "Rabat", D: "Lombard" }, correct: "B" },
+  { question: "U kojem se gradu nalazi Hajdučka česma, mjesto održavanja koncerta s kultnog live-albuma „Bijelog dugmeta“?", answers: { A: "Sarajevo", B: "Split", C: "Beograd", D: "Zagreb" }, correct: "C" },
+  { question: "Gdje su se prvo počele koristiti papirne novčanice?", answers: { A: "Kina", B: "Egipat", C: "Grčka", D: "Engleska" }, correct: "A" },
+  { question: "Koji je jedini glavni grad na svijetu koji direktno graniči sa dvije države?", answers: { A: "Bratislava", B: "Beč", C: "Ljubljana", D: "Prag" }, correct: "A" }
+
 ]
 },
 
@@ -2536,14 +2579,17 @@ hard: [
   { question: "Za koji se element kaže da održava kosti jakim?", answers: { A: "Kalcij", B: "Natrij", C: "Željezo", D: "Kalij" }, correct: "A" },
   { question: "Koji je najveći svjetski otok?", answers: { A: "Grenland", B: "Madagaskar", C: "Borneo", D: "Nova Gvineja" }, correct: "A" },
   { question: "Kakvu boju očiju ima većina ljudi?", answers: { A: "Plavu", B: "Zelenu", C: "Smeđu", D: "Sivu" }, correct: "C" },
+  { question: "Koji se hrskavi španjolski uštipci poslužuju kao desert uz umak od čokolade?", answers: { A: "Tapas", B: "Churros", C: "Tortilla", D: "Gazpacho" }, correct: "B" },
+  { question: "Šta može biti zabavni časopis, robna kuća i spremnik vatrenog oružja?", answers: { A: "Gazin", B: "Magazin", C: "Arsenal", D: "Trezor" }, correct: "B" },
+
   { question: "Koji alat koristi magnetnu iglu koja pokazuje sjever?", answers: { A: "Barometar", B: "Termometar", C: "Altimetar", D: "Kompas" }, correct: "D" },
   { question: "Šta HB znači u biološkom smislu?", answers: { A: "Hormon baza", B: "Hematološki bazen", C: "Hidro baza", D: "Hemoglobin" }, correct: "D" }
 ], 
 hardest: [ 
-
   { question: "Koliko stepeni ima u pola kruga?", answers: { A: "90°", B: "270°", C: "180°", D: "360°" }, correct: "C" },
   { question: "Koliko puta dnevno prosječni Amerikanac otvori frižider?", answers: { A: "67", B: "11", C: "22", D: "33" }, correct: "C" },
   { question: "Šta simbolizira bijela golubica?", answers: { A: "Mir", B: "Europsku uniju", C: "Rat", D: "Sreća" }, correct: "A" },
+  { question: "Za koju je povrtnu i začinsku biljku drugi naziv selen?", answers: { A: "Celer", B: "Peršun", C: "Ljubičica", D: "Ljubčac" }, correct: "D" },
   { question: "Zemljotres se mjeri kojom skalom?", answers: { A: "Kelvinova", B: "Richterova", C: "Newtonova", D: "Pascalova" }, correct: "B" },
   { question: "Ko je prva žena koja je dobila Nobelovu nagradu 1903.?", answers: { A: "Marie Curie", B: "Rosalind Franklin", C: "Ada Lovelace", D: "Dorothy Hodgkin" }, correct: "A" },
   { question: "Iz kojeg je jezika došla riječ kečap?", answers: { A: "Japanski", B: "Kineski", C: "Korejski", D: "Vijetnamski" }, correct: "B" },
@@ -2574,7 +2620,6 @@ hardest: [
 /* Questions 3, 8 and 13 */
 funFacts: {
 easy: [
-
   { question: "Kojim anglizmom nazivamo pušku s optičkim nišanom za precizno gađanje?", answers: { A: "Shotgun", B: "Rifle", C: "Snajper", D: "AK 47" }, correct: "C" },
   { question: "Koji je desni pritok Une nazvan po latinskoj riječi za zdravlje?", answers: { A: "Sana", B: "Sava", C: "Vrbas", D: "Unac" }, correct: "A" },
   { question: "19 i 21 nazivi su prva 2 albuma pjevačice Adele,a treći se zove-kako?", answers: { A: "20", B: "22", C: "24", D: "25" }, correct: "D" },
@@ -2624,7 +2669,17 @@ easy: [
   { question: "Roman „Gospođica Dalloway“ prikazuje koliko dana u životu naslovne junakinje?", answers: { A: "Jedan", B: "Dva", C: "Sedam", D: "Trideset" }, correct: "A" },
   { question: "Koji je basnopisac, prema predaji, bačen s litice nakon što je lažno optužen za krađu u delfskom hramu?", answers: { A: "Ezop", B: "Homer", C: "Sofoklo", D: "Herodot" }, correct: "A" },
   { question: "Koliko centimetara ima stopa?", answers: { A: "25.48 cm", B: "28.50 cm", C: "30.48 cm", D: "33.48 cm" }, correct: "C" },
-  { question: "Kojim slovom počinju imena najvećeg broja europskih glavnih gradova?", answers: { A: "S", B: "D", C: "A", D: "B" }, correct: "D" }
+  { question: "Kojim slovom počinju imena najvećeg broja europskih glavnih gradova?", answers: { A: "S", B: "D", C: "A", D: "B" }, correct: "D" },
+  { question: "Šta je Petar Pan izgubio u sobi Wendy Darling, pa mu je ona to kasnije sašila nazad?", answers: { A: "cipelu", B: "kapu", C: "rukavicu", D: "sjenu" }, correct: "D" },
+{ question: "Kinologija je nauka koja se bavi proučavanjem i uzgojem kojih životinja?", answers: { A: "mačke", B: "konji", C: "ptice", D: "psi" }, correct: "C" },
+{ question: "Dlaka koje se životinje koristi za proizvodnju skupocjene vune poznate kao moher?", answers: { A: "ovca", B: "tigar", C: "lama", D: "koza" }, correct: "D" },
+{ question: "Koje tvari u ljudskom organizmu uzrokuju nagli fizički rast tokom puberteta?", answers: { A: "enzimi", B: "vitamini", C: "hormoni", D: "minerali" }, correct: "C" },
+{ question: "Kojoj državi pripada otok Komodo, poznat po najvećim gušterima na svijetu?", answers: { A: "Malezija", B: "Indonezija", C: "Filipini", D: "Papua Nova Gvineja" }, correct: "B" },
+{ question: "Koja je najveća cifra (broj) koja se može upisati u jedno polje Sudoku slagalice?", answers: { A: "6", B: "7", C: "8", D: "9" }, correct: "D" },
+{ question: "Kojeg osnivača Facebooka je glumio Jesse Eisenberg u filmu 'The Social Network'?", answers: { A: "Elon Musk", B: "Bill Gates", C: "Mark Zuckerberg", D: "Steve Jobs" }, correct: "C" },
+{ question: "Čija je 41. simfonija u C-duru ostala poznata pod nadimkom 'Jupiterova simfonija'?", answers: { A: "Beethoven", B: "Mozart", C: "Haydn", D: "Bach" }, correct: "B" },
+{ question: "Koja je gimnastička disciplina sa skokovima od 2000. godine postala zvanični olimpijski sport?", answers: { A: "Trampolin", B: "Preskok", C: "Trampulin", D: "Akrobatika" }, correct: "A" },
+{ question: "U koje more utječu velike evropske rijeke Wisla, Odra i Neva?", answers: { A: "Crno more", B: "Balkajsko more", C: "Sjeverno more", D: "Baltičko more" }, correct: "D" }
 
 ],
 hard: [
@@ -2857,7 +2912,17 @@ easy: [
 { question: "Prema europskim predajama, koliko očiju ima jednorog?", answers: { A: "1", B: "2", C: "3", D: "4" }, correct: "B" },
 { question: "Koja je palindromska riječ za matematički izraz sa samo jednim članom?", answers: { A: "Binom", B: "Polinom", C: "Monom", D: "Trinom" }, correct: "C" },
 { question: "U kojem je Burtonovu filmu Anne Hathaway Bijela Kraljica, a Johnny Depp Ludi Šeširdžija?", answers: { A: "Sweeney Todd", B: "Charlie i tvornica čokolade", C: "Corpse Bride", D: "Alisa u zemlji čudesa" }, correct: "D" },
-{ question: "U kojoj se američkoj saveznoj državi nalazi Philadelphija, peti najmnogoljudniji američki grad?", answers: { A: "Pennsylvaniji", B: "New York", C: "Ohio", D: "Virginia" }, correct: "A" }
+{ question: "U kojoj se američkoj saveznoj državi nalazi Philadelphija, peti najmnogoljudniji američki grad?", answers: { A: "Pennsylvaniji", B: "New York", C: "Ohio", D: "Virginia" }, correct: "A" },
+{ question: "Koji prekomorski teritorij ima na zastavi crvenu tvrđavu i zlatni ključ?", answers: { A: "Kipar", B: "Bermuda", C: "Falklandi", D: "Gibraltar" }, correct: "A" },
+{ question: "Po licenci koje njemačke kompanije je radila Tvornica automobila Sarajevo (TAS)?", answers: { A: "BMW", B: "Opel", C: "Volkswagen", D: "Mercedes-Benz" }, correct: "C" },
+{ question: "Koji film Emira Kusturice je 1995. osvojio Zlatnu palmu u Cannesu?", answers: { A: "Arizona Dream", B: "Underground", C: "Otac na službenom putu", D: "Dom za vješanje" }, correct: "B" },
+{ question: "Kako se zvao otac animiranog Homera Simpsona?", answers: { A: "Abraham Simpson", B: "Herbert Simpson", C: "George Simpson", D: "Peter Simpson" }, correct: "A" },
+{ question: "Koji geometrijski oblik ime dobija od grčke riječi za mali sto?", answers: { A: "trapez", B: "prizma", C: "piramida", D: "kocka" }, correct: "A" },
+{ question: "Kojoj aviokompaniji je pripadao avion MH17 koji je srušen iznad Ukrajine 2014.?", answers: { A: "Lufthansa", B: "Malaysia Airlines", C: "KLM", D: "Aeroflot" }, correct: "B" },
+{ question: "Kako glasi italijanski izraz za potpuno mirno more bez vjetra?", answers: { A: "bonaccia", B: "mare calma", C: "aqua mare", D: "quieto mare" }, correct: "A" },
+{ question: "Koliki je maksimalni broj bodova koji se može osvojiti u jednom bacanju (tri strijele) u pikadu?", answers: { A: "150", B: "180", C: "200", D: "100" }, correct: "B" },
+{ question: "Iz kojeg grada dolazi fudbalski klub Crystal Palace?", answers: { A: "Manchester", B: "London", C: "Liverpool", D: "Birmingham" }, correct: "B" },
+{ question: "Koji hemijski element sličan olovu ima atomski simbol Tl?", answers: { A: "titanij", B: "torij", C: "telur", D: "talij" }, correct: "D" }
 
 ],
 hard: [
