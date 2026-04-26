@@ -43,12 +43,7 @@
       line-height: 100px;
       word-spacing: 40px;
     }
-    @media (min-width: 769px) {
-  #progressBar {
-    display: none;
-  }
-}
-
+    
 @keyframes floatSymbols {
   0% { transform: translateY(0%) rotate(0deg); }
   100% { transform: translateY(-50%) rotate(360deg); }
@@ -914,58 +909,44 @@ position: relative;
       animation: pulse-glow 1s infinite;
     }
 	
-@media (max-width: 768px) {
-
-  /* =========================
-     QUESTION TEXT +10%
-  ========================= */
+	@media (max-width: 768px) {
   #questionText {
-    font-size: 1.3rem !important; /* +10% od 1.1rem */
-    line-height: 1.5 !important;
+    font-size: 1.1rem !important;
+    line-height: 1.3 !important;
   }
 
-  /* =========================
-     QUESTION BOX +15%
-  ========================= */
   .question-box {
-    padding: 14px !important; /* ~+15% od 12px */
-    margin: 10px 0 !important;
-    border-radius: 17px !important;
+    padding: 12px !important;
+    margin: 8px 0 !important;
+    border-radius: 14px !important;
   }
+}
 
-  /* =========================
-     HEADER +10%
-  ========================= */
+@media (max-width: 768px) {
   .tv-header {
-    padding: 9px 14px !important; /* ~+10% */
+    padding: 8px 12px !important;
   }
 
   .netflix-title {
-    font-size: 17.6px !important; /* +10% od 16px */
+    font-size: 16px !important;
   }
 
   .header-logo {
-    max-width: 66px !important; /* +10% od 60px */
-  }
-
-  /* =========================
-     LIFELINES (ostaju stabilni)
-  ========================= */
-  .lifeline-container {
-    margin-bottom: 4.5px !important;
-    gap: 6.6px !important;
-  }
-
-  main {
-    padding: 6.6px !important;
-    gap: 6.6px !important;
+    max-width: 60px !important;
   }
 }
 @media (max-width: 768px) {
-  #prizeLadder {
-    display: none !important;
+  main {
+    padding: 6px !important;
+    gap: 6px !important;
+  }
+
+  .lifeline-container {
+    margin-bottom: 4px !important;
+    gap: 6px !important;
   }
 }
+
 @media (max-width: 768px) {
   .answer-btn {
     padding: 10px 12px !important;
@@ -1005,27 +986,6 @@ position: relative;
 
   .grid.grid-cols-1.md\\:grid-cols-2 {
     gap: 10px !important;
-  }
-}
-@media (max-width: 768px) {
-
-  .step {
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.2);
-    transition: all 0.3s ease;
-  }
-
-  .step.active {
-    background: #fbbf24;
-    box-shadow: 0 0 10px rgba(251,191,36,0.7);
-    transform: scale(1.3);
-  }
-
-  .step.done {
-    background: #22c55e;
-    opacity: 0.9;
   }
 }
 
@@ -1107,9 +1067,9 @@ position: relative;
      class="main-logo mx-auto w-40 sm:w-52 md:w-72 lg:w-80 max-h-[30vh] object-contain">
     </div>
     <p class="text-xl mb-6">Select category / Odaberite kategoriju </p>
-<div class="flex flex-col md:flex-row gap-4 md:gap-8 justify-center items-center mb-6 w-full px-4 sm:px-0">
+<div class="flex flex-col md:flex-row gap-4 md:gap-8 justify-center items-center mb-6 w-full px-4 sm:px-0 md:items-stretch">
 <button onclick="selectLanguage('en')" 
-class="w-full md:w-auto bg-yellow-600 hover:bg-yellow-500 px-6 py-3 md:px-12 md:py-5 rounded-lg font-bold text-lg md:text-2xl border-4 border-yellow-400 transition-all transform hover:scale-105 flex items-center justify-center gap-2">
+class="w-full md:w-auto md:w-64 bg-yellow-600 hover:bg-yellow-500 px-6 py-3 md:px-12 md:py-5 rounded-lg font-bold text-lg md:text-2xl border-4 border-yellow-400 transition-all transform hover:scale-105 flex items-center justify-center gap-2">
 <img src="gb.png"  alt="UK flag" width="35" height="30">
 
   <span>Maths</span>
@@ -1118,7 +1078,7 @@ class="w-full md:w-auto bg-yellow-600 hover:bg-yellow-500 px-6 py-3 md:px-12 md:
 
 
 <button onclick="selectLanguage('bs')" 
-class="w-full md:w-auto bg-yellow-600 hover:bg-yellow-500 px-6 py-3 md:px-12 md:py-5 rounded-lg font-bold text-lg md:text-2xl border-4 border-yellow-400 transition-all transform hover:scale-105 flex items-center justify-center gap-2">
+class="w-full md:w-auto md:w-64 bg-yellow-600 hover:bg-yellow-500 px-6 py-3 md:px-12 md:py-5 rounded-lg font-bold text-lg md:text-2xl border-4 border-yellow-400 transition-all transform hover:scale-105 flex items-center justify-center gap-2">
 <img src="bih.png"
   alt="Zastava BiH" width="35" height="30">
 
@@ -1127,7 +1087,7 @@ class="w-full md:w-auto bg-yellow-600 hover:bg-yellow-500 px-6 py-3 md:px-12 md:
 </button>
 
 <button onclick="selectLanguage('ge')" 
-class="w-full md:w-auto bg-yellow-600 hover:bg-yellow-500 px-6 py-3 md:px-12 md:py-5 rounded-lg font-bold text-lg md:text-2xl border-4 border-yellow-400 transition-all transform hover:scale-105 flex items-center justify-center gap-2">
+class="w-full md:w-auto md:w-64 bg-yellow-600 hover:bg-yellow-500 px-6 py-3 md:px-12 md:py-5 rounded-lg font-bold text-lg md:text-2xl border-4 border-yellow-400 transition-all transform hover:scale-105 flex items-center justify-center gap-2">
   <img src="milijunas.png" 
   alt="Zastava BiH" width="35" height="30">
 
@@ -1232,34 +1192,6 @@ shadow-[0_8px_30px_rgba(0,0,0,0.3)]">
 </div>
 
 </header>
-
-<div id="progressBar" class="progress-mobile w-full flex justify-center mt-2 mb-2 lg:hidden">
-  <div class="flex gap-1 items-center bg-black/40 px-3 py-2 rounded-full backdrop-blur-md border border-yellow-400/20">
-
-    <div class="step"></div>
-    <div class="step"></div>
-    <div class="step"></div>
-    <div class="step"></div>
-    <div class="step"></div>
-    <div class="step"></div>
-    <div class="step"></div>
-    <div class="step"></div>
-    <div class="step"></div>
-    <div class="step"></div>
-    <div class="step"></div>
-    <div class="step"></div>
-    <div class="step"></div>
-    <div class="step"></div>
-    <div class="step"></div>
-
-  </div>
-</div>
-
-<div id="progressBar" class="w-full h-2 bg-gray-800 rounded-full overflow-hidden">
-  <div id="progressBarFill"
-       class="h-full bg-yellow-400 transition-all duration-300"
-       style="width: 0%"></div>
-</div>
 <main class="flex-1 flex flex-col lg:flex-row p-2 sm:p-4 gap-2 overflow-hidden max-w-[1800px] mx-auto w-full"><!-- Left Side - Question and Answers -->
     <div class="flex-1 flex flex-col gap-2 overflow-y-auto max-w-5xl mx-auto w-full"><!-- Question Box -->
      <div class="question-box p-4 flex-shrink-0">
@@ -1281,7 +1213,7 @@ shadow-[0_8px_30px_rgba(0,0,0,0.3)]">
      <div class="grid grid-cols-1 md:grid-cols-2 gap-3 flex-shrink-0"><button class="answer-btn p-4 text-left text-xl font-semibold" data-answer="A"> <span class="text-yellow-400 font-bold text-2xl">A:</span> <span class="answer-text">Answer A</span> </button> <button class="answer-btn p-4 text-left text-xl font-semibold" data-answer="B"> <span class="text-yellow-400 font-bold text-2xl">B:</span> <span class="answer-text">Answer B</span> </button> <button class="answer-btn p-4 text-left text-xl font-semibold" data-answer="C"> <span class="text-yellow-400 font-bold text-2xl">C:</span> <span class="answer-text">Answer C</span> </button> <button class="answer-btn p-4 text-left text-xl font-semibold" data-answer="D"> <span class="text-yellow-400 font-bold text-2xl">D:</span> <span class="answer-text">Answer D</span> </button>
      </div>
     </div><!-- Right Side - Prize Ladder -->
-<div class="lg:w-80 flex-shrink-0 hidden lg:block"><!-- Lifelines Display Above Money Tree -->
+<div class="hidden lg:block lg:w-80 flex-shrink-0 overflow-y-auto"><!-- Lifelines Display Above Money Tree -->
      <div class="bg-black bg-opacity-50 rounded-lg p-1 mb-1 border-2 border-yellow-600">
       <div class="flex justify-around items-center gap-1">
        <div id="joker1" class="flex flex-col items-center opacity-100 transition-opacity duration-500">
@@ -1302,7 +1234,7 @@ shadow-[0_8px_30px_rgba(0,0,0,0.3)]">
       </div>
      </div>
      <div class="bg-gradient-to-b from-gray-900 to-black rounded-lg p-1 border-2 border-yellow-600 shadow-2xl">
-      <div id="prizeLadder" class="space-y-0"><!-- Prize ladder will be generated by JavaScript -->
+      <div id="prizeLadder" class="space-y-0" ><!-- Prize ladder will be generated by JavaScript -->
       </div>
      </div>
     </div>
@@ -1310,30 +1242,8 @@ shadow-[0_8px_30px_rgba(0,0,0,0.3)]">
    <div id="gameOverModal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-6 z-50">
     <div class="bg-gradient-to-br from-blue-900 to-purple-900 rounded-lg p-8 max-w-2xl w-full border-4 border-yellow-500 text-center max-h-[90vh] overflow-y-auto">
      <h2 id="gameOverTitle" class="text-4xl font-bold text-yellow-400 mb-4">Čestitamo!</h2>
-     <p id="gameOverMessage" class="text-2xl mb-6">Osvojili ste: <span id="finalPrize" class="text-green-400 font-bold">$1,000,000</span>
-	 <div class="flex flex-col gap-3">
-
-  <!-- 3 dugmeta u istom stilu -->
-  <button id="playAgain"
-    class="bg-yellow-600 hover:bg-yellow-500 px-8 py-3 rounded-full font-bold text-xl border-4 border-yellow-400 transition-all transform hover:scale-105">
-    <!-- Igraj Ponovo -->
-  </button>
-
-  <button id="shareScore"
-    class="bg-blue-600 hover:bg-blue-500 px-8 py-3 rounded-full font-bold text-xl border-4 border-blue-400 transition-all transform hover:scale-105">
-    📤 <span id="shareLabel">Podijeli</span>
-  </button>
-
-  <a href="https://docs.google.com/forms/d/e/1FAIpQLSdLt1zMRZoXCMKqoaeBQujvo2KnBD8tGIA3x-ylatTv-lggCw/viewform?usp=sharing&ouid=102612758985077888575"
-     target="_blank"
-     class="bg-purple-600 hover:bg-purple-500 px-8 py-3 rounded-full font-bold text-xl border-4 border-purple-400 transition-all transform hover:scale-105 flex items-center justify-center gap-2">
-     📝 Ispuni anketu
-  </a>
-	 
-	 </p><!-- Explanation Section -->
+     <p id="gameOverMessage" class="text-2xl mb-6">Osvojili ste: <span id="finalPrize" class="text-green-400 font-bold">$1,000,000</span></p><!-- Explanation Section -->
      <div id="explanationSection" class="hidden bg-black bg-opacity-50 rounded-lg p-6 mb-6 text-left">
-	 <div class="flex flex-col gap-3">
-	 <div class="flex flex-col gap-3"> 
       <h3 class="text-2xl font-bold text-yellow-400 mb-3">📖 <span id="explanationTitle">Objašnjenje</span></h3>
       <div id="wrongQuestionDisplay" class="mb-4 p-4 bg-red-900 bg-opacity-30 rounded-lg border-2 border-red-500">
        <p class="text-xl font-bold mb-2" id="wrongQuestionText"></p>
@@ -1377,6 +1287,23 @@ shadow-[0_8px_30px_rgba(0,0,0,0.3)]">
       </div>
      </div>
 <div class="flex flex-col gap-3">
+
+  <!-- 3 dugmeta u istom stilu -->
+  <button id="playAgain"
+    class="bg-yellow-600 hover:bg-yellow-500 px-8 py-3 rounded-full font-bold text-xl border-4 border-yellow-400 transition-all transform hover:scale-105">
+    Igraj Ponovo
+  </button>
+
+  <button id="shareScore"
+    class="bg-blue-600 hover:bg-blue-500 px-8 py-3 rounded-full font-bold text-xl border-4 border-blue-400 transition-all transform hover:scale-105">
+    📤 <span id="shareLabel">Podijeli</span>
+  </button>
+
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSfXXHg3JzpSvWmTBO_1xUPFcYvyNhcSQWxUnAfswb2cYy3vsA/viewform?usp=dialog"
+     target="_blank"
+     class="bg-purple-600 hover:bg-purple-500 px-8 py-3 rounded-full font-bold text-xl border-4 border-purple-400 transition-all transform hover:scale-105 flex items-center justify-center gap-2">
+     📝 Ispuni anketu
+  </a>
 
 </div>
      </div>
@@ -1941,7 +1868,7 @@ geography: {
   hardest: [
     { question: "Hard. U kojem gradu se nalazi Institut Max Planck za matematiku?", answers: { A: "Berlin", B: "Bonn", C: "Munich", D: "Hamburg" }, correct: "B" },
     { question: "Hard. Gdje se nalazi 'Mathematical Sciences Research Institute' (MSRI)?", answers: { A: "Berkeley", B: "Stanford", C: "Princeton", D: "Harvard" }, correct: "A" },
-    { question: "Hard. U kojem gradu je osnovan 'Institut für Mathematik'?", answers: { A: "Berlin", B: "Göttingen", C: "Munich", D: "Frankfurt" }, correct: "B" },
+    { question: "Hard. U kojem gradu je osnovan 'Institut für Mathematik' u Göttingenu?", answers: { A: "Berlin", B: "Göttingen", C: "Munich", D: "Frankfurt" }, correct: "B" },
     { question: "Hard. U kojoj zemlji je rođen matematičar Grothendieck?", answers: { A: "Njemačka", B: "Francuska", C: "Švicarska", D: "Belgija" }, correct: "A" },
     { question: "Hard. U kojoj zemlji je rođen matematičar Gödel?", answers: { A: "Austrija", B: "Češka", C: "Njemačka", D: "Švicarska" }, correct: "B" },
     { question: "Hard. U kojoj zemlji je rođen matematičar Turing?", answers: { A: "Engleska", B: "Škotska", C: "Irska", D: "Wales" }, correct: "A" },
@@ -3345,7 +3272,7 @@ function loadQuestion() {
   const q = selectedQuestions[currentQuestion];
 
   document.getElementById('questionNumber').textContent = currentQuestion + 1;
-updateProgress(currentQuestion + 1);
+
   const questionEl = document.getElementById('questionText');
 
   // fade out
@@ -3470,13 +3397,7 @@ document.getElementById("viewers").textContent =
 
   }, 1500);
 }
-function updateProgress(current) {
-  const total = selectedQuestions.length;
 
-  const percent = (current / total) * 100;
-
-  document.getElementById("progressBarFill").style.width = percent + "%";
-}
 
     function endGame(won) {
       const t = translations[currentLanguage];
@@ -3766,21 +3687,7 @@ function showAudienceGraph(percentages) {
     });
   }, 250);
 }
-function updateProgress(currentQuestion) {
-  const steps = document.querySelectorAll('.progress-mobile .step');
 
-  steps.forEach((step, index) => {
-    step.classList.remove('active', 'done');
-
-    if (index < currentQuestion - 1) {
-      step.classList.add('done');
-    }
-
-    if (index === currentQuestion - 1) {
-      step.classList.add('active');
-    }
-  });
-}
     function resetLifelines() {
       document.querySelectorAll('.lifeline-icon').forEach(btn => {
         btn.classList.remove('lifeline-used');
