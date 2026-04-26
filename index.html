@@ -457,12 +457,7 @@ body.light-mode .answer-btn.wrong {
       filter: grayscale(100%);
     }
    .question-box,
-.answer-btn {
-  transition: all 0.25s ease;
-  margin: 2px;
-  padding: 3px 3px;
 
-} 
 @media (max-width: 768px) {
   body {
     background: url("pozadinskaslika.jpg") center/cover no-repeat fixed !important;
@@ -478,16 +473,30 @@ body.light-mode .answer-btn.wrong {
     display: none !important;
   }
 }
+@media (min-width: 768px) and (max-width: 1024px) {
+  #themeToggle,
+  #showAdminLogin,
+   #musicControls,
+  #musicToggle{
+    display: none !important;
+  }
+}
+@media (min-width: 768px) and (max-width: 1024px) {
+  button[onclick="showAdminLogin()"] {
+    display: none !important;
+  }
+}
 .answer-btn {
   position: relative;
-
+  transition: all 0.25s ease;
   background: rgba(25, 30, 55, 0.65);
   backdrop-filter: blur(12px);
+  width: 99%;
 
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 14px;
 
-  padding: 14px 18px;
+  padding: 12px 14px;
   color: #fff;
 
   transition: all 0.2s ease;
