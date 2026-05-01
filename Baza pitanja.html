@@ -1,0 +1,657 @@
+<!doctype html>
+<html lang="hr" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz Pitanja Tabela</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    body { box-sizing: border-box; }
+    * { font-family: 'Space+Grotesk', sans-serif; }
+    .difficulty-easy { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+    .difficulty-medium { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+    .difficulty-hard { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
+    .table-row:hover { transform: translateX(4px); transition: all 0.2s ease; }
+    .gradient-bg { background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #1e1b4b 100%); }
+    .glass-effect { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+    .answer-hidden { filter: blur(8px); cursor: pointer; user-select: none; transition: filter 0.3s ease; }
+    .answer-hidden:hover { filter: blur(6px); }
+    .answer-revealed { filter: blur(0); cursor: default; }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="https://cdn.tailwindcss.com/3.4.17" type="text/javascript"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js" type="text/javascript"></script>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body class="h-full gradient-bg text-white overflow-auto">
+  <div class="w-full min-h-full p-6 md:p-10">
+   <div class="text-center mb-8">
+    <h1 id="main-title" class="text-3xl md:text-4xl font-bold bg-gradient-to-r from-violet-400 via-fuchsia-400 to-amber-400 bg-clip-text text-transparent mb-2">📚 Baza pitanja</h1>
+    <p class="text-violet-300/70 text-sm">Matematički milijunaš</p>
+   </div>
+   <div class="glass-effect rounded-2xl p-6 mb-6 max-w-4xl mx-auto">
+    <div class="flex flex-wrap gap-4 items-center justify-center">
+     <div class="flex flex-col gap-2">
+      <label class="text-xs text-violet-300/70 uppercase tracking-wider font-semibold">Kategorija</label> <select id="category-filter" class="bg-violet-900/50 border border-violet-500/30 text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-violet-400 transition-colors"> <option value="all">Sve kategorije</option> </select>
+     </div>
+     <div class="flex flex-col gap-2">
+      <label class="text-xs text-violet-300/70 uppercase tracking-wider font-semibold">Težina</label> <select id="difficulty-filter" class="bg-violet-900/50 border border-violet-500/30 text-white rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-violet-400 transition-colors"> <option value="all">Sve težine</option> <option value="Easy">🟢 Easy</option> <option value="Normal">🟡 Normal</option> <option value="Hardest">🔴 Hardest</option> </select>
+     </div>
+     <div class="flex items-end">
+      <button id="reset-filters" class="bg-gradient-to-r from-violet-600 to-fuchsia-600 hover:from-violet-700 hover:to-fuchsia-700 text-white rounded-lg px-6 py-2 text-sm font-semibold transition-all shadow-lg hover:shadow-xl">Resetuj filtere</button>
+     </div>
+    </div>
+   </div>
+   <div class="flex flex-wrap justify-center gap-4 mb-8">
+    <div class="glass-effect rounded-xl px-6 py-3 flex items-center gap-3">
+     <span class="text-2xl">📋</span>
+     <div>
+      <p class="text-xs text-violet-300/70">Ukupno pitanja</p>
+      <p id="total-count" class="text-xl font-bold text-white">0</p>
+     </div>
+    </div>
+    <div class="glass-effect rounded-xl px-6 py-3 flex items-center gap-3">
+     <span class="text-2xl">🟢</span>
+     <div>
+      <p class="text-xs text-violet-300/70">Easy</p>
+      <p id="easy-count" class="text-xl font-bold text-emerald-400">0</p>
+     </div>
+    </div>
+    <div class="glass-effect rounded-xl px-6 py-3 flex items-center gap-3">
+     <span class="text-2xl">🟡</span>
+     <div>
+      <p class="text-xs text-violet-300/70">Normal</p>
+      <p id="medium-count" class="text-xl font-bold text-amber-400">0</p>
+     </div>
+    </div>
+    <div class="glass-effect rounded-xl px-6 py-3 flex items-center gap-3">
+     <span class="text-2xl">🔴</span>
+     <div>
+      <p class="text-xs text-violet-300/70">Hardest</p>
+      <p id="hard-count" class="text-xl font-bold text-red-400">0</p>
+     </div>
+    </div>
+   </div>
+   <div class="glass-effect rounded-2xl overflow-hidden">
+    <div class="overflow-x-auto">
+     <table class="w-full">
+      <thead>
+       <tr class="bg-violet-900/50 border-b border-violet-500/30">
+        <th class="px-4 py-4 text-left text-xs font-semibold text-violet-300 uppercase tracking-wider w-16">#</th>
+        <th class="px-4 py-4 text-left text-xs font-semibold text-violet-300 uppercase tracking-wider w-32">Kategorija</th>
+        <th class="px-4 py-4 text-left text-xs font-semibold text-violet-300 uppercase tracking-wider w-28">Težina</th>
+        <th class="px-4 py-4 text-left text-xs font-semibold text-violet-300 uppercase tracking-wider">Pitanje</th>
+        <th class="px-4 py-4 text-left text-xs font-semibold text-violet-300 uppercase tracking-wider w-64">Ponuđeni odgovori</th>
+        <th class="px-4 py-4 text-left text-xs font-semibold text-violet-300 uppercase tracking-wider w-40">Tačan odgovor</th>
+       </tr>
+      </thead>
+      <tbody id="questions-body">
+       <tr id="empty-state">
+        <td colspan="6" class="px-4 py-16 text-center">
+         <div class="flex flex-col items-center gap-4">
+          <span class="text-6xl opacity-50">🎯</span>
+          <p class="text-violet-300/70 text-lg">Tabela je prazna</p>
+          <p class="text-violet-400/50 text-sm">Pošalji mi pitanja da ih dodam ovdje!</p>
+         </div></td>
+       </tr>
+      </tbody>
+     </table>
+    </div>
+   </div>
+   <div class="text-center mt-8 text-violet-400/50 text-xs">
+    Powered by: Muhamed Čolaković, prof. 
+   </div>
+  </div>
+  <script>
+    const defaultConfig = { table_title: '📚 Baza Pitanja' };
+    let config = { ...defaultConfig };
+
+    const questions = [
+      // HISTORIJA - EASY (25 pitanja)
+      { category: "Historija", difficulty: "Easy", question: "Koji je najstariji poznati matematički dokument?", answers: ["Papirus Rhind", "Euklid Elementi", "Ishango kost", "Babilonske tablete"], correctAnswer: "D) Babilonske tablete" },
+      { category: "Historija", difficulty: "Easy", question: "Koliko godina ima matematika kao nauka?", answers: ["Preko 1000 godina", "Preko 2000 godina", "Preko 3000 godina", "Preko 5000 godina"], correctAnswer: "D) Preko 5000 godina" },
+      { category: "Historija", difficulty: "Easy", question: "Ko je poznat kao 'otac matematike'?", answers: ["Euclid", "Pitagora", "Arhimed", "Thales"], correctAnswer: "A) Euclid" },
+      { category: "Historija", difficulty: "Easy", question: "U kojem kraju je nastala moderna matematika?", answers: ["Egipat", "Babilon", "Grčka", "India"], correctAnswer: "C) Grčka" },
+      { category: "Historija", difficulty: "Easy", question: "Koji matematičar je ispravan Pitagorinu teoremu?", answers: ["Thales", "Euclid", "Pitagora", "Arhimed"], correctAnswer: "C) Pitagora" },
+      { category: "Historija", difficulty: "Easy", question: "Kada je Euclid napisao 'Elemente'?", answers: ["500 p.n.e.", "300 p.n.e.", "100 p.n.e.", "100 n.e."], correctAnswer: "B) 300 p.n.e." },
+      { category: "Historija", difficulty: "Easy", question: "Ko je otkrio zakon poluge?", answers: ["Euclid", "Arhimed", "Pitagora", "Thales"], correctAnswer: "B) Arhimed" },
+      { category: "Historija", difficulty: "Easy", question: "U kojem vijeku je razvijen arapski brojčani sistem?", answers: ["5. vijek", "7. vijek", "9. vijek", "11. vijek"], correctAnswer: "C) 9. vijek" },
+      { category: "Historija", difficulty: "Easy", question: "Ko je poznat kao 'otac algebre'?", answers: ["Al-Khwarizmi", "Al-Jabbar", "Omar Khayyam", "Ibn Sina"], correctAnswer: "A) Al-Khwarizmi" },
+      { category: "Historija", difficulty: "Easy", question: "U kojem vremenu je Leonardo Fibonacci stupio matematiku?", answers: ["13. vijek", "12. vijek", "14. vijek", "11. vijek"], correctAnswer: "A) 13. vijek" },
+      { category: "Historija", difficulty: "Easy", question: "Ko je prvi puta koristio simbol √?", answers: ["Descartes", "Euler", "Leibniz", "Christoff Rudolff"], correctAnswer: "D) Christoff Rudolff" },
+      { category: "Historija", difficulty: "Easy", question: "U kojem vijeku je razvijen kalkulus?", answers: ["15. vijek", "16. vijek", "17. vijek", "18. vijek"], correctAnswer: "C) 17. vijek" },
+      { category: "Historija", difficulty: "Easy", question: "Ko je razvio koordinatni sistem?", answers: ["Newton", "Leibniz", "Descartes", "Euler"], correctAnswer: "C) Descartes" },
+      { category: "Historija", difficulty: "Easy", question: "Ko je prvi formulisao zakone gravitacije?", answers: ["Galileo", "Newton", "Kepler", "Einstein"], correctAnswer: "B) Newton" },
+      { category: "Historija", difficulty: "Easy", question: "U kojem vijeku je živio Euler?", answers: ["16. vijek", "17. vijek", "18. vijek", "19. vijek"], correctAnswer: "C) 18. vijek" },
+      { category: "Historija", difficulty: "Easy", question: "Koliko je Euler napisao naučnih radova?", answers: ["Preko 100", "Preko 500", "Preko 800", "Preko 1000"], correctAnswer: "C) Preko 800" },
+      { category: "Historija", difficulty: "Easy", question: "Ko je prvi dokazao transcendentnost broja e?", answers: ["Euler", "Hermite", "Lindemann", "Cantor"], correctAnswer: "B) Hermite" },
+      { category: "Historija", difficulty: "Easy", question: "Ko je razvio teoriju skupova?", answers: ["Cantor", "Bolzano", "Dedekind", "Riemann"], correctAnswer: "A) Cantor" },
+      { category: "Historija", difficulty: "Easy", question: "U kojem vijeku je razvjena teorija vjerojatnosti?", answers: ["16. vijek", "17. vijek", "18. vijek", "19. vijek"], correctAnswer: "B) 17. vijek" },
+      { category: "Historija", difficulty: "Easy", question: "Ko je prvi formulisao moderne aksiome geometrije?", answers: ["Euclid", "Riemann", "Hilbert", "Lobachevsky"], correctAnswer: "C) Hilbert" },
+      { category: "Historija", difficulty: "Easy", question: "Ko je prvi otkrio da postoje beskonačnosti različitih veličina?", answers: ["Cantor", "Dedekind", "Bolzano", "Weierstrass"], correctAnswer: "A) Cantor" },
+      { category: "Historija", difficulty: "Easy", question: "U kojem vijeku je razvjena neEuklidska geometrija?", answers: ["17. vijek", "18. vijek", "19. vijek", "20. vijek"], correctAnswer: "C) 19. vijek" },
+      { category: "Historija", difficulty: "Easy", question: "Ko je poznat po razvoju diferencijalnog računa?", answers: ["Newton i Leibniz", "Euler i Lagrange", "Gauss i Riemann", "Cantor i Dedekind"], correctAnswer: "A) Newton i Leibniz" },
+      { category: "Historija", difficulty: "Easy", question: "Koliko je Gauss doprinuo matematici?", answers: ["Malo", "Veoma malo", "Ogromno", "Skoro ništa"], correctAnswer: "C) Ogromno" },
+      { category: "Historija", difficulty: "Easy", question: "Ko je prvi koristio imaginarne brojeve?", answers: ["Cardano", "Descartes", "Euler", "Gauss"], correctAnswer: "A) Cardano" },
+      
+      // GEOGRAFIJA - EASY (27 pitanja)
+      { category: "Geografija", difficulty: "Easy", question: "Koliko uglova ima pentagon?", answers: ["4", "5", "6", "7"], correctAnswer: "B) 5" },
+      { category: "Geografija", difficulty: "Easy", question: "Koji je zbir prva tri prosta broja?", answers: ["8", "10", "12", "15"], correctAnswer: "B) 10" },
+      { category: "Geografija", difficulty: "Easy", question: "Koliko ivica ima tetraedar?", answers: ["4", "6", "8", "12"], correctAnswer: "B) 6" },
+      { category: "Geografija", difficulty: "Easy", question: "Koliko je 1 + 2 + 3 + ... + 10?", answers: ["45", "50", "60", "55"], correctAnswer: "D) 55" },
+      { category: "Geografija", difficulty: "Easy", question: "Koliki je zbir unutrašnjih uglova u pentagonu?", answers: ["360°", "720°", "480°", "540°"], correctAnswer: "D) 540°" },
+      { category: "Geografija", difficulty: "Easy", question: "Koliko je 5! (faktorijel pet)?", answers: ["60", "24", "720", "120"], correctAnswer: "D) 120" },
+      { category: "Geografija", difficulty: "Easy", question: "Ako baciš dvije kocke, kolika je vjerovatnoća da dobiješ zbir 7?", answers: ["1/6", "1/12", "1/36", "1/3"], correctAnswer: "A) 1/6" },
+      { category: "Geografija", difficulty: "Easy", question: "Koliko ima prostih brojeva manjih od 10?", answers: ["3", "4", "5", "6"], correctAnswer: "B) 4" },
+      { category: "Geografija", difficulty: "Easy", question: "Koji broj je jedini koji je i kvadrat i prost?", answers: ["1", "4", "9", "Nijedan"], correctAnswer: "D) Nijedan" },
+      { category: "Geografija", difficulty: "Easy", question: "Ako je x + x = x, šta je x?", answers: ["1", "0", "2", "-1"], correctAnswer: "B) 0" },
+      { category: "Geografija", difficulty: "Easy", question: "Ko je rekao 'Eureka!'?", answers: ["Pitagora", "Euklid", "Arhimed", "Newton"], correctAnswer: "C) Arhimed" },
+      { category: "Geografija", difficulty: "Easy", question: "Ko je otkrio zakon gravitacije?", answers: ["Galileo", "Newton", "Einstein", "Kepler"], correctAnswer: "B) Newton" },
+      { category: "Geografija", difficulty: "Easy", question: "Koliki je treći ugao u trouglu ako su druga dva 50° i 60°?", answers: ["70°", "65°", "80°", "75°"], correctAnswer: "A) 70°" },
+      { category: "Geografija", difficulty: "Easy", question: "Ako se na svako sljedeće polje šahovske table broj zrna riže udvostručuje počevši od 1, koliko zrna ima na 64. polju?", answers: ["Oko 100 kg riže", "Jedan kamion riže", "Više nego ukupna proizvodnja riže na Zemlji", "Nemoguće izračunati"], correctAnswer: "C) Više nego ukupna proizvodnja riže na Zemlji" },
+      { category: "Geografija", difficulty: "Easy", question: "Koliko puta maksimalno možeš presaviti papir bilo kojih dimenzija (teorijski)?", answers: ["7 puta", "12 puta", "67", "Beskonačno"], correctAnswer: "A) 7 puta" },
+      { category: "Geografija", difficulty: "Easy", question: "Koliko pravih se može provući kroz 4 različite tačke (u opštem slučaju)?", answers: ["3", "4", "6", "Neodređeno"], correctAnswer: "C) 6" },
+      { category: "Geografija", difficulty: "Easy", question: "Šta su kolinearne tačke?", answers: ["Tačke na istoj kružnici", "Tačke na istoj pravoj", "Tačke u ravni", "Nasumične tačke"], correctAnswer: "B) Tačke na istoj pravoj" },
+      { category: "Geografija", difficulty: "Easy", question: "Šta su nekolinearne tačke?", answers: ["Tačke na istoj pravoj", "Tačke koje leže na kružnici", "Tačke koje ne leže na istoj pravoj", "Tačke u istom centru"], correctAnswer: "C) Tačke koje ne leže na istoj pravoj" },
+      { category: "Geografija", difficulty: "Easy", question: "Koji su osnovni pojmovi u geometriji koji se ne definišu?", answers: ["Tačka, prava, ravnina", "Ugao, duž, krug", "Tijelo, volumen, površina", "Vektor, matrica, funkcija"], correctAnswer: "A) Tačka, prava, ravnina" },
+      { category: "Geografija", difficulty: "Easy", question: "Kako se zvala grčka škola gdje je otkrivena iracionalnost brojeva?", answers: ["Platonova akademija", "Pitagorejska škola", "Aristotelova škola", "Euklidova škola"], correctAnswer: "B) Pitagorejska škola" },
+      { category: "Geografija", difficulty: "Easy", question: "Koji umjetnik je koristio matematičke proporcije i zlatni rez u 'Posljednjoj večeri'?", answers: ["Michelangelo", "Leonardo da Vinci", "Raphael", "Donatello"], correctAnswer: "B) Leonardo da Vinci" },
+      { category: "Geografija", difficulty: "Easy", question: "Gdje se u prirodi može pronaći Fibonacci niz?", answers: ["Samo u drveću", "U pahuljama i školjkama", "U ljudskim kostima", "U svim navedenim primjerima"], correctAnswer: "D) U svim navedenim primjerima" },
+      { category: "Geografija", difficulty: "Easy", question: "Kako se naziva četverougao čije su sve stranice jednake dužine, ali uglovi nisu pravi?", answers: ["Kvadrat", "Pravougaonik", "Romb", "Paralelogram"], correctAnswer: "C) Romb" },
+      { category: "Geografija", difficulty: "Easy", question: "Koliko je najmanji savršen broj?", answers: ["1", "6", "28", "496"], correctAnswer: "B) 6" },
+      { category: "Geografija", difficulty: "Easy", question: "Ko je otac modernog računarstva?", answers: ["Ada Lovelace", "Alan Turing", "John von Neumann", "Charles Babbage"], correctAnswer: "B) Alan Turing" },
+      
+      // FUN FACTS - EASY
+      { category: "Fun Facts", difficulty: "Easy", question: "Koji broj je jedini koji je i paran i prost?", answers: ["0", "1", "2", "3"], correctAnswer: "C) 2" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koliko sati ima u jednoj sedmici?", answers: ["144", "160", "168", "176"], correctAnswer: "C) 168" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Na koliko načina se mogu posložiti 3 različita predmeta u red?", answers: ["3", "6", "9", "12"], correctAnswer: "B) 6" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Na koliko načina se mogu posložiti 4 različita predmeta u red?", answers: ["12", "16", "24", "32"], correctAnswer: "C) 24" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Kolika je površina kruga poluprečnika 7 cm?", answers: ["49π", "14π", "21π", "28π"], correctAnswer: "A) 49π" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Kolika je površina kruga poluprečnika 8 cm?", answers: ["16π", "64π", "32π", "8π"], correctAnswer: "B) 64π" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Kolika je površina kruga poluprečnika 10 cm?", answers: ["20π", "50π", "100π", "10π"], correctAnswer: "C) 100π" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koji matematički simbol koristimo za približno jednako?", answers: ["≈", "=", "≠", "≤"], correctAnswer: "A) ≈" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koji je najveći prosti broj manji od 100?", answers: ["97", "91", "89", "99"], correctAnswer: "A) 97" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Za šta se koristi Pascalov trougao?", answers: ["Geometriju kružnice", "Kombinatoriku i binomne koeficijente", "Rješavanje integrala", "Logaritamske funkcije"], correctAnswer: "B) Kombinatoriku i binomne koeficijente" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Po kojem matematičaru je nazvana metoda dijeljenja polinoma (Hornerova metoda)?", answers: ["Newton", "Horner", "Gauss", "Lagrange"], correctAnswer: "B) Horner" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koliko stranica ima dodekaedar?", answers: ["10", "12", "14", "16"], correctAnswer: "B) 12" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koliko je 1+1 u modularnoj aritmetici mod 2?", answers: ["0", "1", "2", "Nedefinisano"], correctAnswer: "A) 0" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koja konstanta je približno 2.718?", answers: ["π", "e", "φ", "γ"], correctAnswer: "B) e" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koji je jedini broj koji se ne može napisati rimskim brojevima?", answers: ["0", "1", "1000", "Milion"], correctAnswer: "A) 0" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koliko stranica ima kocka?", answers: ["4", "6", "8", "12"], correctAnswer: "B) 6" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Šta znači prefiks 'kilo'?", answers: ["100", "1000", "10000", "1000000"], correctAnswer: "B) 1000" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Kako se zove trijada brojeva kod Pitagorine teoreme?", answers: ["Pitagorina trojka", "Euklid trojka", "Matematička trojka", "Geometrijska trojka"], correctAnswer: "A) Pitagorina trojka" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koliko stepeni ima pun krug?", answers: ["180°", "270°", "360°", "450°"], correctAnswer: "C) 360°" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koliko je 0! (faktorijel nule)?", answers: ["0", "1", "2", "Nedefinisano"], correctAnswer: "B) 1" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koja je jedina cifra koja se ne pojavljuje u binarnom sistemu?", answers: ["0", "1", "2", "Nijedna"], correctAnswer: "C) 2" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Šta je najmanji prirodan broj koji nije prost, a nije ni složen?", answers: ["1", "2", "3", "4"], correctAnswer: "A) 1" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koliki je zbir uglova u trouglu?", answers: ["360°", "90°", "270°", "180°"], correctAnswer: "D) 180°" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Ako avion padne na granici dvije države, gdje se sahranjuju preživjeli?", answers: ["U prvoj državi", "U drugoj", "Na granici", "Ne sahranjuju se"], correctAnswer: "D) Ne sahranjuju se" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koliko puta dnevno se poklope kazaljke na satu?", answers: ["12", "22", "24", "48"], correctAnswer: "B) 22" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koji od ponuđenih brojeva zadovoljava uslov da je jednak zbiru svojih cifara pomnoženih sa 3?", answers: ["12", "18", "27", "36"], correctAnswer: "C) 27" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Ako se broj poveća za 20% pa smanji za 20%, rezultat je:", answers: ["Veći", "Manji", "Isti", "Zavisi"], correctAnswer: "B) Manji" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koji broj ima najviše djelitelja među 1–10?", answers: ["6", "8", "10", "9"], correctAnswer: "A) 6" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koliko dijagonala ima kvadrat?", answers: ["1", "2", "4", "6"], correctAnswer: "B) 2" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koji broj ostaje isti kada mu se dodaju nule na kraju u dekadnom sistemu vrijednosti?", answers: ["0", "1", "10", "100"], correctAnswer: "A) 0" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Ako baciš novčić 3 puta, koliko je mogućih ishoda?", answers: ["6", "8", "4", "3"], correctAnswer: "B) 8" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koji je najmanji broj koji je djeljiv sa svim brojevima od 1 do 5?", answers: ["20", "60", "30", "120"], correctAnswer: "B) 60" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koji broj je palindrom?", answers: ["123", "121", "132", "231"], correctAnswer: "B) 121" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koliko je suma beskonačnog niza 1/2 + 1/4 + 1/8 + ...?", answers: ["1", "2", "∞", "1/2"], correctAnswer: "A) 1" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Ako imaš 5 različitih knjiga, koliko načina da ih poredaš?", answers: ["25", "120", "60", "100"], correctAnswer: "B) 120" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Koji broj je kvadrat?", answers: ["361", "256", "121", "Svi navedeni"], correctAnswer: "D) Svi navedeni" },
+      { category: "Fun Facts", difficulty: "Easy", question: "Ako je 5 mašina potrebno 5 minuta da naprave 5 proizvoda, koliko treba 100 mašina za 100 proizvoda?", answers: ["100 min", "5 min", "50 min", "1 min"], correctAnswer: "B) 5 min" },
+      // FUN FACTS - NORMAL
+      { category: "Fun Facts", difficulty: "Normal", question: "Koliko je 2^10 + 2^10?", answers: ["1024", "2048", "4096", "512"], correctAnswer: "B) 2048" },
+      { category: "Fun Facts", difficulty: "Normal", question: "Koliko je √2 na 2 decimale?", answers: ["1.41", "1.42", "1.43", "1.44"], correctAnswer: "A) 1.41" },
+      { category: "Fun Facts", difficulty: "Normal", question: "Koliko trouglova vidiš u zvijezdi Davidovoj?", answers: ["6", "8", "12", "18"], correctAnswer: "D) 18" },
+      { category: "Fun Facts", difficulty: "Normal", question: "Koji je najmanji broj koji je djeljiv sa 1 do 10?", answers: ["2520", "5040", "720", "360"], correctAnswer: "A) 2520" },
+      { category: "Fun Facts", difficulty: "Normal", question: "Koja je vrijednost 2^5?", answers: ["16", "32", "64", "128"], correctAnswer: "B) 32" },
+      { category: "Fun Facts", difficulty: "Normal", question: "Koliko je maksimalan broj boja potreban za bojenje bilo koje mape?", answers: ["3", "4", "5", "6"], correctAnswer: "B) 4" },
+      { category: "Fun Facts", difficulty: "Normal", question: "Šta je Goldbachova hipoteza?", answers: ["Svaki parni broj je zbir 2 prosta", "Ima beskonačno prostih", "π je iracionalan", "e je transcendentan"], correctAnswer: "A) Svaki parni broj je zbir 2 prosta" },
+      { category: "Fun Facts", difficulty: "Normal", question: "Koliko Platonovih tijela postoji?", answers: ["3", "4", "5", "6"], correctAnswer: "C) 5" },
+      { category: "Fun Facts", difficulty: "Normal", question: "Šta je zlatni presjek približno?", answers: ["1.414", "1.618", "2.718", "3.142"], correctAnswer: "B) 1.618" },
+      { category: "Fun Facts", difficulty: "Normal", question: "Koliko je 0.5 u procentima?", answers: ["5%", "50%", "0.5%", "500%"], correctAnswer: "B) 50%" },
+      { category: "Fun Facts", difficulty: "Normal", question: "Koja je najkraća putanja između dvije tačke u ravni?", answers: ["Kriva", "Parabola", "Cik-cak", "Prava"], correctAnswer: "D) Prava" },
+      { category: "Fun Facts", difficulty: "Normal", question: "Koliko je 2^0?", answers: ["2", "0", "1", "Nedefinisano"], correctAnswer: "C) 1" },
+      { category: "Fun Facts", difficulty: "Normal", question: "Šta je decimalni zapis broja 1/3?", answers: ["0.34", "0.3", "0.333", "0.333..."], correctAnswer: "D) 0.333..." },
+      { category: "Fun Facts", difficulty: "Normal", question: "Koju vrstu simetrije pokazuju krila leptira?", answers: ["Rotacionu simetriju", "Centralnu simetriju", "Bilateralnu simetriju", "Translacionu simetriju"], correctAnswer: "C) Bilateralnu simetriju" },
+      { category: "Fun Facts", difficulty: "Normal", question: "Rimski broj XC u arapskom zapisu je?", answers: ["90", "110", "80", "100"], correctAnswer: "A) 90" },
+      // FUN FACTS - HARDEST
+      { category: "Fun Facts", difficulty: "Hardest", question: "Koji broj se pojavljuje najčešće u Fibonaccijevom nizu kao ostatak pri dijeljenju sa 10?", answers: ["1", "3", "5", "Svi jednako"], correctAnswer: "D) Svi jednako" },
+      { category: "Fun Facts", difficulty: "Hardest", question: "Koliki je najmanji zajednički sadržalac brojeva 15 i 20?", answers: ["45", "30", "75", "60"], correctAnswer: "D) 60" },
+      { category: "Fun Facts", difficulty: "Hardest", question: "Koliko je √2 približno (na 3 decimale)?", answers: ["1.415", "1.416", "1.417", "1.414"], correctAnswer: "D) 1.414" },
+      { category: "Fun Facts", difficulty: "Hardest", question: "Koliko je log10(1000)?", answers: ["2", "1", "4", "3"], correctAnswer: "D) 3" },
+      { category: "Fun Facts", difficulty: "Hardest", question: "Ukoliko dobiješ ovo pitanje, tačan odgovor nije pod A. i C.", answers: ["A", "B", "C", "D"], correctAnswer: "B) B" },
+      // INTERESTING FACTS - EASY
+      { category: "Interesting Facts", difficulty: "Easy", question: "Koliko uglova ima pentagon?", answers: ["4", "5", "6", "7"], correctAnswer: "B) 5" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Koji je zbir prva tri prosta broja?", answers: ["8", "10", "12", "15"], correctAnswer: "B) 10" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Koliko ivica ima tetraedar?", answers: ["4", "6", "8", "12"], correctAnswer: "B) 6" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Koliko je 1 + 2 + 3 + ... + 10?", answers: ["45", "50", "60", "55"], correctAnswer: "D) 55" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Koliki je zbir unutrašnjih uglova u pentagonu?", answers: ["360°", "720°", "480°", "540°"], correctAnswer: "D) 540°" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Koliko je 5! (faktorijel pet)?", answers: ["60", "24", "720", "120"], correctAnswer: "D) 120" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Ako baciš dvije kocke, kolika je vjerovatnoća da dobiješ zbir 7?", answers: ["1/6", "1/12", "1/36", "1/3"], correctAnswer: "A) 1/6" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Koliko ima prostih brojeva manjih od 10?", answers: ["3", "4", "5", "6"], correctAnswer: "B) 4" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Koji broj je jedini koji je i kvadrat i prost?", answers: ["1", "4", "9", "Nijedan"], correctAnswer: "D) Nijedan" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Ako je x + x = x, šta je x?", answers: ["1", "0", "2", "-1"], correctAnswer: "B) 0" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Ko je rekao 'Eureka!'?", answers: ["Pitagora", "Euklid", "Arhimed", "Newton"], correctAnswer: "C) Arhimed" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Ko je otkrio zakon gravitacije?", answers: ["Galileo", "Newton", "Einstein", "Kepler"], correctAnswer: "B) Newton" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Koliki je treći ugao u trouglu ako su druga dva 50° i 60°?", answers: ["70°", "65°", "80°", "75°"], correctAnswer: "A) 70°" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Ako se na svako sljedeće polje šahovske table broj zrna riže udvostručuje počevši od 1, koliko zrna ima na 64. polju?", answers: ["Oko 100 kg riže", "Jedan kamion riže", "Više nego ukupna proizvodnja riže na Zemlji", "Nemoguće izračunati"], correctAnswer: "C) Više nego ukupna proizvodnja riže na Zemlji" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Koliko puta maksimalno možeš presaviti papir bilo kojih dimenzija (teorijski)?", answers: ["7 puta", "12 puta", "67", "Beskonačno"], correctAnswer: "A) 7 puta" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Koliko pravih se može provući kroz 4 različite tačke (u opštem slučaju)?", answers: ["3", "4", "6", "Neodređeno"], correctAnswer: "C) 6" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Šta su kolinearne tačke?", answers: ["Tačke na istoj kružnici", "Tačke na istoj pravoj", "Tačke u ravni", "Nasumične tačke"], correctAnswer: "B) Tačke na istoj pravoj" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Šta su nekolinearne tačke?", answers: ["Tačke na istoj pravoj", "Tačke koje leže na kružnici", "Tačke koje ne leže na istoj pravoj", "Tačke u istom centru"], correctAnswer: "C) Tačke koje ne leže na istoj pravoj" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Koji su osnovni pojmovi u geometriji koji se ne definišu?", answers: ["Tačka, prava, ravnina", "Ugao, duž, krug", "Tijelo, volumen, površina", "Vektor, matrica, funkcija"], correctAnswer: "A) Tačka, prava, ravnina" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Kako se zvala grčka škola gdje je otkrivena iracionalnost brojeva?", answers: ["Platonova akademija", "Pitagorejska škola", "Aristotelova škola", "Euklidova škola"], correctAnswer: "B) Pitagorejska škola" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Koji umjetnik je koristio matematičke proporcije i zlatni rez u 'Posljednjoj večeri'?", answers: ["Michelangelo", "Leonardo da Vinci", "Raphael", "Donatello"], correctAnswer: "B) Leonardo da Vinci" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Gdje se u prirodi može pronaći Fibonacci niz?", answers: ["Samo u drveću", "U pahuljama i školjkama", "U ljudskim kostima", "U svim navedenim primjerima"], correctAnswer: "D) U svim navedenim primjerima" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Kako se naziva četverougao čije su sve stranice jednake dužine, ali uglovi nisu pravi?", answers: ["Kvadrat", "Pravougaonik", "Romb", "Paralelogram"], correctAnswer: "C) Romb" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Koliko je najmanji savršen broj?", answers: ["1", "6", "28", "496"], correctAnswer: "B) 6" },
+      { category: "Interesting Facts", difficulty: "Easy", question: "Ko je otac modernog računarstva?", answers: ["Ada Lovelace", "Alan Turing", "John von Neumann", "Charles Babbage"], correctAnswer: "B) Alan Turing" },
+      // INTERESTING FACTS - NORMAL (ostala pitanja...)
+      { category: "Interesting Facts", difficulty: "Normal", question: "Ko je uveo simbol π?", answers: ["Euler", "Gauss", "Newton", "Wiliam Jones"], correctAnswer: "D) Wiliam Jones" },
+      { category: "Interesting Facts", difficulty: "Normal", question: "Ko je osnovao modernu teoriju vjerojatnosti?", answers: ["Pascal", "Bernoulli", "Laplace", "Kolmogorov"], correctAnswer: "D) Kolmogorov" },
+      { category: "Interesting Facts", difficulty: "Normal", question: "Ko je poznat kao 'otac moderne logike'?", answers: ["Aristotel", "Gödel", "Frege", "Boole"], correctAnswer: "D) Boole" },
+      { category: "Interesting Facts", difficulty: "Normal", question: "Koji je matematičar postavio teorem koji je ostao neriješen više od 350 godina, sve do 1994. godine?", answers: ["Isaac Newton", "Pierre de Fermat", "Leonhard Euler", "Carl Friedrich Gauss"], correctAnswer: "B) Pierre de Fermat" },
+      { category: "Interesting Facts", difficulty: "Normal", question: "Koji je broj poznat kao 'najmanji Armstrong broj'?", answers: ["370", "371", "407", "153"], correctAnswer: "D) 153" },
+      { category: "Interesting Facts", difficulty: "Normal", question: "Koji broj je i kvadrat i kub istovremeno?", answers: ["1 i 64", "0 i 1", "1 i 729", "4 i 8"], correctAnswer: "A) 1 i 64" },
+      { category: "Interesting Facts", difficulty: "Normal", question: "Koliko je e^(iπ) + 1?", answers: ["0", "1", "i", "-1"], correctAnswer: "A) 0" },
+      { category: "Interesting Facts", difficulty: "Normal", question: "Koliko je maksimalan broj tačaka preseka n krugova?", answers: ["n²", "n(n-1)", "2n", "n!"], correctAnswer: "B) n(n-1)" },
+      { category: "Interesting Facts", difficulty: "Normal", question: "Koji je prvi Carmichael broj?", answers: ["341", "451", "561", "671"], correctAnswer: "C) 561" },
+      { category: "Interesting Facts", difficulty: "Normal", question: "Koji je broj poznat kao 'najmanji višestruko savršen broj'?", answers: ["120", "30240", "8128", "672"], correctAnswer: "D) 672" },
+      { category: "Interesting Facts", difficulty: "Normal", question: "Koji je broj 2^8?", answers: ["512", "128", "1024", "256"], correctAnswer: "D) 256" },
+      { category: "Interesting Facts", difficulty: "Normal", question: "Koja je vrijednost sin(90°)?", answers: ["0", "0.5", "√2/2", "1"], correctAnswer: "D) 1" },
+      { category: "Interesting Facts", difficulty: "Normal", question: "Proizvod neparnog i parnog broja je uvijek?", answers: ["Neparan", "Paran", "Negativan", "0"], correctAnswer: "B) Paran" },
+      { category: "Interesting Facts", difficulty: "Normal", question: "Proizvod pozitivnog i negativnog broja je?", answers: ["Pozitivan", "0", "Negativan", "Neodređen"], correctAnswer: "C) Negativan" },
+      { category: "Interesting Facts", difficulty: "Normal", question: "Zbir dva negativna broja je?", answers: ["Pozitivan", "Negativan", "0", "Neodređen"], correctAnswer: "B) Negativan" },
+      { category: "Interesting Facts", difficulty: "Normal", question: "Proizvod dva negativna broja je?", answers: ["Negativan", "0", "Pozitivan", "Neodređen"], correctAnswer: "C) Pozitivan" },
+      { category: "Interesting Facts", difficulty: "Normal", question: "Kako se zove prosječna vrijednost skupa podataka?", answers: ["Medijana", "Mod", "Aritmetička sredina", "Varijansa"], correctAnswer: "C) Aritmetička sredina" },
+      { category: "Interesting Facts", difficulty: "Normal", question: "Kako se zovu dva ugla čiji je zbir 90°?", answers: ["Suplementarni", "Komplementarni", "Vertikalni", "Adjacenti"], correctAnswer: "B) Komplementarni" },
+      { category: "Interesting Facts", difficulty: "Normal", question: "Kako se zovu dva ugla čiji je zbir 180°?", answers: ["Komplementarni", "Vertikalni", "Suplementarni", "Paralelni"], correctAnswer: "C) Suplementarni" },
+      // INTERESTING FACTS - HARDEST
+      { category: "Interesting Facts", difficulty: "Hardest", question: "Koliko rješenja ima jednačina x³ + y³ = z³ za prirodne brojeve?", answers: ["Beskonačno", "1729", "0", "Nepoznato"], correctAnswer: "C) 0" },
+      { category: "Interesting Facts", difficulty: "Hardest", question: "Koja je gustoća prostih brojeva kod broja n?", answers: ["1/n", "1/ln(n)", "1/√n", "1/n²"], correctAnswer: "B) 1/ln(n)" },
+      { category: "Interesting Facts", difficulty: "Hardest", question: "Koliko je Catalan konstanta G na 2 decimale?", answers: ["0.85", "0.92", "1.08", "1.15"], correctAnswer: "B) 0.92" },
+      { category: "Interesting Facts", difficulty: "Hardest", question: "Koji je najmanji netrivijalni triperfect broj?", answers: ["120", "672", "523776", "Nepoznato"], correctAnswer: "C) 523776" },
+      { category: "Interesting Facts", difficulty: "Hardest", question: "Koliko dimenzija ima Leech rešetka?", answers: ["8", "16", "24", "32"], correctAnswer: "C) 24" },
+      { category: "Interesting Facts", difficulty: "Hardest", question: "Koliko je 0.999... (beskonačno ponavljanje) u decimalnom obliku?", answers: ["0.9", "0.99", "Nedefinisano", "1"], correctAnswer: "D) 1" },
+      { category: "Interesting Facts", difficulty: "Hardest", question: "Koliki je najmanji broj koji je jednak zbiru svojih cifara na kvadrat (npr. 1^2+2^2...)?", answers: ["9", "130", "0", "1"], correctAnswer: "D) 1" },
+      { category: "Interesting Facts", difficulty: "Hardest", question: "Koliko je 2^10 + 2^9?", answers: ["1024", "2048", "512", "1536"], correctAnswer: "D) 1536" },
+      // NUMBERS - EASY
+      { category: "Numbers", difficulty: "Easy", question: "Koji je najmanji prosti broj?", answers: ["0", "1", "2", "3"], correctAnswer: "C) 2" },
+      { category: "Numbers", difficulty: "Easy", question: "Koliko nula ima milion?", answers: ["4", "5", "6", "7"], correctAnswer: "C) 6" },
+      { category: "Numbers", difficulty: "Easy", question: "Koliko je 2 na 10?", answers: ["512", "1024", "2048", "4096"], correctAnswer: "B) 1024" },
+      { category: "Numbers", difficulty: "Easy", question: "Koji broj je savršen (jednak je sumi svojih djelilaca)?", answers: ["4", "6", "8", "10"], correctAnswer: "B) 6" },
+      { category: "Numbers", difficulty: "Easy", question: "Ako u sobi ima 5 mačaka i uđe još 5 pasa, koliko nogu ima?", answers: ["20", "40", "42", "44"], correctAnswer: "B) 40" },
+      { category: "Numbers", difficulty: "Easy", question: "Dva oca i dva sina ulove 3 ribe. Svako dobije po jednu. Kako?", answers: ["Nemoguće", "Djed, otac, sin", "Podijele jednu", "Otpuste jednu"], correctAnswer: "B) Djed, otac, sin" },
+      { category: "Numbers", difficulty: "Easy", question: "Ako 3 mačke imaju 12 nogu, koliko nogu imaju 6 mačaka?", answers: ["18", "30", "36", "24"], correctAnswer: "D) 24" },
+      { category: "Numbers", difficulty: "Easy", question: "Koliko je 2 + 2 * 2?", answers: ["4", "10", "8", "6"], correctAnswer: "D) 6" },
+      { category: "Numbers", difficulty: "Easy", question: "Ako je 10% od 200, koliko je 20% od 100?", answers: ["10", "30", "40", "20"], correctAnswer: "D) 20" },
+      { category: "Numbers", difficulty: "Easy", question: "Ako je 1/2 + 1/3 + 1/6 = ?", answers: ["2", "3", "0.5", "1"], correctAnswer: "D) 1" },
+      { category: "Numbers", difficulty: "Easy", question: "Ko je rekao 'Eureka!'?", answers: ["Pitagora", "Euklid", "Arhimed", "Newton"], correctAnswer: "C) Arhimed" },
+      { category: "Numbers", difficulty: "Easy", question: "Ako je 5x = 25, koliko je x?", answers: ["10", "15", "20", "5"], correctAnswer: "D) 5" },
+      { category: "Numbers", difficulty: "Easy", question: "Koliko je 1/2 od 1/2?", answers: ["1/2", "1", "2", "1/4"], correctAnswer: "D) 1/4" },
+      { category: "Numbers", difficulty: "Easy", question: "Ako je danas srijeda, koji dan je za 100 dana?", answers: ["Petak", "Subota", "Nedjelja", "Četvrtak"], correctAnswer: "A) Petak" },
+      { category: "Numbers", difficulty: "Easy", question: "Koliko ima načina da se baci kocka i dobije paran broj?", answers: ["2", "3", "4", "5"], correctAnswer: "B) 3" },
+      { category: "Numbers", difficulty: "Easy", question: "Koji broj ima tačno 3 djelitelja?", answers: ["4", "6", "8", "9"], correctAnswer: "A) 4" },
+      { category: "Numbers", difficulty: "Easy", question: "Koji broj ima najviše djelitelja među 1–20?", answers: ["12", "18", "20", "16"], correctAnswer: "A) 12" },
+      { category: "Numbers", difficulty: "Easy", question: "Koji broj slijedi u Fibonaccijevom nizu nakon 0, 1, 1, 2, 3?", answers: ["4", "5", "6", "8"], correctAnswer: "B) 5" },
+      { category: "Numbers", difficulty: "Easy", question: "Koji pojam opisuje beskonačan skup koji se može prebrojati?", answers: ["Neprebrojiv", "Konačan", "Gust", "Prebrojiv"], correctAnswer: "D) Prebrojiv" },
+      { category: "Numbers", difficulty: "Easy", question: "Koja je treća cifra broja π (nakon decimalnog zareza)?", answers: ["3", "1", "4", "5"], correctAnswer: "B) 1" },
+      { category: "Numbers", difficulty: "Easy", question: "Koliko je kvadratni korijen iz 361?", answers: ["19", "20", "18", "21"], correctAnswer: "A) 19" },
+      { category: "Numbers", difficulty: "Easy", question: "Koji od ovih brojeva je prost?", answers: ["21", "29", "39", "51"], correctAnswer: "B) 29" },
+      { category: "Numbers", difficulty: "Easy", question: "Koji je zbir unutrašnjih uglova petougla?", answers: ["360°", "540°", "720°", "450°"], correctAnswer: "B) 540°" },
+      { category: "Numbers", difficulty: "Easy", question: "Koliki je kvadrat broja 21?", answers: ["441", "420", "400", "4410"], correctAnswer: "A) 441" },
+      { category: "Numbers", difficulty: "Easy", question: "Koliko je π na 2 decimale?", answers: ["3.12", "3.14", "3.16", "3.18"], correctAnswer: "B) 3.14" },
+      { category: "Numbers", difficulty: "Easy", question: "Koliko je 3 na 4?", answers: ["12", "27", "81", "64"], correctAnswer: "C) 81" },
+      { category: "Numbers", difficulty: "Easy", question: "Koji je prirodan broj koji je djeljiv sa svim brojevima od 1 do 4?", answers: ["8", "12", "16", "24"], correctAnswer: "B) 12" },
+      { category: "Numbers", difficulty: "Easy", question: "Ako je 25% od 80, koliko je?", answers: ["15", "20", "25", "30"], correctAnswer: "B) 20" },
+      { category: "Numbers", difficulty: "Easy", question: "Koliko je zbir prva 4 prosta broja?", answers: ["10", "17", "15", "20"], correctAnswer: "B) 17" },
+      { category: "Numbers", difficulty: "Easy", question: "Koji broj je faktoren od 5!?", answers: ["60", "100", "120", "200"], correctAnswer: "C) 120" },
+      { category: "Numbers", difficulty: "Easy", question: "Koliko je (2+3) * 4?", answers: ["14", "18", "20", "24"], correctAnswer: "C) 20" },
+      { category: "Numbers", difficulty: "Easy", question: "Koji je zbir 10 + 20 + 30?", answers: ["50", "60", "70", "80"], correctAnswer: "B) 60" },
+      { category: "Numbers", difficulty: "Easy", question: "Koliko je 100 / 5?", answers: ["15", "20", "25", "30"], correctAnswer: "B) 20" },
+      { category: "Numbers", difficulty: "Easy", question: "Koja je vrijednost 4^3?", answers: ["16", "32", "48", "64"], correctAnswer: "D) 64" },
+      { category: "Numbers", difficulty: "Easy", question: "Koliko je 6 * 7?", answers: ["35", "42", "48", "56"], correctAnswer: "B) 42" },
+      // NUMBERS - NORMAL
+      { category: "Numbers", difficulty: "Normal", question: "Koji je sljedeći prosti broj nakon 97?", answers: ["99", "101", "103", "107"], correctAnswer: "B) 101" },
+      { category: "Numbers", difficulty: "Normal", question: "Koliko je e (Eulerova konstanta) na 2 decimale?", answers: ["2.52", "2.62", "2.72", "2.82"], correctAnswer: "C) 2.72" },
+      { category: "Numbers", difficulty: "Normal", question: "Ko je otkrio zakon gravitacije?", answers: ["Galileo", "Newton", "Einstein", "Kepler"], correctAnswer: "B) Newton" },
+      { category: "Numbers", difficulty: "Normal", question: "Ko je poznat po teoriji relativnosti?", answers: ["Newton", "Planck", "Bohr", "Einstein"], correctAnswer: "D) Einstein" },
+      { category: "Numbers", difficulty: "Normal", question: "Ko je otac modernog računarstva?", answers: ["Ada Lovelace", "Alan Turing", "John von Neumann", "Charles Babbage"], correctAnswer: "B) Alan Turing" },
+      { category: "Numbers", difficulty: "Normal", question: "Ko je uveo simbol π?", answers: ["Euler", "Gauss", "Newton", "Wiliam Jones"], correctAnswer: "D) Wiliam Jones" },
+      { category: "Numbers", difficulty: "Normal", question: "Ko je osnovao modernu teoriju vjerojatnosti?", answers: ["Pascal", "Bernoulli", "Laplace", "Kolmogorov"], correctAnswer: "D) Kolmogorov" },
+      { category: "Numbers", difficulty: "Normal", question: "Ko je poznat kao 'otac moderne logike'?", answers: ["Aristotel", "Gödel", "Frege", "Boole"], correctAnswer: "D) Boole" },
+      { category: "Numbers", difficulty: "Normal", question: "Koliko je zlatni presek φ na 3 decimale?", answers: ["1.414", "1.618", "1.732", "2.236"], correctAnswer: "B) 1.618" },
+      { category: "Numbers", difficulty: "Normal", question: "Ko je razvio teoriju skupova?", answers: ["Dedekind", "Cantor", "Hilbert", "Frege"], correctAnswer: "B) Cantor" },
+      { category: "Numbers", difficulty: "Normal", question: "Ko je riješio kubnu jednačinu u 16. vijeku?", answers: ["Cardano", "Tartaglia", "Ferrari", "Viète"], correctAnswer: "A) Cardano" },
+      { category: "Numbers", difficulty: "Normal", question: "Ko je napravio prvu mehaničku kalkulatorsku mašinu?", answers: ["Babbage", "Pascal", "Leibniz", "Schickard"], correctAnswer: "D) Schickard" },
+      { category: "Numbers", difficulty: "Normal", question: "Ko je dokazao da je e transcendentan?", answers: ["Hermite", "Lindemann", "Cantor", "Weierstrass"], correctAnswer: "A) Hermite" },
+      { category: "Numbers", difficulty: "Normal", question: "Ko je otkrio neEuklidsku geometriju?", answers: ["Gauss", "Bolyai", "Lobačevski", "Svi navedeni"], correctAnswer: "D) Svi navedeni" },
+      { category: "Numbers", difficulty: "Normal", question: "Ko je razvio teoriju grupa u modernom obliku?", answers: ["Noether", "Jordan", "Lagrange", "Galois"], correctAnswer: "D) Galois" },
+      { category: "Numbers", difficulty: "Normal", question: "Ko je uveo simbol ∑ za sumu?", answers: ["Gauss", "Leibniz", "Bernoulli", "Euler"], correctAnswer: "D) Euler" },
+      { category: "Numbers", difficulty: "Normal", question: "Ko je otkrio teoriju linearne algebre?", answers: ["Gauss", "Euler", "Hilbert", "Cayley"], correctAnswer: "D) Cayley" },
+      { category: "Numbers", difficulty: "Normal", question: "Ko je dokazao da je set realnih brojeva neprenumerabilan?", answers: ["Gödel", "Hilbert", "Dedekind", "Cantor"], correctAnswer: "D) Cantor" },
+      { category: "Numbers", difficulty: "Normal", question: "Ko je uveo pojam 'operator' u matematici?", answers: ["Heisenberg", "Dirac", "von Neumann", "Hilbert"], correctAnswer: "D) Hilbert" },
+      { category: "Numbers", difficulty: "Normal", question: "Hotel sa beskonačno soba je pun. Dolazi nova osoba. Može li se smjestiti?", answers: ["Ne", "Da", "Samo u hodniku", "Zavisi od sobe"], correctAnswer: "B) Da" },
+      { category: "Numbers", difficulty: "Normal", question: "Monty Hall problem: mijenjate vrata?", answers: ["Da", "Ne", "Svejedno", "Zavisi"], correctAnswer: "A) Da" },
+      { category: "Numbers", difficulty: "Normal", question: "Koliko je 1/∞?", answers: ["0", "∞", "Nedefinisano", "Beskonačno malo"], correctAnswer: "C) Nedefinisano" },
+      { category: "Numbers", difficulty: "Normal", question: "Birthday paradox: Koliko ljudi treba da je 50% šansa da dvoje dijele rođendan?", answers: ["183", "100", "50", "23"], correctAnswer: "D) 23" },
+      { category: "Numbers", difficulty: "Normal", question: "Koliko je 2 + 2 × 2 - 2 / 2?", answers: ["5", "7", "4", "6"], correctAnswer: "A) 5" },
+      { category: "Numbers", difficulty: "Normal", question: "Koji je broj 3 puta veći od 1/3?", answers: ["2", "3", "4", "1"], correctAnswer: "D) 1" },
+      { category: "Numbers", difficulty: "Normal", question: "Ako je x = 2 i y = 3, koliko je x^y?", answers: ["6", "9", "8", "27"], correctAnswer: "D) 27" },
+      // NUMBERS - HARDEST
+      { category: "Numbers", difficulty: "Hardest", question: "Koja je vrijednost Apéry konstante ζ(3) na 2 decimale?", answers: ["1.20", "1.50", "1.80", "2.10"], correctAnswer: "A) 1.20" },
+      { category: "Numbers", difficulty: "Hardest", question: "Koliko znamenaka ima Googolplex?", answers: ["10^100", "10^(10^100)", "10^1000", "10^10000"], correctAnswer: "B) 10^(10^100)" },
+      { category: "Numbers", difficulty: "Hardest", question: "Koji je Graham's broj G1?", answers: ["3↑↑3", "3↑↑↑↑3", "3→3→3", "3^(3^27)"], correctAnswer: "B) 3↑↑↑↑3" },
+      { category: "Numbers", difficulty: "Hardest", question: "Šta je TREE(3)?", answers: ["Broj veći od Graham's broja", "Broj manji od googolplexa", "Broj jednak ackermann(4,4)", "27"], correctAnswer: "A) Broj veći od Graham's broja" },
+      { category: "Numbers", difficulty: "Hardest", question: "Mersenneovi brojevi su posebna klasa prostih brojeva. Koja organizacija je prvenstveno odgovorna za otkrivanje najvećih poznatih prostih brojeva?", answers: ["NASA", "GIMPS", "CERN", "MIT"], correctAnswer: "B) GIMPS" },
+      { category: "Numbers", difficulty: "Hardest", question: "Ko je dokazao Taniyama-Shimura hipotezu za polustavne eliptičke krivulje?", answers: ["Andrew Wiles", "Richard Taylor", "Goro Shimura", "Yutaka Taniyama"], correctAnswer: "A) Andrew Wiles" },
+      { category: "Numbers", difficulty: "Hardest", question: "Ko je dobio Fields medalju 2014. za rad na dinamičkim sistemima?", answers: ["Maryam Mirzakhani", "Manjul Bhargava", "Artur Avila", "Martin Hairer"], correctAnswer: "C) Artur Avila" },
+      { category: "Numbers", difficulty: "Hardest", question: "Ko je odbio Fields medalju 2006?", answers: ["Terence Tao", "Grigori Perelman", "Andrei Okounkov", "Wendelin Werner"], correctAnswer: "B) Grigori Perelman" },
+      { category: "Numbers", difficulty: "Hardest", question: "Ko je razvio teoriju kategorija?", answers: ["Samuel Eilenberg", "Saunders Mac Lane", "Alexander Grothendieck", "A i B"], correctAnswer: "D) A i B" },
+      { category: "Numbers", difficulty: "Hardest", question: "Ko je riješio Hilbertov 10. problem?", answers: ["Turing", "Church", "Matiyasevich", "Gödel"], correctAnswer: "C) Matiyasevich" },
+      { category: "Numbers", difficulty: "Hardest", question: "Ko je uveo kategorijsku teoriju zajedno sa Mac Laneom?", answers: ["Grothendieck", "Lawvere", "Kan", "Eilenberg"], correctAnswer: "D) Eilenberg" },
+      { category: "Numbers", difficulty: "Hardest", question: "Ko je formulirao teoriju relativnosti u matematičkom obliku?", answers: ["Einstein", "Lorentz", "Riemann", "Minkowski"], correctAnswer: "D) Minkowski" },
+      { category: "Numbers", difficulty: "Hardest", question: "Ko je prvi definisao pojam 'matematička logika' u modernom obliku?", answers: ["Gödel", "Turing", "Russell", "Frege"], correctAnswer: "D) Frege" },
+      { category: "Numbers", difficulty: "Hardest", question: "Ko je otkrio 'četiri boje' teorem (prvo dokazano računarom)?", answers: ["Fourier", "Gauss", "Euler", "Appel i Haken"], correctAnswer: "D) Appel i Haken" },
+      { category: "Numbers", difficulty: "Hardest", question: "Ko je prvi dokazao Fermatovu posljednju teoremu?", answers: ["Fermat", "Taylor", "Taniyama", "Wiles"], correctAnswer: "D) Wiles" },
+      { category: "Numbers", difficulty: "Hardest", question: "Banach-Tarski paradoks tvrdi da loptu možete?", answers: ["Prerezati na 5 dijelova i složiti u 2 lopte", "Rastegnuti beskonačno", "Kompresovati u tačku", "Rotirati u 4D"], correctAnswer: "A) Prerezati na 5 dijelova i složiti u 2 lopte" },
+      { category: "Numbers", difficulty: "Hardest", question: "Gabriel's Horn ima?", answers: ["Konačnu zapreminu, beskonačnu površinu", "Beskonačnu zapreminu, konačnu površinu", "Oboje konačno", "Oboje beskonačno"], correctAnswer: "A) Konačnu zapreminu, beskonačnu površinu" },
+      { category: "Numbers", difficulty: "Hardest", question: "Koliko je suma 1+2+3+4+... do beskonačnosti a analitičkom smislu (Ramanujan suma)?", answers: ["∞", "-1/12", "Divergira", "0"], correctAnswer: "B) -1/12" },
+      { category: "Numbers", difficulty: "Hardest", question: "Koliko je 1/0 u matematici?", answers: ["0", "∞", "1", "Nedefinisano"], correctAnswer: "D) Nedefinisano" },
+      { category: "Numbers", difficulty: "Hardest", question: "Koja je vrijednost log(1)?", answers: ["1", "Nedefinisano", "∞", "0"], correctAnswer: "D) 0" },
+      { category: "Numbers", difficulty: "Hardest", question: "Koliko je √(-1)?", answers: ["-i", "1", "Nedefinisano", "i"], correctAnswer: "D) i" },
+      { category: "Numbers", difficulty: "Hardest", question: "Koja je vrijednost sin(0)?", answers: ["1", "-1", "Nedefinisano", "0"], correctAnswer: "D) 0" },
+      // GEOGRAFIJA - EASY (27-49)
+      { category: "Geografija", difficulty: "Easy", question: "Koji oblik ima 10 strana?", answers: ["Oktagon", "Dekagon", "Hendekagon", "Heksagon"], correctAnswer: "B) Dekagon" },
+      { category: "Geografija", difficulty: "Easy", question: "Koliko je 2 na petu?", answers: ["32", "16", "25", "64"], correctAnswer: "A) 32" },
+      { category: "Geografija", difficulty: "Easy", question: "Koji kvadrat je najbliži broju 1000?", answers: ["30²", "32²", "31²", "33²"], correctAnswer: "B) 32²" },
+      { category: "Geografija", difficulty: "Easy", question: "Kako se zove razlomak kod kojeg je brojnik veći od nazivnika?", answers: ["Nepotpuni razlomak", "Mješoviti broj", "Nepopravljeni razlomak", "Nepravilan razlomak"], correctAnswer: "D) Nepravilan razlomak" },
+      { category: "Geografija", difficulty: "Easy", question: "Nastavni niz: 2, 6, 12, 20, 30, ... Koji je sljedeći član?", answers: ["36", "40", "42", "56"], correctAnswer: "C) 42" },
+      { category: "Geografija", difficulty: "Easy", question: "Rene Dekart je pozvan po svojoj slavnoj izreci:", answers: ["'Mislim, dakle postojim'", "'Znanje je moć'", "'Eureka!'", "'Sve je relativno'"], correctAnswer: "A) 'Mislim, dakle postojim'" },
+      { category: "Geografija", difficulty: "Easy", question: "Kako se zove oblik sa 8 strana?", answers: ["Heksagon", "Oktagon", "Dekagon", "Tetraedr"], correctAnswer: "B) Oktagon" },
+      { category: "Geografija", difficulty: "Easy", question: "Kako se zove čuveni paradoks sa beskonačnim koracima gdje Ahil ne može sustići kornjaču?", answers: ["Paradox smrti", "Paradox Zena", "Simpsonov paradoks", "Galilejev paradoks"], correctAnswer: "B) Paradox Zena" },
+      { category: "Geografija", difficulty: "Easy", question: "Koliki je kubni korijen iz 27?", answers: ["3", "9", "27", "6"], correctAnswer: "A) 3" },
+      { category: "Geografija", difficulty: "Easy", question: "U kojoj zemlji se nalazi najveća matematička biblioteka (Bibliothèque de mathématiques)?", answers: ["Francuska", "Njemačka", "SAD", "Italija"], correctAnswer: "A) Francuska" },
+      { category: "Geografija", difficulty: "Easy", question: "U kojoj zemlji je rođen matematičar Gauss?", answers: ["Njemačka", "Švicarska", "Austrija", "Francuska"], correctAnswer: "A) Njemačka" },
+      { category: "Geografija", difficulty: "Easy", question: "U kojoj zemlji je rođen matematičar Fermat?", answers: ["Italija", "Španija", "Francuska", "Engleska"], correctAnswer: "C) Francuska" },
+      { category: "Geografija", difficulty: "Easy", question: "U kojem gradu je rođen matematičar Pascal?", answers: ["Pariz", "Lyon", "Marseille", "Nice"], correctAnswer: "B) Lyon" },
+      { category: "Geografija", difficulty: "Easy", question: "U kojoj zemlji je rođen matematičar Newton?", answers: ["Škotska", "Engleska", "Irska", "Wales"], correctAnswer: "B) Engleska" },
+      { category: "Geografija", difficulty: "Easy", question: "Koji je rimski znak za broj 50?", answers: ["L", "C", "V", "X"], correctAnswer: "A) L" },
+      { category: "Geografija", difficulty: "Easy", question: "Koji je rimski znak za broj 100?", answers: ["D", "L", "C", "X"], correctAnswer: "C) C" },
+      { category: "Geografija", difficulty: "Easy", question: "Koji je rimski znak za broj 1000?", answers: ["M", "D", "C", "X"], correctAnswer: "A) M" },
+      { category: "Geografija", difficulty: "Easy", question: "Koji je rimski znak za broj 10?", answers: ["V", "X", "L", "I"], correctAnswer: "B) X" },
+      { category: "Geografija", difficulty: "Easy", question: "Koji je rimski znak za broj 500?", answers: ["M", "D", "C", "L"], correctAnswer: "B) D" },
+      { category: "Geografija", difficulty: "Easy", question: "Koje je četvrto slovo grčkog alfabeta?", answers: ["Gamma", "Delta", "Beta", "Epsilon"], correctAnswer: "B) Delta" },
+      { category: "Geografija", difficulty: "Easy", question: "Koje je treće slovo grčkog alfabeta?", answers: ["Beta", "Delta", "Gamma", "Alpha"], correctAnswer: "C) Gamma" },
+      { category: "Geografija", difficulty: "Easy", question: "Koje slovo grčkog alfabeta predstavlja broj π?", answers: ["Pi", "Phi", "Psi", "Omega"], correctAnswer: "A) Pi" },
+      { category: "Geografija", difficulty: "Easy", question: "Koje je posljednje slovo grčkog alfabeta?", answers: ["Sigma", "Omega", "Psi", "Theta"], correctAnswer: "B) Omega" },
+      // GEOGRAFIJA - NORMAL (26-57)
+      { category: "Geografija", difficulty: "Normal", question: "U kojem gradu je osnovan Institut Clay Mathematics?", answers: ["New York", "Cambridge", "San Francisco", "Seattle"], correctAnswer: "B) Cambridge" },
+      { category: "Geografija", difficulty: "Normal", question: "Gdje se nalazi 'Eulerova soba' u čast Leonharda Eulera?", answers: ["Bern", "Zürich", "Basel", "Berlin"], correctAnswer: "C) Basel" },
+      { category: "Geografija", difficulty: "Normal", question: "Gdje se nalazi najveći matematički muzej na svijetu (Museum of Mathematics)?", answers: ["New York", "London", "Berlin", "Tokyo"], correctAnswer: "A) New York" },
+      { category: "Geografija", difficulty: "Normal", question: "U kojem gradu se nalazi 'Københavns Universitet' gdje je radio Niels Bohr?", answers: ["Stockholm", "Kopenhagen", "Oslo", "Helsinki"], correctAnswer: "B) Kopenhagen" },
+      { category: "Geografija", difficulty: "Normal", question: "Koja je prva civilizacija razvila metodu rješavanja kvadratnih jednačina?", answers: ["Egipćani", "Babilonci", "Grci", "Kinezi"], correctAnswer: "B) Babilonci" },
+      { category: "Geografija", difficulty: "Normal", question: "U kojem gradu se nalazi čuveni Most matematike?", answers: ["London", "Pariz", "Cambridge", "Oxford"], correctAnswer: "C) Cambridge" },
+      { category: "Geografija", difficulty: "Normal", question: "U kojoj zemlji je rođen Pitagora?", answers: ["Grčka", "Italija", "Turska", "Egipat"], correctAnswer: "A) Grčka" },
+      { category: "Geografija", difficulty: "Normal", question: "Gdje se nalazi Institut za napredne studije gdje je radio Einstein?", answers: ["Boston", "Princeton", "Cambridge", "New York"], correctAnswer: "B) Princeton" },
+      { category: "Geografija", difficulty: "Normal", question: "U kojem gradu se nalazi Fields Institut za matematiku?", answers: ["Vancouver", "Montreal", "Toronto", "Ottawa"], correctAnswer: "C) Toronto" },
+      { category: "Geografija", difficulty: "Normal", question: "Gdje je rođen matematičar Leonhard Euler?", answers: ["Njemačka", "Švicarska", "Austrija", "Holandija"], correctAnswer: "B) Švicarska" },
+      { category: "Geografija", difficulty: "Normal", question: "U kojoj zemlji se nalazi čuvena Library of Alexandria, poznata po matematičkoj tradiciji?", answers: ["Egipat", "Grčka", "Italija", "Francuska"], correctAnswer: "A) Egipat" },
+      { category: "Geografija", difficulty: "Normal", question: "U kojem gradu je osnovan Institut za matematičke nauke (IMS)?", answers: ["Beijing", "New York", "Singapore", "Paris"], correctAnswer: "C) Singapore" },
+      { category: "Geografija", difficulty: "Normal", question: "Gdje se nalazi CERN, poznan po matematičkim i fizičkim istraživanjima?", answers: ["Švicarska", "Francuska", "Njemačka", "Italija"], correctAnswer: "A) Švicarska" },
+      { category: "Geografija", difficulty: "Normal", question: "U kojem gradu se nalazi MIT, poznan po matematici i tehnologiji?", answers: ["Boston", "Cambridge, Massachusetts", "San Francisco", "Seattle"], correctAnswer: "B) Cambridge, Massachusetts" },
+      { category: "Geografija", difficulty: "Normal", question: "Koja evropska država je dom velikom broju matematičkih muzeja i instituta, uključujući CERN?", answers: ["Švicarska", "Francuska", "Njemačka", "Italija"], correctAnswer: "A) Švicarska" },
+      { category: "Geografija", difficulty: "Normal", question: "Koji grad u Italiji je bio dom Fibonacci-a, poznatog po Fibonaccijevom nizu?", answers: ["Pisa", "Florencija", "Rim", "Milano"], correctAnswer: "A) Pisa" },
+      { category: "Geografija", difficulty: "Normal", question: "Koja država je rodno mjesto Renea Descartesa, poznatog po analitičkoj geometriji?", answers: ["Belgija", "Francuska", "Švicarska", "Holandija"], correctAnswer: "B) Francuska" },
+      { category: "Geografija", difficulty: "Normal", question: "U kojem evropskom gradu se nalazi čuveni Institut Henri Poincaré, poznat po matematičkoj fizici i teoriji haosa?", answers: ["Pariz", "Berlin", "London", "Madrid"], correctAnswer: "A) Pariz" },
+      { category: "Geografija", difficulty: "Normal", question: "Koja azijska zemlja je doprinijela razvoju negativnih brojeva u ranoj matematici?", answers: ["Kina", "Indija", "Japan", "Arabija"], correctAnswer: "A) Kina" },
+      { category: "Geografija", difficulty: "Normal", question: "Gdje se nalazi najveća akademija nauka u Evropi (Academia Europaea)?", answers: ["London", "Oxford", "Cambridge", "Paris"], correctAnswer: "A) London" },
+      { category: "Geografija", difficulty: "Normal", question: "U kojoj zemlji je rođen matematičar Riemann?", answers: ["Francuska", "Austrija", "Švicarska", "Njemačka"], correctAnswer: "D) Njemačka" },
+      { category: "Geografija", difficulty: "Normal", question: "U kojoj zemlji je rođen matematičar Hilbert?", answers: ["Njemačka", "Poljska", "Česka", "Austrija"], correctAnswer: "A) Njemačka" },
+      { category: "Geografija", difficulty: "Normal", question: "U kojoj zemlji je rođen matematičar Kolmogorov?", answers: ["Rusija", "Ukrajina", "Poljska", "Bjelorusija"], correctAnswer: "A) Rusija" },
+      { category: "Geografija", difficulty: "Normal", question: "U kojoj zemlji je rođen matematičar Noether?", answers: ["Njemačka", "Austrija", "Švicarska", "Italija"], correctAnswer: "A) Njemačka" },
+      { category: "Geografija", difficulty: "Normal", question: "U kojoj zemlji je rođen matematičar Cantor?", answers: ["Njemačka", "Švedska", "Danska", "Holandija"], correctAnswer: "A) Njemačka" },
+      { category: "Geografija", difficulty: "Normal", question: "U kojem gradu se održava Međunarodni matematički kongres svake 4 godine?", answers: ["Uvijek u istom", "Rotira se po svijetu", "Samo u Evropi", "Samo u USA"], correctAnswer: "B) Rotira se po svijetu" },
+      { category: "Geografija", difficulty: "Normal", question: "Gdje se nalazi Matematički institut Steklov?", answers: ["Sankt Peterburg", "Moskva", "Kijev", "Minsk"], correctAnswer: "B) Moskva" },
+      { category: "Geografija", difficulty: "Normal", question: "U kojem gradu je Al-Khwarizmi pisao svoje radove o algebri?", answers: ["Bagdad", "Damask", "Kairo", "Medina"], correctAnswer: "A) Bagdad" },
+      { category: "Geografija", difficulty: "Normal", question: "Ko se smatra prvom poznatom matematičarkom?", answers: ["Ada Lovelace", "Emmy Noether", "Hypatia", "Marie Curie"], correctAnswer: "C) Hypatia" },
+      { category: "Geografija", difficulty: "Normal", question: "Kako se rimskim brojevima piše 2026?", answers: ["MMXXVI", "MMXVI", "MCMXXVI", "MMXXIV"], correctAnswer: "A) MMXXVI" },
+      { category: "Geografija", difficulty: "Normal", question: "Kako se zove mnogougao sa 12 strana?", answers: ["Dekagon", "Dodekagon", "Hendekagon", "Oktagon"], correctAnswer: "B) Dodekagon" },
+      { category: "Geografija", difficulty: "Normal", question: "Ko je otkrio zlatni presjek?", answers: ["Euklid", "Newton", "Euler", "Gauss"], correctAnswer: "A) Euklid" },
+      // GEOGRAFIJA - HARDEST (24-37)
+      { category: "Geografija", difficulty: "Hardest", question: "Gdje se nalazi Institut za matematičke nauke u Bangaloreu (TIFR)?", answers: ["Indija", "Japan", "Kina", "Koreja"], correctAnswer: "A) Indija" },
+      { category: "Geografija", difficulty: "Hardest", question: "U kojem gradu se nalazi Institut Max Planck za matematiku?", answers: ["Berlin", "Bonn", "Munich", "Hamburg"], correctAnswer: "B) Bonn" },
+      { category: "Geografija", difficulty: "Hardest", question: "Gdje se nalazi 'Mathematical Sciences Research Institute' (MSRI)?", answers: ["Berkeley", "Stanford", "Princeton", "Harvard"], correctAnswer: "A) Berkeley" },
+      { category: "Geografija", difficulty: "Hardest", question: "U kojem gradu je osnovan 'Institut für Mathematik' u Göttingenu?", answers: ["Berlin", "Göttingen", "Munich", "Frankfurt"], correctAnswer: "B) Göttingen" },
+      { category: "Geografija", difficulty: "Hardest", question: "U kojoj zemlji je rođen matematičar Grothendieck?", answers: ["Njemačka", "Francuska", "Švicarska", "Belgija"], correctAnswer: "B) Francuska" },
+      { category: "Geografija", difficulty: "Hardest", question: "U kojoj zemlji je rođen matematičar Gödel?", answers: ["Austrija", "Česka", "Njemačka", "Švicarska"], correctAnswer: "A) Austrija" },
+      { category: "Geografija", difficulty: "Hardest", question: "U kojoj zemlji je rođen matematičar Turing?", answers: ["Engleska", "Škotska", "Irska", "Wales"], correctAnswer: "A) Engleska" },
+      { category: "Geografija", difficulty: "Hardest", question: "U kojoj zemlji je rođen matematičar Perelman?", answers: ["Rusija", "Ukrajina", "Bjelorusija", "Litvanija"], correctAnswer: "A) Rusija" },
+      { category: "Geografija", difficulty: "Hardest", question: "U kojoj zemlji je rođen matematičar Wiles?", answers: ["Engleska", "SAD", "Kanada", "Australija"], correctAnswer: "A) Engleska" },
+      { category: "Geografija", difficulty: "Hardest", question: "Koji univerzitet ima najstariji kontinuirano aktivni matematički departman?", answers: ["Oxford", "Cambridge", "Sorbonne", "Bologna"], correctAnswer: "A) Oxford" },
+      { category: "Geografija", difficulty: "Hardest", question: "U kom gradu se nalazi Institut Henri Poincaré?", answers: ["Lyon", "Marseille", "Pariz", "Toulouse"], correctAnswer: "C) Pariz" },
+      { category: "Geografija", difficulty: "Hardest", question: "Gdje je osnovana prva Akademija nauka (uključujući matematiku)?", answers: ["London", "Pariz", "Berlin", "Firence"], correctAnswer: "D) Firence" },
+      { category: "Geografija", difficulty: "Hardest", question: "U kojoj zemlji se nalazi Tata Institut za fundamentalna istraživanja?", answers: ["Indija", "Japan", "Kina", "Koreja"], correctAnswer: "A) Indija" },
+      { category: "Geografija", difficulty: "Hardest", question: "Gdje je održan prvi Internacionalni matematički kongres (1897)?", answers: ["Berlin", "Pariz", "Zürich", "London"], correctAnswer: "C) Zürich" },
+      
+      // HISTORIJA - EASY
+      { category: "Historija", difficulty: "Easy", question: "Ako je danas petak, koji je dan za 11 dana?", answers: ["Utorak", "Ponedjeljak", "Subota", "Nedjelja"], correctAnswer: "A) Utorak" },
+      { category: "Historija", difficulty: "Easy", question: "Koliko je 15% od 200?", answers: ["25", "35", "30", "40"], correctAnswer: "C) 30" },
+      { category: "Historija", difficulty: "Easy", question: "Koliko je 30% od 200?", answers: ["70", "60", "50", "80"], correctAnswer: "B) 60" },
+      { category: "Historija", difficulty: "Easy", question: "Koliko je 40% od 500?", answers: ["150", "250", "200", "300"], correctAnswer: "C) 200" },
+      { category: "Historija", difficulty: "Easy", question: "Koji je sljedeći broj u nizu 1, 1, 2, 3, 5, 8, ?", answers: ["11", "13", "12", "15"], correctAnswer: "B) 13" },
+      { category: "Historija", difficulty: "Easy", question: "Kojim slovom označavamo skup prirodnih brojeva?", answers: ["Z", "N", "R", "Q"], correctAnswer: "B) N" },
+      { category: "Historija", difficulty: "Easy", question: "Kojim slovom označavamo skup cijelih brojeva?", answers: ["N", "Q", "Z", "R"], correctAnswer: "C) Z" },
+      { category: "Historija", difficulty: "Easy", question: "Kojim slovom označavamo skup racionalnih brojeva?", answers: ["Q", "R", "Z", "N"], correctAnswer: "A) Q" },
+      { category: "Historija", difficulty: "Easy", question: "Kojim slovom označavamo skup kompleksnih brojeva?", answers: ["R", "C", "Z", "Q"], correctAnswer: "B) C" },
+      { category: "Historija", difficulty: "Easy", question: "Kojim slovom označavamo skup realnih brojeva?", answers: ["Q", "Z", "R", "C"], correctAnswer: "C) R" },
+      { category: "Historija", difficulty: "Easy", question: "Koliki je zbir prvih pet prostih brojeva?", answers: ["26", "28", "30", "32"], correctAnswer: "B) 28" },
+      { category: "Historija", difficulty: "Easy", question: "Pravougli trougao ima katete 12 i 5. Kolika je hipotenuza?", answers: ["12", "13", "17", "15"], correctAnswer: "B) 13" },
+      { category: "Historija", difficulty: "Easy", question: "Pravougli trougao ima katete 8 i 6. Kolika je hipotenuza?", answers: ["10", "12", "14", "9"], correctAnswer: "A) 10" },
+      { category: "Historija", difficulty: "Easy", question: "Pravougli trougao ima katete 3 i 4. Kolika je hipotenuza?", answers: ["6", "5", "7", "4"], correctAnswer: "B) 5" },
+      { category: "Historija", difficulty: "Easy", question: "Koliko sati ima u 4 dana?", answers: ["72", "96", "88", "100"], correctAnswer: "B) 96" },
+      { category: "Historija", difficulty: "Easy", question: "Koliko sati ima u 6 dana?", answers: ["120", "132", "144", "150"], correctAnswer: "C) 144" },
+      { category: "Historija", difficulty: "Easy", question: "Koliko sati ima u 2 sedmice?", answers: ["336", "320", "360", "300"], correctAnswer: "A) 336" },
+      { category: "Historija", difficulty: "Easy", question: "S kojim brojem se ne može dijeliti?", answers: ["1", "0", "2", "10"], correctAnswer: "B) 0" },
+      { category: "Historija", difficulty: "Easy", question: "Ako je a = -2, koliko je a na treću?", answers: ["-6", "6", "-8", "8"], correctAnswer: "C) -8" },
+      { category: "Historija", difficulty: "Easy", question: "Koliko je 30% od 400?", answers: ["100", "140", "120", "160"], correctAnswer: "C) 120" },
+      { category: "Historija", difficulty: "Easy", question: "Koliko dijagonala ima šestougao?", answers: ["6", "9", "12", "15"], correctAnswer: "B) 9" },
+      { category: "Historija", difficulty: "Easy", question: "Koliko dijagonala ima sedmougao?", answers: ["9", "14", "12", "16"], correctAnswer: "B) 14" },
+      { category: "Historija", difficulty: "Easy", question: "Koliko dijagonala ima osmougao?", answers: ["16", "18", "20", "14"], correctAnswer: "C) 20" },
+      { category: "Historija", difficulty: "Easy", question: "Koja figura nastaje okretanjem poluprečnika oko centra?", answers: ["Trougao", "Krug", "Kvadrat", "Pravougaonik"], correctAnswer: "B) Krug" },
+      { category: "Historija", difficulty: "Easy", question: "Šta predstavlja broj π u geometriji?", answers: ["Omjer prečnika i poluprečnika", "Omjer obima i prečnika kruga", "Razliku površina krugova", "Kvadrat poluprečnika"], correctAnswer: "B) Omjer obima i prečnika kruga" },
+      { category: "Historija", difficulty: "Normal", question: "Koliko je 2^30 približno?", answers: ["1.07×10^9", "1.07×10^8", "1.07×10^10", "1.07×10^7"], correctAnswer: "A) 1.07×10^9" },
+      { category: "Historija", difficulty: "Normal", question: "Ko je uveo simbol za beskonačno?", answers: ["Isaac Newton", "Leonhard Euler", "John Wallis", "René Descartes"], correctAnswer: "C) John Wallis" },
+      { category: "Historija", difficulty: "Normal", question: "Ko je prvi definisao negativne brojeve kao 'manje od nule'?", answers: ["Pitagora", "Brahmagupta", "Euklid", "Tales"], correctAnswer: "B) Brahmagupta" },
+      { category: "Historija", difficulty: "Normal", question: "Ko je prvi upotrijebio decimalni zapis u matematici?", answers: ["Fibonacci", "Al-Khwarizmi", "Simon Stevin", "Descartes"], correctAnswer: "C) Simon Stevin" },
+      { category: "Historija", difficulty: "Normal", question: "Ko je uveo simbol '0' kao broj, a ne samo kao oznaku praznine?", answers: ["Arhimed", "Brahmagupta", "Newton", "Euclid"], correctAnswer: "B) Brahmagupta" },
+      { category: "Historija", difficulty: "Normal", question: "Koji je broj Ludolph van Ceulen izračunavao do 35 decimala?", answers: ["e", "π", "φ", "√2"], correctAnswer: "B) π" },
+      { category: "Historija", difficulty: "Normal", question: "Kako je Carl Friedrich Gauss bio poznat po nadimku?", answers: ["Kralj matematike", "Otac algebre", "Princ matematike", "Genije brojeva"], correctAnswer: "C) Princ matematike" },
+      { category: "Historija", difficulty: "Normal", question: "Ko je izumio logaritme?", answers: ["Gottfried Leibniz", "Isaac Newton", "Leonhard Euler", "John Napier"], correctAnswer: "D) John Napier" },
+      { category: "Historija", difficulty: "Normal", question: "Ko je prvi koristio negativne brojeve u matematici?", answers: ["Kinezi", "Grci", "Rimljani", "Egipćani"], correctAnswer: "A) Kinezi" },
+      { category: "Historija", difficulty: "Normal", question: "Ko je formalno definisao funkciju?", answers: ["Descartes", "Fermat", "Euler", "Leibniz"], correctAnswer: "C) Euler" },
+      { category: "Historija", difficulty: "Normal", question: "Ko je prvi koristio decimalni zapis brojeva?", answers: ["Indijci", "Arapi", "Kinezi", "Rimljani"], correctAnswer: "A) Indijci" },
+      { category: "Historija", difficulty: "Normal", question: "Ko je poznat kao 'otac geometrije'?", answers: ["Pitagora", "Euklid", "Arhimed", "Platon"], correctAnswer: "B) Euklid" },
+      { category: "Historija", difficulty: "Normal", question: "U kojoj državi je nastao arapski brojčani sistem?", answers: ["Arabija", "Egipat", "Indija", "Kina"], correctAnswer: "C) Indija" },
+      { category: "Historija", difficulty: "Normal", question: "Koji simbol se koristi za beskonačnost?", answers: ["α", "∞", "Ω", "π"], correctAnswer: "B) ∞" },
+      { category: "Historija", difficulty: "Normal", question: "U kojem vijeku je nastala algebra?", answers: ["5. vijek", "7. vijek", "9. vijek", "11. vijek"], correctAnswer: "C) 9. vijek" },
+      { category: "Historija", difficulty: "Normal", question: "Kako se zove funkcija koja je jednaka svojoj inverznoj funkciji?", answers: ["Eksponencijalna funkcija", "Identitet funkcija", "Kvadratna funkcija", "Recipročna funkcija"], correctAnswer: "B) Identitet funkcija" },
+      { category: "Historija", difficulty: "Normal", question: "Koliko je 3^10?", answers: ["59049", "59000", "60000", "50000"], correctAnswer: "A) 59049" },
+      { category: "Historija", difficulty: "Normal", question: "Kako se zove matematički dokaz koji polazi od pretpostavke da je tvrdnja netačna?", answers: ["Direktni dokaz", "Indukcija", "Dokaz kontradikcijom", "Konstruktivni dokaz"], correctAnswer: "C) Dokaz kontradikcijom" },
+      { category: "Historija", difficulty: "Normal", question: "Da li ima više racionalnih ili iracionalnih brojeva?", answers: ["Racionalnih", "Irracionalnih", "Jednako", "Ne može se odrediti"], correctAnswer: "B) Irracionalnih" },
+      { category: "Historija", difficulty: "Normal", question: "Koliko je 5^6?", answers: ["15625", "15000", "16000", "17000"], correctAnswer: "A) 15625" },
+      { category: "Historija", difficulty: "Normal", question: "Koliko je 7^3?", answers: ["343", "333", "353", "363"], correctAnswer: "A) 343" },
+      { category: "Historija", difficulty: "Normal", question: "Koliko je 11^2?", answers: ["121", "111", "131", "141"], correctAnswer: "A) 121" },
+      { category: "Historija", difficulty: "Normal", question: "Ko je prvi formulirao aksiome geometrije u modernom obliku?", answers: ["Hilbert", "Euclid", "Pascal", "Gauss"], correctAnswer: "A) Hilbert" },
+      { category: "Historija", difficulty: "Normal", question: "Ko je prvi dokazao fundamentalnu teoremu algebre?", answers: ["Gauss", "Euler", "Descartes", "Cauchy"], correctAnswer: "A) Gauss" },
+      { category: "Historija", difficulty: "Normal", question: "Kako se zovu brojevi koji se ne mogu zapisati kao razlomak?", answers: ["Racionalni", "Prirodni", "Iracionalni", "Cijeli"], correctAnswer: "C) Iracionalni" },
+      { category: "Historija", difficulty: "Hardest", question: "Ko je dokazao nekompletnost formalnih sistema (Gödelove teoreme)?", answers: ["Kurt Gödel", "Alan Turing", "David Hilbert", "John von Neumann"], correctAnswer: "A) Kurt Gödel" },
+      { category: "Historija", difficulty: "Hardest", question: "Ko je uveo pojam 'grupa' u algebri?", answers: ["Galois", "Noether", "Lagrange", "Cayley"], correctAnswer: "A) Galois" },
+      { category: "Historija", difficulty: "Hardest", question: "Ko je otkrio teoriju vjerojatnoće u modernom obliku?", answers: ["Pascal", "Bernoulli", "Laplace", "Kolmogorov"], correctAnswer: "A) Pascal" },
+      { category: "Historija", difficulty: "Hardest", question: "Ko je uveo notaciju za integral ∫?", answers: ["Leibniz", "Newton", "Euler", "Riemann"], correctAnswer: "A) Leibniz" },
+      { category: "Historija", difficulty: "Hardest", question: "Ko je prvi upotrijebio znak '=' za jednakost?", answers: ["Descartes", "Robert Recorde", "Leibniz", "Newton"], correctAnswer: "B) Robert Recorde" },
+      { category: "Historija", difficulty: "Hardest", question: "Kada je objavljena Euklidova knjiga 'Elementi'?", answers: ["500. p.n.e.", "300. p.n.e.", "100. p.n.e.", "100. n.e."], correctAnswer: "B) 300. p.n.e." },
+      { category: "Historija", difficulty: "Hardest", question: "Ko je razvio analitičku geometriju?", answers: ["Fermat", "Pascal", "Descartes", "Leibniz"], correctAnswer: "C) Descartes" },
+      { category: "Historija", difficulty: "Hardest", question: "U kojem vijeku je nastao matematički kalkulus?", answers: ["15. vijek", "16. vijek", "17. vijek", "18. vijek"], correctAnswer: "C) 17. vijek" },
+      { category: "Historija", difficulty: "Hardest", question: "Ko je prvi dokazao da su postoje beskonačno prosti brojevi?", answers: ["Euclid", "Euler", "Gauss", "Cantor"], correctAnswer: "A) Euclid" },
+      { category: "Historija", difficulty: "Hardest", question: "Ko je prvi populizirao simbol 'i' za imaginarni broj?", answers: ["Euler", "Gauss", "Descartes", "Cauchy"], correctAnswer: "A) Euler" },
+      { category: "Historija", difficulty: "Hardest", question: "Ko je uveo pojam 'kompleksnih brojeva' u modernoj matematici?", answers: ["Caspar Wessel", "Euler", "Gauss", "Descartes"], correctAnswer: "A) Caspar Wessel" },
+      { category: "Historija", difficulty: "Hardest", question: "Ko je prvi definisao pojam 'topologija'?", answers: ["Riemann", "Poincaré", "Euler", "Cantor"], correctAnswer: "B) Poincaré" },
+      { category: "Historija", difficulty: "Hardest", question: "Ko je uveo koncept 'matematičke analize' u 18. vijeku?", answers: ["Cauchy", "Newton", "Leibniz", "Euler"], correctAnswer: "D) Euler" },
+      { category: "Historija", difficulty: "Hardest", question: "Ko je formulirao Hilbertove probleme 1900. godine?", answers: ["David Hilbert", "Felix Klein", "Hermann Minkowski", "Bernhard Riemann"], correctAnswer: "A) David Hilbert" },
+      { category: "Historija", difficulty: "Hardest", question: "Ko je dokazao Fermatovu veliku teoremu?", answers: ["Andrew Wiles", "Grigori Perelman", "Terence Tao", "Paul Erdős"], correctAnswer: "A) Andrew Wiles" },
+      { category: "Historija", difficulty: "Hardest", question: "U kojoj godini je Gauss objavio 'Disquisitiones Arithmeticae'?", answers: ["1791", "1801", "1811", "1821"], correctAnswer: "B) 1801" },
+      { category: "Historija", difficulty: "Hardest", question: "Ko je prvi matematički dokazao postojanje transcendentnih brojeva?", answers: ["Cantor", "Liouville", "Hermite", "Lindemann"], correctAnswer: "B) Liouville" },
+      { category: "Historija", difficulty: "Hardest", question: "Koliko rješenja ima jednačina x^2 = -1 u realnim brojevima?", answers: ["2", "1", "0", "Beskonačno"], correctAnswer: "C) 0" },
+      { category: "Historija", difficulty: "Hardest", question: "Ko je riješio Poincareovu hipotezu?", answers: ["Andrew Wiles", "Terence Tao", "Grigori Perelman", "John Nash"], correctAnswer: "C) Grigori Perelman" },
+      { category: "Historija", difficulty: "Hardest", question: "U kojoj godini je Emmy Noether objavila svoju čuvenu teoremu?", answers: ["1905", "1915", "1918", "1925"], correctAnswer: "C) 1918" },
+      { category: "Historija", difficulty: "Hardest", question: "Ko je uveo koncept matematičke rigoroznosti u analizi (ε-δ definicija limita)?", answers: ["Cauchy", "Weierstrass", "Riemann", "Bolzano"], correctAnswer: "B) Weierstrass" },
+      { category: "Historija", difficulty: "Hardest", question: "Ko je prvi formalno definisao kontinuum u realnim brojevima?", answers: ["Cantor", "Dedekind", "Weierstrass", "Hilbert"], correctAnswer: "B) Dedekind" },
+      { category: "Historija", difficulty: "Hardest", question: "Ko je uveo aksiomatski pristup geometriji u 19. vijeku?", answers: ["Hilbert", "Euclid", "Bolyai", "Lobachevsky"], correctAnswer: "A) Hilbert" }
+    ];
+
+    let selectedCategory = 'all';
+    let selectedDifficulty = 'all';
+
+    function updateStats() {
+      const filteredQuestions = getFilteredQuestions();
+      document.getElementById('total-count').textContent = filteredQuestions.length;
+      document.getElementById('easy-count').textContent = filteredQuestions.filter(q => q.difficulty === 'Easy').length;
+      document.getElementById('medium-count').textContent = filteredQuestions.filter(q => q.difficulty === 'Normal').length;
+      document.getElementById('hard-count').textContent = filteredQuestions.filter(q => q.difficulty === 'Hardest').length;
+    }
+
+    function getFilteredQuestions() {
+      return questions.filter(q => {
+        const categoryMatch = selectedCategory === 'all' || q.category === selectedCategory;
+        const difficultyMatch = selectedDifficulty === 'all' || q.difficulty === selectedDifficulty;
+        return categoryMatch && difficultyMatch;
+      });
+    }
+
+    function populateCategoryFilter() {
+      const categories = [...new Set(questions.map(q => q.category))].sort();
+      const categoryFilter = document.getElementById('category-filter');
+      categories.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category;
+        option.textContent = category;
+        categoryFilter.appendChild(option);
+      });
+      console.log('Učitane kategorije:', categories);
+    }
+
+    function getDifficultyClass(difficulty) {
+      switch(difficulty.toLowerCase()) {
+        case 'easy': return 'difficulty-easy';
+        case 'normal': return 'difficulty-medium';
+        case 'hardest': return 'difficulty-hard';
+        default: return 'difficulty-medium';
+      }
+    }
+
+    function getDifficultyEmoji(difficulty) {
+      switch(difficulty.toLowerCase()) {
+        case 'easy': return '🟢';
+        case 'normal': return '🟡';
+        case 'hardest': return '🔴';
+        default: return '🟡';
+      }
+    }
+
+    function toggleAnswer(event) {
+      const answerElement = event.currentTarget;
+      answerElement.classList.toggle('answer-hidden');
+      answerElement.classList.toggle('answer-revealed');
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('questions-body');
+      const emptyState = document.getElementById('empty-state');
+      const filteredQuestions = getFilteredQuestions();
+      
+      if (filteredQuestions.length === 0) {
+        emptyState.style.display = '';
+        return;
+      }
+      
+      emptyState.style.display = 'none';
+      const existingRows = tbody.querySelectorAll('tr:not(#empty-state)');
+      existingRows.forEach(row => row.remove());
+      
+      filteredQuestions.forEach((q, index) => {
+        const row = document.createElement('tr');
+        row.className = 'table-row border-b border-violet-500/20 hover:bg-violet-800/20 transition-all';
+        const answersHtml = q.answers.map((a, i) => 
+          `<span class="inline-block bg-violet-900/50 rounded px-2 py-1 text-xs mr-1 mb-1">${String.fromCharCode(65 + i)}) ${a}</span>`
+        ).join('');
+        
+        row.innerHTML = `
+          <td class="px-4 py-4">
+            <span class="inline-flex items-center justify-center w-8 h-8 rounded-full bg-violet-600/30 text-violet-300 font-bold text-sm">${index + 1}</span>
+          </td>
+          <td class="px-4 py-4">
+            <span class="inline-flex items-center gap-1 bg-indigo-600/30 text-indigo-300 rounded-full px-3 py-1 text-xs font-medium">${q.category}</span>
+          </td>
+          <td class="px-4 py-4">
+            <span class="inline-flex items-center gap-1 ${getDifficultyClass(q.difficulty)} text-white rounded-full px-3 py-1 text-xs font-medium shadow-lg">${getDifficultyEmoji(q.difficulty)} ${q.difficulty}</span>
+          </td>
+          <td class="px-4 py-4 text-white/90 font-medium">${q.question}</td>
+          <td class="px-4 py-4">
+            <div class="flex flex-wrap">${answersHtml}</div>
+          </td>
+          <td class="px-4 py-4">
+            <span class="answer-hidden inline-flex items-center gap-1 bg-emerald-600/30 text-emerald-300 rounded-lg px-3 py-2 text-sm font-semibold" title="Klikni da otkriješ odgovor">✓ ${q.correctAnswer}</span>
+          </td>
+        `;
+        tbody.appendChild(row);
+        const answerSpan = row.querySelector('.answer-hidden, .answer-revealed');
+        answerSpan.addEventListener('click', toggleAnswer);
+      });
+      
+      updateStats();
+    }
+
+    function onConfigChange(newConfig) {
+      config = { ...defaultConfig, ...newConfig };
+      document.getElementById('main-title').textContent = config.table_title || defaultConfig.table_title;
+    }
+
+    function mapToCapabilities(config) {
+      return { recolorables: [], borderables: [], fontEditable: undefined, fontSizeable: undefined };
+    }
+
+    function mapToEditPanelValues(config) {
+      return new Map([['table_title', config.table_title || defaultConfig.table_title]]);
+    }
+
+    if (window.elementSdk) {
+      window.elementSdk.init({ defaultConfig, onConfigChange, mapToCapabilities, mapToEditPanelValues });
+    }
+
+    populateCategoryFilter();
+    renderTable();
+
+    document.getElementById('category-filter').addEventListener('change', (e) => {
+      selectedCategory = e.target.value;
+      renderTable();
+    });
+
+    document.getElementById('difficulty-filter').addEventListener('change', (e) => {
+      selectedDifficulty = e.target.value;
+      renderTable();
+    });
+
+    document.getElementById('reset-filters').addEventListener('click', () => {
+      selectedCategory = 'all';
+      selectedDifficulty = 'all';
+      document.getElementById('category-filter').value = 'all';
+      document.getElementById('difficulty-filter').value = 'all';
+      renderTable();
+    });
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9edfadd424505b87',t:'MTc3NjQ3MzQ2NS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

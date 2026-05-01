@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="sr" class="h-full">
+ 
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Matematički milijunaš</title>
+  
+  <link rel="icon" type="image/png" href="logo.png">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Allura&display=swap" rel="stylesheet">
+  <script defer src="tailwind.js"></script> 
+ </head>
+ 
+ 
+ 
+<body class="h-full text-white font-sans overflow-auto bg-cover bg-center bg-no-repeat"
+      style="background-image: url('pozadinskaslika.jpg');">
+
+<div id="introScreen" class="intro-screen">
+  <div class="intro-content">
+
+    <img src="logo.png" class="intro-logo" />
+
+    <h1 class="intro-title">Matematički Milijunaš</h1>
+
+    <div class="intro-sub">Uči, čitaj, u ime Gospodara tvoga, Koji stvara! (El-Alek, 1.)</div>
+
+  </div>
+</div>
+<div class="fixed inset-0 bg-black/60 backdrop-blur-sm -z-10"></div>
+  <audio id="backgroundMusic" autoplay loop><source src="muzika.mp3" type="audio/mpeg">
+  </audio><!-- Sound Effects -->
+  <audio id="correctSound" preload="auto"><source src="correct.mp3" type="audio/wav">
+  </audio>
+<audio id="phoneFriendSound" preload="auto">
+  <source src="phone.mp3" type="audio/mpeg">
+</audio>
+  <audio id="wrongSound" preload="auto"><source src="Wrong.mp3" type="audio/wav">
+  </audio>
+  <audio id="milestoneSound" preload="auto"><source src="millestone.mp3" type="audio/wav">
+  </audio>
+  <audio id="winSound" preload="auto"><source src="milion.mp3" type="audio/wav">
+  </audio>
+  <audio id="loseSound" preload="auto"><source src="Wrong.mp3" type="audio/wav">
+  </audio>
+  <audio id="lockSound" preload="auto"><source src="lockin.mp3" type="audio/wav">
+  </audio><!-- Top Controls -->
+<audio id="askAudienceSound" src="publika.mp3"></audio>
+<audio id="fiftyFiftySound" src="50-50.mp3" preload="auto"></audio>
+<div class="fixed top-4 right-4 z-50 hidden sm:flex gap-2"><!-- Dark/Light Mode Toggle --> <button id="themeToggle" class="w-12 h-12 bg-gray-800 hover:bg-gray-700 rounded-lg border-2 border-gray-600 transition-all transform hover:scale-105 text-2xl bg-opacity-90 backdrop-blur-sm flex items-center justify-center"> 🌙 </button> <!-- Admin Panel Button --> <button onclick="showAdminLogin()" class="w-12 h-12 bg-purple-700 hover:bg-purple-600 rounded-lg border-2 border-purple-500 transition-all transform hover:scale-105 text-2xl bg-opacity-90 backdrop-blur-sm flex items-center justify-center"> 🔐 </button> <!-- Music Controls -->
+   <div id="musicControls" class="bg-black bg-opacity-70 rounded-lg border-2 border-yellow-500 shadow-lg backdrop-blur-sm">
+    <div class="flex items-center gap-2 p-1">
+	
+<button id="musicToggle" class="w-10 h-10 flex items-center justify-center text-2xl transition-transform hover:scale-110"> 🔊 </button> <input type="range" id="volumeSlider" min="0" max="100" value="50" class="w-24 h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-yellow-500 hidden">
+    </div>
+   </div>
+  </div><!-- Language Selection Screen -->
+<div id="languageScreen" class="w-full min-h-screen flex items-center justify-center quiz-background px-4 py-6"><!-- Mathematical formulas floating -->
+   <div class="math-formulas">
+    <div class="math-formula">
+     a² + b² = c²
+    </div>
+    <div class="math-formula">
+     E = mc²
+    </div>
+    <div class="math-formula">
+     ∫ f(x)dx
+    </div>
+    <div class="math-formula">
+     ∑ n² = n(n+1)(2n+1)/6
+    </div>
+    <div class="math-formula">
+     e^(iπ) + 1 = 0
+    </div>
+    <div class="math-formula">
+     √(x² + y²)
+    </div>
+   </div><!-- Geometric shapes -->
+   <div class="geometric-shapes">
+    <div class="shape circle"></div>
+    <div class="shape square"></div>
+    <div class="shape triangle"></div>
+    <div class="shape circle"></div>
+    <div class="shape square"></div>
+   </div>
+   <div class="text-center px-6 relative z-10"><!-- Main Logo -->
+    <div class="mb-3"><img src="logo.png" alt="Math Millionaire Logo"
+     class="main-logo mx-auto w-40 sm:w-52 md:w-72 lg:w-80 max-h-[30vh] object-contain">
+    </div>
+<p class="text-sm md:text-base font-light tracking-[0.35em] text-center mb-6 uppercase">
+
+  <span class="block md:inline text-yellow-300 font-semibold drop-shadow-[0_0_10px_rgba(255,215,0,0.4)]">
+    Odaberite kategoriju
+  </span>
+
+  <span class="block md:inline text-white/40 md:ml-2 tracking-[0.3em]">
+    / Select category
+  </span>
+
+</p>
+<div class="menu">
+
+  <button class="card" onclick="selectLanguage('en', this)">
+    <div class="bg" style="background-image:url('gb.png')"></div>
+  </button>
+
+  <button class="card" onclick="selectLanguage('bs', this)">
+    <div class="bg" style="background-image:url('bih.png')"></div>
+  </button>
+
+  <button class="card" onclick="selectLanguage('ge', this)">
+    <div class="bg" style="background-image:url('milijunas.jpg')"></div>
+  </button>
+
+  <button class="card" onclick="selectLanguage('ge', this)">
+    <div class="bg" style="background-image:url('milijunas.png')"></div>
+  </button>
+
+</div>
+<footer class="mt-12 px-4 text-center">
+
+  <div class="w-full max-w-6xl mx-auto">
+
+    <!-- GRID -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
+
+      
+      <div class="hidden md:block text-center space-y-2 text-[12px] text-white/50">
+<!-- LEFT (HIDDEN ON MOBILE) 
+        <p>
+          <a href="https://rps.edu.ba/" target="_blank" class="hover:text-white transition">
+            Richmond Park International Secondary School Sarajevo
+          </a>
+        </p>
+
+        <p>
+          <a href="https://sarajevo.rps.edu.ba/" target="_blank" class="hover:text-white transition">
+            Gimnazija Richmond Park College Sarajevo
+          </a>
+        </p>
+
+        <p>
+          <a href="https://ff.unze.ba/" target="_blank" class="hover:text-white transition">
+            Filozofski fakultet Univerziteta u Zenici
+          </a>
+        </p>
+-->
+      </div>
+
+      <!-- CENTER -->
+      <div class="text-center">
+
+        <p class="text-[11px] tracking-[0.35em] text-yellow-300 uppercase mb-3">
+          Powered by
+        </p>
+
+        <a href="https://www.linkedin.com/in/muhamed-colakovic/" target="_blank"
+           class="text-white text-xl md:text-2xl font-medium tracking-wide transition hover:text-yellow-300"
+           style="font-family: 'Allura', cursive;">
+          Muhamed Čolaković, prof.
+        </a>
+
+      </div>
+
+      <!-- RIGHT -->
+      <div class="flex flex-col items-center md:items-end mt-6 md:mt-0">
+
+        <div class="flex gap-4 items-center">
+          <img src="linkedin.png" class="w-14 h-14 opacity-80 hover:opacity-100 transition">
+          <img src="paypal.jpeg" class="w-14 h-14 opacity-80 hover:opacity-100 transition">
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- MOBILE SOCIAL + ICONS -->
+    <div class="flex flex-col items-center gap-4 mt-6">
+
+      <div class="flex gap-6">
+        <a href="https://www.facebook.com/muhamedcolakovic96/" target="_blank">
+          <img src="fb.png" class="w-6 opacity-60 hover:opacity-100 transition">
+        </a>
+
+        <a href="https://www.instagram.com/prof.muhamedcolakovic/" target="_blank">
+          <img src="ig.png" class="w-6 opacity-60 hover:opacity-100 transition">
+        </a>
+
+        <a href="https://www.linkedin.com/in/muhamed-colakovic/" target="_blank">
+          <img src="in.jpg" class="w-6 opacity-60 hover:opacity-100 transition">
+        </a>
+      </div>
+
+    </div>
+
+  </div>
+
+</footer>
+        <p class="text-[10px] text-white/30 mt-4">
+          © <span id="year"></span> Matematički Milijunaš v 4.0
+        </p>
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+<!-- School Logo --> <img src="https://secondary.rps.edu.ba/wp-content/uploads/2019/06/rps_logo_white.png" alt="" class="school-logo">
+    </div>
+   </div>
+  </div>
+  <div id="gameScreen" class="w-full min-h-full flex-col hidden"><!-- Header -->
+<header class="tv-header flex items-center justify-between px-5 py-3 relative
+backdrop-blur-md border-b border-yellow-400/20
+shadow-[0_8px_30px_rgba(0,0,0,0.3)]">
+
+<div class="absolute bottom-2 right-3 flex items-center gap-2 px-3 py-1 rounded-full bg-black/40 border border-red-500/30 backdrop-blur-md shadow-[0_0_15px_rgba(255,0,0,0.4)] hidden lg:flex"> <!-- blinking dot -->
+  <span class="relative flex h-4 w-4">
+    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+    <span class="relative inline-flex rounded-full h-4 w-4 bg-red-600 shadow-[0_0_12px_rgba(255,0,0,0.9)]"></span>
+  </span>
+
+  <!-- LIVE text -->
+  <span class="text-red-500 font-extrabold text-base tracking-[0.35em] drop-shadow-[0_0_10px_rgba(255,0,0,0.7)]">
+    LIVE
+  </span>
+
+<span class="text-gray-200 text-sm opacity-90">
+  ● <span id="viewers">0</span> watching
+</span>
+
+</div>
+  <!-- LOGO -->
+  <img src="logo.png" alt="Logo"
+       class="header-logo cursor-pointer hover:opacity-80 transition-all"
+       onclick="confirmReturnHome()">
+
+  <!-- CENTAR (LIVE + TITLE) -->
+<div class="flex flex-col items-center px-6 py-2">    
+
+  <h1 class="netflix-title">
+  Matematički Milijunaš
+</h1>
+
+  </div>
+
+<div class="flex flex-col items-end gap-2">
+
+  <!-- dugmad -->
+  <div class="flex items-center gap-3">
+    <!-- tu ostaju tvoja dugmad (sound, login, theme itd) -->
+  </div>
+
+</div>
+
+</header>
+<!-- MOBILE PROGRESS (ispod headera) -->
+<div id="mobileProgressContainer" class="lg:hidden fixed top-[2px] left-0 w-full px-3 py-2 z-40 hidden">
+
+  <div class="relative flex justify-between items-center">
+
+    <!-- pozadinska linija -->
+    <div class="absolute top-1/2 left-0 w-full h-[4px] bg-gray-700 rounded-full -translate-y-1/2"></div>
+
+    <!-- 15 krugova -->
+    <div id="stepsWrapper" class="flex justify-between w-full relative z-10"></div>
+
+  </div>
+
+</div>
+<main class="flex-1 flex flex-col lg:flex-row p-2 sm:p-4 gap-2 overflow-hidden max-w-[1800px] mx-auto w-full"><!-- Left Side - Question and Answers -->
+    <div class="flex-1 flex flex-col gap-2 overflow-y-auto max-w-5xl mx-auto w-full"><!-- Question Box -->
+     <div class="question-box p-4 flex-shrink-0">
+      <div class="text-center mb-3"><span class="text-yellow-400 text-2xl font-bold"><span id="questionLabel">Pitanje</span> <span id="questionNumber">1</span> <span id="ofLabel">od</span> 15</span>
+      </div>
+      <div class="bg-black bg-opacity-50 rounded-lg p-1 min-h-24 flex items-center justify-center">
+<div class="question-box p-3 sm:p-4 md:p-5">
+<h2 id="questionText" class="text-lg sm:text-xl md:text-2xl font-bold text-white leading-snug"></h2></div>
+      </div>
+     </div>
+	 
+	 
+	 <!-- Lifelines -->
+     <div class="lifeline-container flex-shrink-0" style="margin-bottom: 8px;">
+      <div id="fiftyFifty" class="lifeline-icon fifty-fifty" title="50:50"><span>50:50</span>
+      </div>
+      <div id="phoneAFriend" class="lifeline-icon phone" title="Phone a Friend"><span>📞</span>
+      </div>
+      <div id="askAudience" class="lifeline-icon audience" title="Ask the Audience"><span>👥</span>
+      </div>
+	  
+	  
+     </div><!-- Answers Grid -->
+     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 flex-shrink-0"><button class="answer-btn p-4 text-left text-xl font-semibold" data-answer="A"> <span class="text-yellow-400 font-bold text-2xl">A:</span> <span class="answer-text">Answer A</span> </button> <button class="answer-btn p-4 text-left text-xl font-semibold" data-answer="B"> <span class="text-yellow-400 font-bold text-2xl">B:</span> <span class="answer-text">Answer B</span> </button> <button class="answer-btn p-4 text-left text-xl font-semibold" data-answer="C"> <span class="text-yellow-400 font-bold text-2xl">C:</span> <span class="answer-text">Answer C</span> </button> <button class="answer-btn p-4 text-left text-xl font-semibold" data-answer="D"> <span class="text-yellow-400 font-bold text-2xl">D:</span> <span class="answer-text">Answer D</span> </button>
+     </div>
+    </div><!-- Right Side - Prize Ladder -->
+<div class="hidden lg:block lg:w-80 flex-shrink-0 overflow-y-auto"><!-- Lifelines Display Above Money Tree -->
+     <div class="bg-black bg-opacity-50 rounded-lg p-1 mb-1 border-2 border-yellow-600">
+      <div class="flex justify-around items-center gap-1">
+       <div id="joker1" class="flex flex-col items-center opacity-100 transition-opacity duration-500">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-600 to-yellow-800 flex items-center justify-center border-2 border-yellow-400 text-white font-bold text-xs">
+         50:50
+        </div>
+       </div>
+       <div id="joker2" class="flex flex-col items-center opacity-100 transition-opacity duration-500">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-green-500 to-green-700 flex items-center justify-center border-2 border-green-300 text-lg">
+         📞
+        </div>
+       </div>
+       <div id="joker3" class="flex flex-col items-center opacity-100 transition-opacity duration-500">
+        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-purple-700 flex items-center justify-center border-2 border-purple-300 text-lg">
+         👥
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="bg-gradient-to-b from-gray-900 to-black rounded-lg p-1 border-2 border-yellow-600 shadow-2xl">
+      <div id="prizeLadder" class="space-y-0" ><!-- Prize ladder will be generated by JavaScript -->
+      </div>
+     </div>
+    </div>
+   </main><!-- Game Over Modal -->
+   <div id="gameOverModal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-6 z-50">
+    <div class="bg-gradient-to-br from-blue-900 to-purple-900 rounded-lg p-8 max-w-2xl w-full border-4 border-yellow-500 text-center max-h-[90vh] overflow-y-auto">
+     <h2 id="gameOverTitle" class="text-4xl font-bold text-yellow-400 mb-4">Čestitamo!</h2>
+     <p id="gameOverMessage" class="text-2xl mb-6">Osvojili ste: <span id="finalPrize" class="text-green-400 font-bold">$1,000,000</span>	 </p><!-- Explanation Section -->
+
+
+
+<div class="flex flex-col gap-3 mt-8 pt-4">  <!-- 3 dugmeta u istom stilu -->
+  <button id="playAgain"
+    class="bg-yellow-600 hover:bg-yellow-500 px-8 py-3 rounded-full font-bold text-xl border-4 border-yellow-400 transition-all transform hover:scale-105">
+    Igraj Ponovo
+  </button>
+
+  <button id="shareScore"
+    class="bg-blue-600 hover:bg-blue-500 px-8 py-3 rounded-full font-bold text-xl border-4 border-blue-400 transition-all transform hover:scale-105">
+    📤 <span id="shareLabel">Podijeli</span>
+  </button>
+
+  <a href="https://docs.google.com/forms/d/e/1FAIpQLSdLt1zMRZoXCMKqoaeBQujvo2KnBD8tGIA3x-ylatTv-lggCw/viewform?usp=dialog"
+     target="_blank"
+     class="bg-purple-600 hover:bg-purple-500 px-8 py-3 rounded-full font-bold text-xl border-4 border-purple-400 transition-all transform hover:scale-105 flex items-center justify-center gap-2">
+     📝 Ispuni anketu
+  </a>
+</div>
+	 
+	 
+
+<div id="explanationSection" class="hidden bg-black bg-opacity-50 rounded-lg p-6 mt-10 text-left border-t border-white/10">
+      <h3 class="text-2xl font-bold text-yellow-400 mb-3">📖 <span id="explanationTitle">Objašnjenje</span></h3>
+      <div id="wrongQuestionDisplay" class="mb-4 p-4 bg-red-900 bg-opacity-30 rounded-lg border-2 border-red-500">
+       <p class="text-xl font-bold mb-2" id="wrongQuestionText"></p>
+       <div class="grid grid-cols-2 gap-2 text-sm mb-2"><span class="text-gray-300" id="wrongAnswerA"></span> <span class="text-gray-300" id="wrongAnswerB"></span> <span class="text-gray-300" id="wrongAnswerC"></span> <span class="text-gray-300" id="wrongAnswerD"></span>
+       </div>
+       <p class="text-green-400 font-bold mt-2">✓ <span id="correctAnswerLabel">Tačan odgovor</span>: <span id="correctAnswerDisplay"></span></p>
+      </div>
+      <div class="bg-blue-900 bg-opacity-30 rounded-lg p-4 border-2 border-blue-500">
+       <p class="text-lg mb-2">   <strong id="explanationLabel">Objašnjenje:</strong></p>
+       <p id="explanationText" class="text-base leading-relaxed"></p>
+      </div>
+      <div class="bg-orange-900 bg-opacity-30 rounded-lg p-4 mt-4 border-2 border-orange-500">
+       <p class="text-lg mb-2">      <strong id="commonMistakeLabel">Najčešća greška:</strong></p>
+       <p id="commonMistakeText" class="text-base leading-relaxed"></p>
+      </div>
+     </div><!-- Statistics Section -->
+     <div class="bg-black bg-opacity-50 rounded-lg p-6 mb-6">
+      <h3 class="text-2xl font-bold text-yellow-400 mb-4">📊 <span id="statsTitle">Statistika</span></h3>
+      <div class="grid grid-cols-2 gap-4">
+       <div class="bg-blue-900 bg-opacity-50 rounded-lg p-4">
+        <p class="text-sm text-gray-300" id="totalGamesLabel">Ukupno igara</p>
+        <p class="text-3xl font-bold text-blue-400" id="totalGames">0</p>
+       </div>
+       <div class="bg-green-900 bg-opacity-50 rounded-lg p-4">
+        <p class="text-sm text-gray-300" id="avgScoreLabel">Prosječan rezultat</p>
+        <p class="text-3xl font-bold text-green-400" id="avgScore">0</p>
+       </div>
+       <div class="bg-purple-900 bg-opacity-50 rounded-lg p-4">
+        <p class="text-sm text-gray-300" id="bestScoreLabel">Najbolji rezultat</p>
+        <p class="text-3xl font-bold text-purple-400" id="bestScore">0</p>
+       </div>
+       <div class="bg-orange-900 bg-opacity-50 rounded-lg p-4">
+        <p class="text-sm text-gray-300" id="currentStreakLabel">Trenutni niz</p>
+        <p class="text-3xl font-bold text-orange-400" id="currentStreak">0</p>
+       </div>
+      </div><!-- Badges -->
+      <div id="badgesContainer" class="mt-6">
+       <h4 class="text-xl font-bold text-yellow-400 mb-3">🏆 <span id="badgesLabel">Bedževi</span></h4>
+       <div id="badgesList" class="flex flex-wrap gap-2 justify-center"><!-- Badges will be added here -->
+       </div>
+      </div>
+     </div>
+     </div>
+    </div>
+   </div><!-- Lifeline Modal -->
+   <div id="lifelineModal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-6 z-50">
+    <div class="bg-gradient-to-br from-blue-900 to-purple-900 rounded-lg p-8 max-w-2xl w-full border-4 border-blue-500">
+     <h2 id="lifelineTitle" class="text-3xl font-bold text-yellow-400 mb-6 text-center">Phone a Friend</h2><!-- Timer Circle -->
+     <div id="timerCircle" class="timer-circle hidden"><span id="timerValue">30</span>
+     </div>
+     <div id="lifelineMessage" class="text-xl mb-6 text-center"></div><!-- Audience Graph -->
+     <div id="audienceGraph" class="hidden mb-6">
+      <div class="flex items-end justify-around h-64 bg-black bg-opacity-50 rounded-lg p-4 border-2 border-yellow-600">
+       <div class="flex flex-col items-center flex-1">
+        <div class="w-full flex items-end justify-center mb-2" style="height: 200px;">
+         <div id="barA" class="audience-bar w-3/4 rounded-t-lg" style="height: 0%;"></div>
+        </div>
+        <div class="text-2xl font-bold text-yellow-400">
+         A
+        </div>
+        <div id="percentA" class="text-xl font-bold text-white">
+         0%
+        </div>
+       </div>
+       <div class="flex flex-col items-center flex-1">
+        <div class="w-full flex items-end justify-center mb-2" style="height: 200px;">
+         <div id="barB" class="audience-bar w-3/4 rounded-t-lg" style="height: 0%;"></div>
+        </div>
+        <div class="text-2xl font-bold text-yellow-400">
+         B
+        </div>
+        <div id="percentB" class="text-xl font-bold text-white">
+         0%
+        </div>
+       </div>
+       <div class="flex flex-col items-center flex-1">
+        <div class="w-full flex items-end justify-center mb-2" style="height: 200px;">
+         <div id="barC" class="audience-bar w-3/4 rounded-t-lg" style="height: 0%;"></div>
+        </div>
+        <div class="text-2xl font-bold text-yellow-400">
+         C
+        </div>
+        <div id="percentC" class="text-xl font-bold text-white">
+         0%
+        </div>
+       </div>
+       <div class="flex flex-col items-center flex-1">
+        <div class="w-full flex items-end justify-center mb-2" style="height: 200px;">
+         <div id="barD" class="audience-bar w-3/4 rounded-t-lg" style="height: 0%;"></div>
+        </div>
+        <div class="text-2xl font-bold text-yellow-400">
+         D
+        </div>
+        <div id="percentD" class="text-xl font-bold text-white">
+         0%
+        </div>
+       </div>
+      </div>
+     </div>
+     <div class="text-center"><button id="closeLifeline" class="bg-blue-600 hover:bg-blue-500 px-8 py-3 rounded-full font-bold text-lg border-4 border-blue-400"> <span class="close-text">Zatvori</span> </button>
+     </div>
+    </div>
+   </div>
+  </div><!-- Admin Login Modal -->
+  <div id="adminLoginModal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-6 z-50">
+   <div class="bg-gradient-to-br from-purple-900 to-blue-900 rounded-lg p-8 max-w-md w-full border-4 border-purple-500">
+    <h2 class="text-3xl font-bold text-yellow-400 mb-6 text-center">🔐 Admin Login</h2>
+    <div class="mb-4"><label class="block text-white mb-2 font-bold">Username:</label> <input type="text" id="adminUsername" class="w-full px-4 py-2 rounded bg-gray-800 text-white border-2 border-gray-600 focus:border-blue-400 focus:outline-none">
+    </div>
+    <div class="mb-6"><label class="block text-white mb-2 font-bold">Password:</label> <input type="password" id="adminPassword" class="w-full px-4 py-2 rounded bg-gray-800 text-white border-2 border-gray-600 focus:border-blue-400 focus:outline-none">
+    </div>
+    <div id="loginError" class="hidden bg-red-600 text-white px-4 py-2 rounded mb-4 text-center font-bold">
+     ❌ Wrong username or password!
+    </div>
+    <div class="flex gap-4"><button onclick="adminLogin()" class="flex-1 bg-green-600 hover:bg-green-500 px-6 py-3 rounded-lg font-bold border-2 border-green-400"> Login </button> <button onclick="closeAdminLogin()" class="flex-1 bg-gray-600 hover:bg-gray-500 px-6 py-3 rounded-lg font-bold border-2 border-gray-400"> Cancel </button>
+    </div>
+   </div>
+  </div><!-- Admin Panel Screen -->
+  <div id="adminPanel" class="hidden w-full min-h-full bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 p-6">
+   <div class="max-w-7xl mx-auto"><!-- Header -->
+    <div class="bg-black bg-opacity-50 rounded-lg p-6 mb-6 border-4 border-yellow-500">
+     <div class="flex justify-between items-center">
+      <h1 class="text-4xl font-bold text-yellow-400">📚 Admin Panel - Question Manager</h1><button onclick="logoutAdmin()" class="bg-red-600 hover:bg-red-500 px-6 py-3 rounded-lg font-bold border-2 border-red-400"> Logout </button>
+     </div>
+    </div><!-- Language Selection -->
+    <div class="bg-black bg-opacity-50 rounded-lg p-6 mb-6 border-2 border-blue-500">
+     <h2 class="text-2xl font-bold text-yellow-400 mb-4">Select Language / Odaberi Jezik:</h2>
+     <div class="flex gap-4"><button id="adminLangBs" onclick="setAdminLanguage('bs')" class="bg-blue-600 hover:bg-blue-500 px-8 py-3 rounded-lg font-bold border-2 border-blue-400"> Matematika </button> <button id="adminLangEn" onclick="setAdminLanguage('en')" class="bg-gray-600 hover:bg-gray-500 px-8 py-3 rounded-lg font-bold border-2 border-gray-400"> Maths </button>
+
+<button id="adminLangGe" onclick="setAdminLanguage('ge')" class="bg-gray-600 hover:bg-gray-500 px-8 py-3 rounded-lg font-bold border-2 border-gray-400"> Opšte znanje </button>
+     </div>
+    </div><!-- Category Tabs -->
+    <div class="bg-black bg-opacity-50 rounded-lg p-6 mb-6 border-2 border-green-500">
+     <h2 class="text-2xl font-bold text-yellow-400 mb-4">Categories:</h2>
+     <div class="flex flex-wrap gap-3"><button class="category-tab bg-green-600 hover:bg-green-500 px-4 py-2 rounded-lg font-bold border-2 border-green-400" onclick="showCategory('history')"> 📜 History </button> <button class="category-tab bg-purple-600 hover:bg-purple-500 px-4 py-2 rounded-lg font-bold border-2 border-purple-400" onclick="showCategory('geography')"> 🌍 Geography </button> <button class="category-tab bg-purple-600 hover:bg-purple-500 px-4 py-2 rounded-lg font-bold border-2 border-purple-400" onclick="showCategory('funFacts')"> 🎉 Fun Facts </button> <button class="category-tab bg-purple-600 hover:bg-purple-500 px-4 py-2 rounded-lg font-bold border-2 border-purple-400" onclick="showCategory('interestingFacts')"> 💡 Interesting Facts </button> <button class="category-tab bg-purple-600 hover:bg-purple-500 px-4 py-2 rounded-lg font-bold border-2 border-purple-400" onclick="showCategory('numbers')"> 🔢 Numbers </button>
+     </div>
+    </div><!-- Add New Question Button -->
+    <div class="mb-6 text-center"><button onclick="showAddQuestion()" class="bg-green-600 hover:bg-green-500 px-8 py-4 rounded-lg font-bold text-xl border-4 border-green-400 transition-all transform hover:scale-105"> ➕ Add New Question </button>
+    </div><!-- Questions List -->
+    <div id="questionsList" class="bg-black bg-opacity-50 rounded-lg p-6 border-2 border-yellow-500"><!-- Questions will be loaded here -->
+    </div>
+   </div>
+  </div><!-- Edit/Add Question Modal -->
+  <div id="editQuestionModal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-6 z-50 overflow-y-auto">
+   <div class="bg-gradient-to-br from-purple-900 to-blue-900 rounded-lg p-8 max-w-3xl w-full border-4 border-purple-500 my-8">
+    <h2 id="editModalTitle" class="text-3xl font-bold text-yellow-400 mb-6 text-center">Add New Question</h2>
+    <div class="grid grid-cols-2 gap-4 mb-4">
+     <div><label class="block text-white mb-2 font-bold">Category:</label> <select id="editCategory" class="w-full px-4 py-2 rounded bg-gray-800 text-white border-2 border-gray-600 focus:border-blue-400 focus:outline-none"> <option value="history">History</option> <option value="geography">Geography</option> <option value="funFacts">Fun Facts</option> <option value="interestingFacts">Interesting Facts</option> <option value="numbers">Numbers</option> </select>
+     </div>
+     <div><label class="block text-white mb-2 font-bold">Difficulty:</label> <select id="editDifficulty" class="w-full px-4 py-2 rounded bg-gray-800 text-white border-2 border-gray-600 focus:border-blue-400 focus:outline-none"> <option value="easy">Easy</option> <option value="hard">Hard</option> <option value="hardest">Hardest</option> </select>
+     </div>
+    </div>
+    <div class="mb-4"><label class="block text-white mb-2 font-bold">Question:</label> <textarea id="editQuestion" rows="3" class="w-full px-4 py-2 rounded bg-gray-800 text-white border-2 border-gray-600 focus:border-blue-400 focus:outline-none" placeholder="Enter question..."></textarea>
+    </div>
+    <div class="grid grid-cols-2 gap-4 mb-4">
+     <div><label class="block text-white mb-2 font-bold">Answer A:</label> <input type="text" id="editAnswerA" class="w-full px-4 py-2 rounded bg-gray-800 text-white border-2 border-gray-600 focus:border-blue-400 focus:outline-none" placeholder="Answer A">
+     </div>
+     <div><label class="block text-white mb-2 font-bold">Answer B:</label> <input type="text" id="editAnswerB" class="w-full px-4 py-2 rounded bg-gray-800 text-white border-2 border-gray-600 focus:border-blue-400 focus:outline-none" placeholder="Answer B">
+     </div>
+     <div><label class="block text-white mb-2 font-bold">Answer C:</label> <input type="text" id="editAnswerC" class="w-full px-4 py-2 rounded bg-gray-800 text-white border-2 border-gray-600 focus:border-blue-400 focus:outline-none" placeholder="Answer C">
+     </div>
+     <div><label class="block text-white mb-2 font-bold">Answer D:</label> <input type="text" id="editAnswerD" class="w-full px-4 py-2 rounded bg-gray-800 text-white border-2 border-gray-600 focus:outline-none" placeholder="Answer D">
+     </div>
+    </div>
+    <div class="mb-6"><label class="block text-white mb-2 font-bold">Correct Answer:</label> <select id="editCorrect" class="w-full px-4 py-2 rounded bg-gray-800 text-white border-2 border-gray-600 focus:border-blue-400 focus:outline-none"> <option value="A">A</option> <option value="B">B</option> <option value="C">C</option> <option value="D">D</option> </select>
+    </div>
+    <div class="flex gap-4"><button onclick="saveQuestion()" class="flex-1 bg-green-600 hover:bg-green-500 px-6 py-3 rounded-lg font-bold border-2 border-green-400"> 💾 Save </button> <button onclick="closeEditModal()" class="flex-1 bg-gray-600 hover:bg-gray-500 px-6 py-3 rounded-lg font-bold border-2 border-gray-400"> Cancel </button>
+    </div>
+   </div>
+  </div>
+ 
+<script>
+(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9b23a12737ad5a7e',t:'MTc2NjQ0ODU1OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();
+</script>
+
+  <script defer src="app.js"></script>  
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+  <script src="/_sdk/element_sdk.js" type="text/javascript"></script>
+</body>
+</html>
