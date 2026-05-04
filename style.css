@@ -588,11 +588,12 @@ body.light-mode .answer-btn.wrong {
       filter: grayscale(100%);
     }
 
-
 @media (max-width: 768px) {
-  body {
-    background: url("pozadinskaslika.jpg") center/cover no-repeat fixed !important;
+  body.dark-mode {
+    background: url("./pozadinskaslika.jpg") center/cover no-repeat !important;
+    background-attachment: scroll !important;
   }
+}
 }
 @media (max-width: 768px) {
   .flex.justify-around.items-center.gap-1 {
