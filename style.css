@@ -1,8 +1,8 @@
 body {
       box-sizing: border-box;
-    }
+	}
     
-    /* Animated Background for Home Screen */
+/* Animated Background for Home Screen */
     .quiz-background {
       background: linear-gradient(135deg, #0a0e27 0%, #1a1f4d 25%, #2d1b69 50%, #1a1f4d 75%, #0a0e27 100%);
       background-size: 400% 400%;
@@ -117,9 +117,10 @@ body {
     height: auto;
   }
 }
-    /* Floating money symbols */
+
+/* Floating money symbols */
     .quiz-background::before {
-      content: '📊 📈 🧮 📐 🔬 🧪 🧬 📚 ✏️ 🎓 💰 💎 ⭐ π ∑ ∫ √ ∞ ≠ ≈ ± × ÷ ² ³ ∛ ∆ Ω φ θ α 📊 📈 📉 🧮 📐 📏 📌 📍 ✏️ 🖊️ 🖋️ 📓 📒 📚 π ∑ ∫ √ ∞ ≠ ≈ ± × ÷ ² ³ ∛ ∆ Ω φ θ α 🧠 🧑‍🏫 🎓 🏫 🧪 ⚗️ 🔬 🔭 💡 🧾 📄 📑 🗂️ 📎 π ∑ ∫ √ ∞ ≠ ≈ ± × ÷ ² ³ ∛ ∆ Ω φ θ α 🧷 🧠 💻 🖥️ ⌨️ 🖱️ 🔢 💯 💰 💵 💎 💸 ⭐ 🏆 π ∑ ∫ √ ∞ ≠ ≈ ± × ÷ ² ³ ∛ ∆ Ω φ θ α 📊 📈 🧮 📐 🔬 🧪 🧬 📚 ✏️ 🎓 💰 💎 ⭐';
+      content: '📊 📈 🧮 📐 🔬 🧪 🧬 📚 ✏️ 🎓 💰 💎 ⭐ π ∑ ∫ √ ∞ ≠ ≈ ± × ÷ ² ³ ∛ ∆ Ω φ θ α ● ■ ▲ ● 📊 📈 🧮 📐 🔬 🧪 🧬 📚 ✏️ 🎓 💰 💎 ⭐ π ∑ ∫ √ ∞ ≠ ≈ ± × ÷ ² ³ ∛ ∆ Ω φ θ α ● ■ ▲ ● 📊 📈 📉 🧮 📐 📏 📌 📍 ✏️ 🖊️ 🖋️ 📓 📒 📚 π ∑ ∫ √ ∞ ≠ ≈ ± × ÷ ² ³ ∛ ∆ Ω φ θ α ● ■ ▲ ● 🧠 🧑‍🏫 🎓 🏫 🧪 ⚗️ 🔬 🔭 💡 🧾 📄 📑 🗂️ 📎 π ∑ ∫ √ ∞ ≠ ≈ ± × ÷ ² ³ ∛ ∆ Ω φ θ α ● ■ ▲ ●🧷 🧠 💻 🖥️ ⌨️ 🖱️ 🔢 💯 💰 💵 💎 💸 ⭐ 🏆 π ∑ ∫ √ ∞ ≠ ≈ ± × ÷ ² ³ ∛ ∆ Ω φ θ α ● ■ ▲ ●📊 📈 🧮 📐 🔬 🧪 🧬 📚 ✏️ 🎓 💰 💎 ⭐';
       position: absolute;
       top: 0;
       left: 0;
@@ -138,75 +139,7 @@ body {
   0% { transform: translateY(0%) rotate(0deg); }
   100% { transform: translateY(-50%) rotate(360deg); }
 }
-    
-    /* Additional mathematical formulas layer */
-    .math-formulas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0.06;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    
-    .math-formula {
-      position: absolute;
-      font-size: 24px;
-      color: rgba(251, 191, 36, 0.4);
-      font-family: 'Times New Roman', serif;
-      animation: floatFormula 20s linear infinite;
-    }
-    
-    @keyframes floatFormula {
-      0% { transform: translateY(100vh) translateX(0) rotate(0deg); opacity: 0; }
-      10% { opacity: 0.6; }
-      90% { opacity: 0.6; }
-      100% { transform: translateY(-20vh) translateX(100px) rotate(360deg); opacity: 0; }
-    }
-    
-    .math-formula:nth-child(1) { left: 10%; animation-delay: 0s; animation-duration: 25s; }
-    .math-formula:nth-child(2) { left: 25%; animation-delay: 5s; animation-duration: 30s; }
-    .math-formula:nth-child(3) { left: 40%; animation-delay: 10s; animation-duration: 22s; }
-    .math-formula:nth-child(4) { left: 60%; animation-delay: 3s; animation-duration: 28s; }
-    .math-formula:nth-child(5) { left: 75%; animation-delay: 8s; animation-duration: 24s; }
-    .math-formula:nth-child(6) { left: 85%; animation-delay: 12s; animation-duration: 26s; }
-    
-    /* Geometric shapes floating */
-    .geometric-shapes {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      opacity: 0.05;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    
-    .shape {
-      position: absolute;
-      border: 2px solid rgba(251, 191, 36, 0.4);
-      animation: rotateShape 15s linear infinite;
-    }
-    
-    @keyframes rotateShape {
-      0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; }
-      50% { opacity: 0.8; }
-      100% { transform: translateY(-100vh) rotate(720deg) scale(1.5); opacity: 0; }
-    }
-    
-    .shape.circle { border-radius: 50%; width: 80px; height: 80px; }
-    .shape.square { width: 70px; height: 70px; }
-    .shape.triangle { width: 0; height: 0; border-left: 40px solid transparent; border-right: 40px solid transparent; border-bottom: 70px solid rgba(251, 191, 36, 0.3); border-top: none; }
-    
-    .shape:nth-child(1) { left: 15%; animation-delay: 0s; animation-duration: 18s; }
-    .shape:nth-child(2) { left: 45%; animation-delay: 4s; animation-duration: 22s; }
-    .shape:nth-child(3) { left: 70%; animation-delay: 8s; animation-duration: 20s; }
-    .shape:nth-child(4) { left: 30%; animation-delay: 6s; animation-duration: 24s; }
-    .shape:nth-child(5) { left: 85%; animation-delay: 2s; animation-duration: 19s; }
-    
+ 
     /* Spotlight effect */
     .quiz-background::after {
       content: '';
@@ -224,6 +157,67 @@ body {
       50% { transform: translate(20%, 20%) scale(1.2); }
     }
     
+.question-box {
+  position: relative;
+
+  /* GLASS + BACKGROUND */
+  background: linear-gradient(
+    135deg,
+    rgba(20, 35, 80, 0.55),
+    rgba(10, 18, 40, 0.45)
+  );
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  /* BORDER */
+  border: 1px solid rgba(255, 215, 0, 0.25);
+  border-radius: 20px;
+
+  /* SPACING */
+  padding: 22px;
+  margin: 15px 0;
+
+  /* SHADOW */
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.45),
+    inset 0 0 25px rgba(255, 255, 255, 0.03);
+
+  /* TEXT */
+  color: #ffffff;
+
+  /* ANIMATION */
+  animation: popIn 0.35s ease;
+
+  /* PERFORMANCE */
+  will-change: transform;
+}
+
+/* GLOW LAYER (subtilno) */
+.question-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+
+  background: radial-gradient(
+    circle at center,
+    rgba(120, 180, 255, 0.15) 0%,
+    transparent 70%
+  );
+
+  pointer-events: none;
+}
+
+/* TEXT INSIDE */
+#questionText {
+  color: #f5f7ff;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  font-size: 1.6rem;
+  line-height: 1.5;
+}
+
 @media (max-width: 1024px) {
   #mobileProgressContainer {
     display: block !important;
@@ -413,75 +407,102 @@ body {
 /* =========================
    MILLIONAIRE LIGHT MODE
 ========================= */
-
-/* blur overlay da ne bude prenapadno */
-body.light-mode::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.65);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  z-index: -1;
-}
-
-
-
-
-/* SELECTED (orange lock) */
-body.light-mode .answer-btn.selected {
-  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
-  border-color: #fbbf24 !important;
-  color: #111827 !important;
-  box-shadow: 0 0 25px rgba(255, 184, 0, 0.5);
-}
-
-/* CORRECT */
-body.light-mode .answer-btn.correct {
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-  box-shadow: 0 0 25px rgba(34,197,94,0.5);
-}
-
-/* WRONG */
-body.light-mode .answer-btn.wrong {
-  background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
-  border-color: #ef4444 !important;
-  color: #fff !important;
-}
-
-
-
-
-
-/* QUESTION TEXT */
 body.light-mode #questionText {
-  color: #ffffff;
-  font-weight: 700;
+  color: #0f172a;
 }
 
+/* QUESTION BOX - NEON GLASS */
+body.light-mode .question-box {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+
+  border: 1px solid rgba(99,102,241,0.25);
+
+  box-shadow:
+    0 20px 50px rgba(15,23,42,0.12),
+    0 0 30px rgba(99,102,241,0.10),
+    inset 0 0 25px rgba(255,255,255,0.7);
+
+  border-radius: 22px;
+
+  position: relative;
+  overflow: hidden;
+}
+
+/* SOFT NEON GLOW INSIDE QUESTION */
+body.light-mode .question-box::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: radial-gradient(
+    circle at top,
+    rgba(99,102,241,0.12),
+    transparent 60%
+  );
+
+  pointer-events: none;
+}
+
+/* ANSWER BUTTONS - GLASS NEON CARDS */
+body.light-mode .answer-btn {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  border: 1px solid rgba(148,163,184,0.25);
+
+  color: #0f172a;
+  font-weight: 600;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+
+  transition: all 0.2s ease;
+}
+
+/* HOVER - NEON LIFT */
+body.light-mode .answer-btn:hover {
+  transform: translateY(-3px) scale(1.01);
+
+  border-color: rgba(99,102,241,0.45);
+
+  box-shadow:
+    0 0 25px rgba(99,102,241,0.25),
+    0 15px 35px rgba(0,0,0,0.12);
+}
+
+/* SELECTED - GOLD PREMIUM */
 body.light-mode .answer-btn.selected {
-  background: linear-gradient(135deg, #f59e0b, #d97706) !important;
-  border-color: #f59e0b !important;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
   color: #111827 !important;
-  box-shadow: 0 0 22px rgba(245, 158, 11, 0.5);
+
+  box-shadow:
+    0 0 30px rgba(245,158,11,0.35),
+    0 10px 25px rgba(0,0,0,0.15);
 }
 
+/* CORRECT - NEON GREEN GLOW */
 body.light-mode .answer-btn.correct {
   background: linear-gradient(135deg, #22c55e, #16a34a) !important;
-  border-color: #22c55e !important;
-  color: #ffffff !important;
+  color: #fff !important;
+
+  box-shadow:
+    0 0 25px rgba(34,197,94,0.30),
+    0 10px 25px rgba(0,0,0,0.15);
 }
 
+/* WRONG - RED NEON GLOW */
 body.light-mode .answer-btn.wrong {
   background: linear-gradient(135deg, #ef4444, #b91c1c) !important;
-  border-color: #ef4444 !important;
-  color: #ffffff !important;
+  color: #fff !important;
+
+  box-shadow:
+    0 0 25px rgba(239,68,68,0.30),
+    0 10px 25px rgba(0,0,0,0.15);
 }
-
-
-
-    
-    /* School logo */
+ 
+ /* School logo */
     .school-logo {
       max-width: 80px;
       height: auto;
@@ -537,7 +558,7 @@ body.light-mode .answer-btn.wrong {
       cursor: not-allowed;
       filter: grayscale(100%);
     }
-   .question-box,
+
 
 @media (max-width: 768px) {
   body {
@@ -628,8 +649,6 @@ body.dark-mode {
 /* =========================
    NETFLIX / PREMIUM TITLE
 ========================= */
-
-
 
 .netflix-title {
   font-size: clamp(22px, 3.5vw, 38px);
@@ -764,14 +783,7 @@ body.dark-mode {
 .prize-item:hover::before {
   left: 140%;
 }
-.question-box {
-  position: relative;
 
-  background: linear-gradient(
-    135deg,
-    rgba(20, 35, 80, 0.55),
-    rgba(10, 18, 40, 0.45)
-  );
 
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
@@ -790,24 +802,6 @@ body.dark-mode {
 
   transition: all 0.3s ease;
 }
-
-.question-box::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: 22px;
-
-  background: radial-gradient(
-    circle at center,
-    rgba(120, 180, 255, 0.2) 0%,
-    rgba(120, 180, 255, 0.1) 50%,
-    transparent 100%
-  );
-
-  pointer-events: none;
-}
-
-
 
 @keyframes popIn {
   from {
@@ -850,45 +844,16 @@ body.dark-mode {
   100% { box-shadow: 0 0 10px rgba(251,191,36,0.2); }
 }
 
-
-    
     .prize-milestone {
       border: 2px solid #f59e0b !important;
       background: linear-gradient(135deg, #1a1a2e 0%, #2d1b00 100%);
   border-left: 3px solid #22c55e;
     }
 	
-	
-	
-	
-	
-	
     .live-badge {
   box-shadow: 0 0 12px rgba(255, 0, 0, 0.4);
 }
-    .question-box {
-  position: relative;
-  background: rgba(15, 18, 35, 0.55);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-
-  border: 1px solid rgba(255, 215, 0, 0.25);
-  border-radius: 20px;
-
-  padding: 22px;
-  margin: 15px 0;
-
-  box-shadow:
-    0 20px 60px rgba(0, 0, 0, 0.45),
-    inset 0 0 25px rgba(255, 255, 255, 0.03);
-
-  animation: popIn 0.35s ease;
-    }
-    
-    .question-box .bg-black {
-      overflow: visible;
-    }
-
+   
 .tv-header {
   background: rgba(10, 14, 39, 0.25); /* puno transparentnije */
   backdrop-filter: blur(18px);
@@ -911,9 +876,6 @@ body.dark-mode {
   pointer-events: none;
 }
 
-
-
-
 body.dark-mode {
 background: url("pozadinskaslika.jpg") center/cover no-repeat fixed;
 position: relative;
@@ -927,14 +889,7 @@ body.dark-mode::before {
   -webkit-backdrop-filter: blur(6px);
   z-index: -1;
 }
-body.light-mode {
-background: url("pozadinskaslika.jpg") center/cover no-repeat fixed;
-position: relative;
-}
-body.light-mode {
-background: url("pozadinskaslika.jpg") center/cover no-repeat fixed;
-position: relative;
-}
+
 
 
 @keyframes liveGlow {
@@ -1047,7 +1002,6 @@ position: relative;
   display: none;
     pointer-events: none;
 
-
 }
 
 @media (max-width: 1024px) {
@@ -1151,7 +1105,7 @@ position: relative;
       animation: pulse-glow 1s infinite;
     }
 	
-	@media (max-width: 768px) {
+@media (max-width: 768px) {
   #questionText {
     font-size: 1.1rem !important;
     line-height: 1.3 !important;
@@ -1243,5 +1197,4 @@ position: relative;
     gap: 10px !important;
   }
 }
-
 <style>@view-transition { navigation: auto; }</style>
