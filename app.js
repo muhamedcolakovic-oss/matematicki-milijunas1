@@ -336,13 +336,27 @@ function loadTheme() {
   }
 }
     
-    function selectLanguage(lang) {
-      currentLanguage = lang;
-      document.getElementById('languageScreen').classList.add('hidden');
-      document.getElementById('gameScreen').classList.remove('hidden');
-      document.getElementById('gameScreen').classList.add('flex');
-      initGame();
-    }
+	
+function selectLanguage(lang) {
+  currentLanguage = lang;
+
+  document.getElementById('languageScreen').classList.add('hidden');
+  document.getElementById('gameScreen').classList.remove('hidden');
+  document.getElementById('gameScreen').classList.add('flex');
+
+  const title = document.getElementById('gameTitle');
+
+  const titles = {
+    bs: "Matematički milijunaš",
+    en: "Maths Millionaire",
+    gk: "Who Wants to Be a Millionaire?",
+    ge: "Ko želi biti milijunaš?"
+  };
+
+  title.textContent = titles[lang] || "Milijunaš";
+
+  initGame();
+}
     
     const questionBank = {
 bs: {
@@ -4443,6 +4457,23 @@ window.addEventListener("load", hideIntro);
       }
     }, { once: true });
 
+function toggleTheme() {
+  if (currentTheme === 'dark') {
+    currentTheme = 'light';
+    document.body.classList.remove('dark-mode');
+    document.body.classList.add('light-mode');
+    document.getElementById('themeToggle').textContent = '☀️';
+  } else {
+    currentTheme = 'dark';
+    document.body.classList.remove('light-mode');
+    document.body.classList.add('dark-mode');
+    document.getElementById('themeToggle').textContent = '🌙';
+  }
+
+  localStorage.setItem('theme', currentTheme);
+}
+
+
     // Admin Panel Functions
     function showAdminLogin() {
       document.getElementById('adminLoginModal').classList.remove('hidden');
@@ -4459,7 +4490,7 @@ window.addEventListener("load", hideIntro);
       const username = document.getElementById('adminUsername').value;
       const password = document.getElementById('adminPassword').value;
       
-      if (username === 'admin' && password === 'root') {
+      if (username === 'profesor' && password === '041123') {
         document.getElementById('adminLoginModal').classList.add('hidden');
         document.getElementById('languageScreen').classList.add('hidden');
         document.getElementById('adminPanel').classList.remove('hidden');
