@@ -581,12 +581,7 @@ body.light-mode .answer-btn.wrong {
       50% { background-color: #ef4444; }
       100% { background-color: #ef4444; }
     }
-   
-.quiz-background {
-  background: url("./pozadinskaslika.jpg") center/cover no-repeat;
-  background-size: cover;
-  background-position: center;
-}
+    
     .lifeline-used {
       opacity: 0.3;
       cursor: not-allowed;
