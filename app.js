@@ -1,4 +1,4 @@
-    let currentLanguage = 'bs';
+    let currentLanguage = 'bs'; 
     let phoneTimer = null;
 	let viewers = 0;
     let adminLanguage = 'bs';
