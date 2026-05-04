@@ -594,7 +594,6 @@ body.light-mode .answer-btn.wrong {
     background-attachment: scroll !important;
   }
 }
-}
 @media (max-width: 768px) {
   .flex.justify-around.items-center.gap-1 {
     display: none !important;
@@ -613,6 +612,12 @@ body.light-mode .answer-btn.wrong {
     display: none !important;
   }
 }
+
+
+.quiz-background {
+  display: none !important;
+}
+
 @media (min-width: 768px) and (max-width: 1024px) {
   button[onclick="showAdminLogin()"] {
     display: none !important;
