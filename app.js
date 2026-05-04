@@ -1,4 +1,4 @@
-    let currentLanguage = 'bs'; 
+    let currentLanguage = 'bs';
     let phoneTimer = null;
 	let viewers = 0;
     let adminLanguage = 'bs';
@@ -321,16 +321,20 @@ function saveSeenQuestion(id) {
     }
     
     // Load theme
-    function loadTheme() {
-      const saved = localStorage.getItem('theme');
-      if (saved) {
-        currentTheme = saved;
-        if (currentTheme === 'light') {
-          document.body.classList.add('light-mode');
-          document.getElementById('themeToggle').textContent = '☀️';
-        }
-      }
-    }
+function loadTheme() {
+  const saved = localStorage.getItem('theme');
+
+  if (saved === 'light') {
+    currentTheme = 'light';
+    document.body.classList.add('light-mode');
+    document.getElementById('themeToggle').textContent = '☀️';
+  } else {
+    // 👇 DEFAULT = DARK
+    currentTheme = 'dark';
+    document.body.classList.add('dark-mode');
+    document.getElementById('themeToggle').textContent = '🌙';
+  }
+}
     
     function selectLanguage(lang) {
       currentLanguage = lang;
@@ -456,6 +460,8 @@ hardest: [
 { question: "Ko je odbio Fields medalju 2006?", answers: { A: "Terence Tao", B: "Grigori Perelman", C: "Andrei Okounkov", D: "Wendelin Werner" }, correct: "B" },
 { question: "Ko je razvio teoriju kategorija?", answers: { A: "Samuel Eilenberg", B: "Saunders Mac Lane", C: "Alexander Grothendieck", D: "A i B" }, correct: "D" },
 { question: "Ko je riješio Hilbertov 10. problem?", answers: { A: "Turing", B: "Church", C: "Matiyasevich", D: "Gödel" }, correct: "C" },
+{ question: "Koji je matematičar dokazao 'Teorem nepotpunosti', poljuljavši temelje logike?", answers: { A: "Hilbert", B: "Cantor", C: "Russell", D: "Kurt Gödel" }, correct: "D" },
+{ question: "Koji je matematičar razvio 'Binomni teorem' u 17. vijeku?", answers: { A: "Isaac Newton", B: "Pascal", C: "Euler", D: "Fermat" }, correct: "A" },
 { question: "Ko je uveo kategorijsku teoriju zajedno sa Mac Laneom?", answers: { A: "Grothendieck", B: "Lawvere", C: "Kan", D: "Eilenberg" }, correct: "D" },
 { question: "Ko je formulirao teoriju relativnosti u matematičkom obliku?", answers: { A: "Einstein", B: "Lorentz", C: "Riemann", D: "Minkowski" }, correct: "D" },
 { question: "Ko je prvi definisao pojam 'matematička logika' u modernom obliku?", answers: { A: "Gödel", B: "Turing", C: "Russell", D: "Frege" }, correct: "D" },
@@ -796,7 +802,7 @@ funFacts: {
 },
 
 interestingFacts: {
-  easy: [
+easy: [
 { question: "Koliki je zbir uglova u trouglu?", answers: { A: "360°", B: "90°", C: "270°", D: "180°" }, correct: "D" },
 { question: "Ako avion padne na granici dvije države, gdje se sahranjuju preživjeli?", answers: { A: "U prvoj državi", B: "U drugoj", C: "Na granici", D: "Ne sahranjuju se" }, correct: "D" },
 { question: "Koliko puta dnevno se poklope kazaljke na satu?", answers: { A: "12", B: "22", C: "24", D: "48" }, correct: "B" },
@@ -874,6 +880,21 @@ hard: [
 { question: "Koji je sljedeći broj u nizu: 100, 81, 64, 49...?", answers: { A: "40", B: "36", C: "25", D: "32" }, correct: "B" },
 { question: "Koliko iznosi polovina od trećine broja 18?", answers: { A: "3", B: "6", C: "2", D: "9" }, correct: "A" },
 { question: "Kako se zove unutrašnji dio kružnice?", answers: { A: "Obim", B: "Krug", C: "Poluprečnik", D: "Centar" }, correct: "B" },
+{ question: "Koji broj nastavlja niz: 2, 5, 11, 23, ...?", answers: { A: "35", B: "41", C: "47", D: "46" }, correct: "C" },
+{ question: "Koliko iznosi zbir svih uglova u pravougaoniku?", answers: { A: "180°", B: "270°", C: "360°", D: "540°" }, correct: "C" },
+{ question: "Kako se zove grana matematike koja se bavi analizom oblika i prostora?", answers: { A: "Aritmetika", B: "Algebra", C: "Statistika", D: "Geometrija" }, correct: "D" },
+{ question: "Koji je najbrži način da pomnožiš dvocifren broj sa 11 (npr. 25 * 11)?", answers: { A: "Dodaš nulu na kraj", B: "Sabeš cifre (2+5) i staviš ih u sredinu (275)", C: "Pomnožiš sa 10 pa dodaš 5", D: "Oduzmeš 11 od broja" }, correct: "B" },
+{ question: "Kako se zove sistem računanja koji koristi bazu 60 (stari Babilonci), a koristimo ga i danas za vrijeme?", answers: { A: "Binarni", B: "Decimalni", C: "Heksadecimalni", D: "Seksagezimalni" }, correct: "D" },
+{ question: "Koliko iznosi zbir svih uglova u bilo kojem spoljašnjem dijelu poligona?", answers: { A: "180°", B: "360°", C: "540°", D: "720°" }, correct: "B" },
+{ question: "Kako se zove dio matematike koji proučava vjerovatnoću igara na sreću?", answers: { A: "Kombinatorika", B: "Geometrija", C: "Aritmetika", D: "Topologija" }, correct: "A" },
+{ question: "Koji je sljedeći broj u nizu: 2, 4, 8, 14, 22... ?", answers: { A: "30", B: "32", C: "28", D: "34" }, correct: "B" },
+{ question: "Kako se zove razlomak kod kojeg su brojnik i nazivnik zamijenili mjesta?", answers: { A: "Suprotni", B: "Negativni", C: "Recipročni", D: "Složeni" }, correct: "C" },
+{ question: "Koliko iznosi korijen iz broja 1000000 (milion)?", answers: { A: "100", B: "1000", C: "10000", D: "10" }, correct: "B" },
+{ question: "U kojem se vijeku u Evropi počela masovno koristiti nula?", answers: { A: "5. vijek", B: "9. vijek", C: "12. vijek", D: "15. vijek" }, correct: "C" },
+{ question: "Šta označava grčko slovo Delta (Δ) u matematičkim jednačinama?", answers: { A: "Zbir", B: "Nepoznatu", C: "Proizvod", D: "Promjenu ili razliku" }, correct: "D" },
+{ question: "Koliko iznosi 0.5 podijeljeno sa 0.5?", answers: { A: "0.25", B: "0.5", C: "1", D: "2" }, correct: "C" },
+{ question: "Zagonetka: Ako 9 sati dodaš 5 sati i dobiješ 2, šta gledaš?", answers: { A: "Kalendar", B: "Termometar", C: "Digitron", D: "Sat" }, correct: "D" },
+{ question: "Koji oblik nastaje presjekom kupe i ravni paralelne bazi?", answers: { A: "Krug", B: "Elipsa", C: "Trougao", D: "Kvadrat" }, correct: "A" },
 { question: "Koliko iznosi 20% od 50?", answers: { A: "5", B: "10", C: "15", D: "20" }, correct: "B" },
 { question: "Koji je rimski simbol za broj 40?", answers: { A: "XL", B: "XXXX", C: "LX", D: "VL" }, correct: "A" },
 { question: "Koliko iznosi kvadratni korijen iz broja 1600?", answers: { A: "40", B: "400", C: "80", D: "20" }, correct: "A" },
@@ -884,9 +905,10 @@ hard: [
 { question: "Koliko iznosi 5 na treću (5³)?", answers: { A: "15", B: "75", C: "125", D: "225" }, correct: "C" }
 ],
 
-  hardest: [
+hardest: [
 { question: "U kojoj zemlji je rođen matematičar Noether?", answers: { A: "Njemačka", B: "Austrija", C: "Švicarska", D: "Italija" }, correct: "A" },
 { question: "U kojoj zemlji je rođen matematičar Cantor?", answers: { A: "Rusija", B: "Švedska", C: "Danska", D: "Nizozemska" }, correct: "A" },
+{ question: "Ko je dokazao Fermatovu veliku teoremu?", answers: { A: "Andrew Wiles", B: "Grigori Perelman", C: "Terence Tao", D: "Paul Erdős" }, correct: "A" },
 { question: "U kojem gradu se održava Međunarodni matematički kongres svake 4 godine?", answers: { A: "Uvijek u istom", B: "Rotira se po svijetu", C: "Samo u Evropi", D: "Samo u USA" }, correct: "B" },
 { question: "Gdje se nalazi Matematički institut Steklov?", answers: { A: "Sankt Peterburg", B: "Moskva", C: "Kijev", D: "Minsk" }, correct: "B" },
 { question: "U kojem gradu je Al-Khwarizmi pisao svoje radove o algebri?", answers: { A: "Bagdad", B: "Damask", C: "Kairo", D: "Medina" }, correct: "A" },
@@ -1013,21 +1035,6 @@ numbers: {
 { question: "Koliko iznosi 0,1 + 0,01 + 0,001?", answers: { A: "0,3", B: "0,111", C: "0,011", D: "1,11" }, correct: "B" },
 { question: "Koliko iznosi 10% od 10% od 100?", answers: { A: "10", B: "0.01", C: "0.1", D: "1" }, correct: "D" },
 { question: "Kako se zove četverougao čije su sve stranice jednake i svi uglovi pravi?", answers: { A: "Pravougaonik", B: "Romb", C: "Kvadrat", D: "Trapez" }, correct: "C" },
-{ question: "Koji broj nastavlja niz: 2, 5, 11, 23, ...?", answers: { A: "35", B: "41", C: "47", D: "46" }, correct: "C" },
-{ question: "Koliko iznosi zbir svih uglova u pravougaoniku?", answers: { A: "180°", B: "270°", C: "360°", D: "540°" }, correct: "C" },
-{ question: "Kako se zove grana matematike koja se bavi analizom oblika i prostora?", answers: { A: "Aritmetika", B: "Algebra", C: "Statistika", D: "Geometrija" }, correct: "D" },
-{ question: "Koji je najbrži način da pomnožiš dvocifren broj sa 11 (npr. 25 * 11)?", answers: { A: "Dodaš nulu na kraj", B: "Sabeš cifre (2+5) i staviš ih u sredinu (275)", C: "Pomnožiš sa 10 pa dodaš 5", D: "Oduzmeš 11 od broja" }, correct: "B" },
-{ question: "Kako se zove sistem računanja koji koristi bazu 60 (stari Babilonci), a koristimo ga i danas za vrijeme?", answers: { A: "Binarni", B: "Decimalni", C: "Heksadecimalni", D: "Seksagezimalni" }, correct: "D" },
-{ question: "Koliko iznosi zbir svih uglova u bilo kojem spoljašnjem dijelu poligona?", answers: { A: "180°", B: "360°", C: "540°", D: "720°" }, correct: "B" },
-{ question: "Kako se zove dio matematike koji proučava vjerovatnoću igara na sreću?", answers: { A: "Kombinatorika", B: "Geometrija", C: "Aritmetika", D: "Topologija" }, correct: "A" },
-{ question: "Koji je sljedeći broj u nizu: 2, 4, 8, 14, 22... ?", answers: { A: "30", B: "32", C: "28", D: "34" }, correct: "B" },
-{ question: "Kako se zove razlomak kod kojeg su brojnik i nazivnik zamijenili mjesta?", answers: { A: "Suprotni", B: "Negativni", C: "Recipročni", D: "Složeni" }, correct: "C" },
-{ question: "Koliko iznosi korijen iz broja 1000000 (milion)?", answers: { A: "100", B: "1000", C: "10000", D: "10" }, correct: "B" },
-{ question: "U kojem se vijeku u Evropi počela masovno koristiti nula?", answers: { A: "5. vijek", B: "9. vijek", C: "12. vijek", D: "15. vijek" }, correct: "C" },
-{ question: "Šta označava grčko slovo Delta (Δ) u matematičkim jednačinama?", answers: { A: "Zbir", B: "Nepoznatu", C: "Proizvod", D: "Promjenu ili razliku" }, correct: "D" },
-{ question: "Koliko iznosi 0.5 podijeljeno sa 0.5?", answers: { A: "0.25", B: "0.5", C: "1", D: "2" }, correct: "C" },
-{ question: "Zagonetka: Ako 9 sati dodaš 5 sati i dobiješ 2, šta gledaš?", answers: { A: "Kalendar", B: "Termometar", C: "Digitron", D: "Sat" }, correct: "D" },
-{ question: "Koji oblik nastaje presjekom kupe i ravni paralelne bazi?", answers: { A: "Krug", B: "Elipsa", C: "Trougao", D: "Kvadrat" }, correct: "A" },
 { question: "Zagonetka: Imao si 5 jabuka, uzeo si 3. Koliko jabuka imaš?", answers: { A: "3", B: "2", C: "5", D: "8" }, correct: "A" },
 { question: "Koliko sekundi ima u 12 minuta?", answers: { A: "600", B: "1200", C: "360", D: "720" }, correct: "D" },
 { question: "Kako se naziva broj koji se dobije množenjem broja samim sobom?", answers: { A: "Kub", B: "Faktorijel", C: "Faktor", D: "Kvadrat" }, correct: "D" },
@@ -1078,10 +1085,7 @@ numbers: {
    
   hardest: [
 { question: "Ko je formulirao Hilbertove probleme 1900. godine?", answers: { A: "David Hilbert", B: "Felix Klein", C: "Hermann Minkowski", D: "Bernhard Riemann" }, correct: "A" },
-{ question: "Ko je dokazao Fermatovu veliku teoremu?", answers: { A: "Andrew Wiles", B: "Grigori Perelman", C: "Terence Tao", D: "Paul Erdős" }, correct: "A" },
 { question: "U kojoj godini je Gauss objavio 'Disquisitiones Arithmeticae'?", answers: { A: "1791", B: "1801", C: "1811", D: "1821" }, correct: "B" },
-{ question: "Koji je matematičar dokazao 'Teorem nepotpunosti', poljuljavši temelje logike?", answers: { A: "Hilbert", B: "Cantor", C: "Russell", D: "Kurt Gödel" }, correct: "D" },
-{ question: "Koji je matematičar razvio 'Binomni teorem' u 17. vijeku?", answers: { A: "Isaac Newton", B: "Pascal", C: "Euler", D: "Fermat" }, correct: "A" },
 { question: "Koji je matematičar (i biskup) prvi upotrijebio grafički prikaz koordinata prije Descartesa?", answers: { A: "Copernicus", B: "Kepler", C: "Nicole Oresme", D: "Galileo" }, correct: "C" },
 { question: "Koji je matematičar bio fasciniran brojem 1729, koji je postao poznat kao njegov broj?", answers: { A: "Hardy", B: "Littlewood", C: "Erdős", D: "Srinivasa Ramanujan" }, correct: "D" },
 { question: "Koji je matematičar bio osnivač škole u kojoj je bio moto: 'Sve je broj'?", answers: { A: "Tales", B: "Pitagora", C: "Platon", D: "Zeno" }, correct: "B" },
