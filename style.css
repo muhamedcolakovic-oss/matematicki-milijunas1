@@ -424,11 +424,7 @@ body {
   animation: shake 0.4s ease;
 }
     
-    /* Dark mode styles */
-    body.dark-mode {
-  background: linear-gradient(135deg, #050505 0%, #111827 50%, #0b1324 100%);
-    }
-    
+
 /* =========================
    MILLIONAIRE LIGHT MODE
 ========================= */
@@ -594,7 +590,6 @@ body.light-mode .answer-btn.wrong {
     background-attachment: scroll !important;
   }
 }
-}
 @media (max-width: 768px) {
   .flex.justify-around.items-center.gap-1 {
     display: none !important;
@@ -664,8 +659,8 @@ body.light-mode .answer-btn.wrong {
   box-shadow: 0 0 18px rgba(239, 68, 68, 0.5);
 }
 body.dark-mode {
-  background: radial-gradient(circle at top, #0a0f2c, #05060f);
-
+  background: url("pozadinskaslika.jpg") center/cover no-repeat;
+  background-attachment: scroll; /* MOBILNI SIGURNO */
 }
 
 #barA, #barB, #barC, #barD {
@@ -922,15 +917,7 @@ body.dark-mode {
 background: url("pozadinskaslika.jpg") center/cover no-repeat fixed;
 position: relative;
 }
-body.dark-mode::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.20);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(6px);
-  z-index: -1;
-}
+
 
 
 
