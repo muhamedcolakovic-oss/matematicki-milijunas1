@@ -914,11 +914,15 @@ body.dark-mode {
 }
 
 body.dark-mode {
-background: url("pozadinskaslika.jpg") center/cover no-repeat fixed;
-position: relative;
+  background-image: url("./pozadinskaslika.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
-
+body.dark-mode {
+  background: red !important;
+}
 
 
 @keyframes liveGlow {
