@@ -590,7 +590,7 @@ body.light-mode .answer-btn.wrong {
 
 @media (max-width: 768px) {
   body.dark-mode {
-    background: url("./pozadinskaslika.jpg") center/cover no-repeat !important;
+    background: url("pozadinskaslika.jpg") center/cover no-repeat !important;
     background-attachment: scroll !important;
   }
 }
