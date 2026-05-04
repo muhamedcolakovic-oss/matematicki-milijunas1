@@ -581,7 +581,12 @@ body.light-mode .answer-btn.wrong {
       50% { background-color: #ef4444; }
       100% { background-color: #ef4444; }
     }
-    
+   
+.quiz-background {
+  background: url("./pozadinskaslika.jpg") center/cover no-repeat;
+  background-size: cover;
+  background-position: center;
+}
     .lifeline-used {
       opacity: 0.3;
       cursor: not-allowed;
@@ -593,6 +598,7 @@ body.light-mode .answer-btn.wrong {
     background: url("pozadinskaslika.jpg") center/cover no-repeat !important;
     background-attachment: scroll !important;
   }
+}
 }
 @media (max-width: 768px) {
   .flex.justify-around.items-center.gap-1 {
@@ -612,12 +618,6 @@ body.light-mode .answer-btn.wrong {
     display: none !important;
   }
 }
-
-
-.quiz-background {
-  display: none !important;
-}
-
 @media (min-width: 768px) and (max-width: 1024px) {
   button[onclick="showAdminLogin()"] {
     display: none !important;
