@@ -585,10 +585,9 @@ body.light-mode .answer-btn.wrong {
     }
 
 @media (max-width: 768px) {
-  body.dark-mode {
-    background: url("pozadinskaslika.jpg") center/cover no-repeat !important;
-    background-attachment: scroll !important;
-  }
+body.dark-mode {
+  background: url("./pozadinskaslika.jpg") center center / cover no-repeat;
+}
 }
 @media (max-width: 768px) {
   .flex.justify-around.items-center.gap-1 {
@@ -659,8 +658,7 @@ body.light-mode .answer-btn.wrong {
   box-shadow: 0 0 18px rgba(239, 68, 68, 0.5);
 }
 body.dark-mode {
-  background: url("pozadinskaslika.jpg") center/cover no-repeat;
-  background-attachment: scroll; /* MOBILNI SIGURNO */
+  background: url("./pozadinskaslika.jpg") center center / cover no-repeat;
 }
 
 #barA, #barB, #barC, #barD {
@@ -914,14 +912,7 @@ body.dark-mode {
 }
 
 body.dark-mode {
-  background-image: url("./pozadinskaslika.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-body.dark-mode {
-  background: red !important;
+  background: url("./pozadinskaslika.jpg") center center / cover no-repeat;
 }
 
 
